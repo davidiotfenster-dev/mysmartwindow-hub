@@ -1,0 +1,49 @@
+import type { NextConfig } from 'next'
+
+/**
+ * Prefijo de ruta, sólo si el sitio NO vive en la raíz del dominio.
+ * Ejemplo: NEXT_PUBLIC_BASE_PATH=/manuales para iotfenster.com/manuales
+ */
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH?.replace(/\/$/, '') || ''
+
+const nextConfig: NextConfig = {
+  reactStrictMode: true,
+
+  /**
+   * Salida autocontenida: genera .next/standalone con su propio server.js y
+   * sólo las dependencias que realmente se usan. Es lo que permite llevar el
+   * sitio a un servidor de empresa sin copiar node_modules entero, y funciona
+   * igual en Linux, en Windows y dentro de Docker.
+   */
+  output: 'standalone',
+
+  ...(basePath ? { basePath } : {}),
+
+  images: {
+    remotePatterns: [
+      { protocol: 'https', hostname: 'i.ytimg.com' },
+      { protocol: 'https', hostname: 'i1.ytimg.com' },
+      { protocol: 'https', hostname: 'i2.ytimg.com' },
+      { protocol: 'https', hostname: 'i3.ytimg.com' },
+      { protocol: 'https', hostname: 'i4.ytimg.com' },
+      { protocol: 'https', hostname: 'i9.ytimg.com' },
+      { protocol: 'https', hostname: 'yt3.ggpht.com' },
+      { protocol: 'https', hostname: 'www.iotfenster.com' },
+    ],
+  },
+
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+          { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
+        ],
+      },
+    ]
+  },
+}
+
+export default nextConfig
