@@ -6,6 +6,9 @@ import type { NextConfig } from 'next'
  */
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH?.replace(/\/$/, '') || ''
 
+// Las imágenes del CMS no necesitan estar aquí: se sirven desde nuestro propio
+// dominio a través de `src/app/api/media`.
+
 const nextConfig: NextConfig = {
   reactStrictMode: true,
 

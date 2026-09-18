@@ -8,8 +8,19 @@ import { NextResponse } from 'next/server'
  * Sirviendolo desde nuestro propio origen el visor del navegador funciona.
  *
  * La lista blanca de hosts es obligatoria: sin ella esto seria un SSRF abierto.
+ * Los manuales originales viven en iotfenster.com; los subidos desde el CMS
+ * viven en el host de STRAPI_URL -que en local o en la red interna de Docker
+ * es http, no https, así que ese host se admite con su propio protocolo-.
  */
 const ALLOWED_HOSTS = new Set(['www.iotfenster.com', 'iotfenster.com'])
+
+const strapiOrigin = (() => {
+  try {
+    return process.env.STRAPI_URL ? new URL(process.env.STRAPI_URL) : null
+  } catch {
+    return null
+  }
+})()
 
 export async function GET(request: Request) {
   const raw = new URL(request.url).searchParams.get('url')
@@ -24,7 +35,12 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'invalid_url' }, { status: 400 })
   }
 
-  if (target.protocol !== 'https:' || !ALLOWED_HOSTS.has(target.hostname)) {
+  const isStrapiUpload = Boolean(
+    strapiOrigin && target.hostname === strapiOrigin.hostname && target.protocol === strapiOrigin.protocol
+  )
+  const isKnownHost = target.protocol === 'https:' && ALLOWED_HOSTS.has(target.hostname)
+
+  if (!isStrapiUpload && !isKnownHost) {
     return NextResponse.json({ error: 'host_not_allowed' }, { status: 403 })
   }
   if (!target.pathname.toLowerCase().endsWith('.pdf')) {

@@ -14,5 +14,9 @@ export function withBasePath(path: string): string {
 
 /** URL del proxy de PDFs, ya con el prefijo correcto. */
 export function pdfProxyUrl(url: string): string {
+  // Lo que ya vive en nuestro origen -los PDF del CMS se sirven por
+  // /api/media- no necesita proxy: el proxy existe justo para traer aquí los
+  // que están en otro dominio.
+  if (url.startsWith('/')) return withBasePath(url)
   return withBasePath(`/api/pdf?url=${encodeURIComponent(url)}`)
 }

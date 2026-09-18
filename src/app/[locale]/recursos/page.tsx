@@ -6,7 +6,7 @@ import { Suspense } from 'react'
 import { PageHeader } from '@/components/layout/PageHeader'
 import { GradientTitle } from '@/components/ui/GradientTitle'
 import { ResourceExplorer } from '@/components/resources/ResourceExplorer'
-import { resources } from '@/data/resources'
+import { getCategories, getResources, getVisibleDevices } from '@/lib/content'
 import { getDictionary } from '@/i18n'
 import type { Locale } from '@/i18n/config'
 import { toResourceViews } from '@/lib/resource-view'
@@ -30,11 +30,16 @@ export async function generateMetadata({
 
 export default async function ResourcesPage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params
-  const dict = getDictionary(locale)
+  const [dict, resources, categories, devices, videoMap] = await Promise.all([
+    getDictionary(locale),
+    getResources(),
+    getCategories(),
+    getVisibleDevices(),
+    getVideoMap(),
+  ])
 
   // Enriquecemos el catálogo curado con los metadatos en vivo de YouTube.
-  const videoMap = await getVideoMap()
-  const views = toResourceViews(resources, locale, videoMap)
+  const views = await toResourceViews(resources, locale, videoMap)
 
   /**
    * ItemList con las 63 fichas: le dice al buscador que esta página es el
@@ -71,7 +76,13 @@ export default async function ResourcesPage({ params }: { params: Promise<{ loca
 
       <div className="container-page py-10 sm:py-14">
         <Suspense fallback={<ExplorerSkeleton />}>
-          <ResourceExplorer resources={views} locale={locale} dict={dict} />
+          <ResourceExplorer
+            resources={views}
+            categories={categories}
+            devices={devices}
+            locale={locale}
+            dict={dict}
+          />
         </Suspense>
       </div>
     </>

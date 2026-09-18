@@ -16,11 +16,13 @@ export const routes = {
   videos: (l: Locale) => `/${l}/videos`,
   dispositivos: (l: Locale) => `/${l}/dispositivos`,
   dispositivo: (l: Locale, id: string) => `/${l}/dispositivos/${id}`,
+  ingenieria: (l: Locale) => `/${l}/ingenieria`,
   ecosistemas: (l: Locale) => `/${l}/ecosistemas`,
   noticias: (l: Locale) => `/${l}/noticias`,
   noticia: (l: Locale, slug: string) => `/${l}/noticias/${slug}`,
   soporte: (l: Locale) => `/${l}/soporte`,
   contacto: (l: Locale) => `/${l}/contacto`,
+  distribuidores: (l: Locale) => `/${l}/distribuidores`,
 } as const
 
 export const EXTERNAL = {
@@ -38,7 +40,9 @@ export function mainNav(locale: Locale, dict: Dictionary): NavItem[] {
     { href: routes.recursos(locale), label: dict.nav.recursos },
     { href: routes.videos(locale), label: dict.nav.videos },
     { href: routes.dispositivos(locale), label: dict.nav.dispositivos },
+    { href: routes.ingenieria(locale), label: dict.nav.ingenieria },
     { href: routes.ecosistemas(locale), label: dict.nav.ecosistemas },
+    { href: routes.distribuidores(locale), label: dict.nav.distribuidores },
     { href: routes.noticias(locale), label: dict.nav.noticias },
     { href: routes.soporte(locale), label: dict.nav.soporte },
   ]

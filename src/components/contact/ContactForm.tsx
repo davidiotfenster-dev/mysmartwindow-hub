@@ -9,7 +9,7 @@ import { cn } from '@/lib/utils'
 import type { Dictionary } from '@/i18n'
 import { withBasePath } from '@/lib/base-path'
 
-type Field = 'name' | 'email' | 'subject' | 'message' | 'consent'
+type Field = 'name' | 'email' | 'profile' | 'subject' | 'message' | 'consent'
 type Status = 'idle' | 'loading' | 'ok' | 'error'
 
 export function ContactForm({ dict }: { dict: Dictionary }) {
@@ -17,12 +17,22 @@ export function ContactForm({ dict }: { dict: Dictionary }) {
     name: '',
     email: '',
     company: '',
+    profile: '',
     subject: '',
     message: '',
     consent: false,
   })
   const [errors, setErrors] = useState<Partial<Record<Field, string>>>({})
   const [status, setStatus] = useState<Status>('idle')
+
+  // Saber si escribe un fabricante, un distribuidor o un usuario final cambia
+  // por completo la respuesta, así que se pregunta antes que nada.
+  const profiles = [
+    { value: 'manufacturer', label: dict.contact.profiles.manufacturer },
+    { value: 'distributor', label: dict.contact.profiles.distributor },
+    { value: 'installer', label: dict.contact.profiles.installer },
+    { value: 'user', label: dict.contact.profiles.user },
+  ]
 
   const subjects = [
     { value: 'support', label: dict.contact.subjects.support },
@@ -35,6 +45,7 @@ export function ContactForm({ dict }: { dict: Dictionary }) {
     const next: Partial<Record<Field, string>> = {}
     if (values.name.trim().length < 2) next.name = dict.contact.errors.name
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(values.email)) next.email = dict.contact.errors.email
+    if (!values.profile) next.profile = dict.contact.errors.profile
     if (!values.subject) next.subject = dict.contact.errors.subject
     if (values.message.trim().length < 10) next.message = dict.contact.errors.message
     if (!values.consent) next.consent = dict.contact.errors.consent
@@ -55,7 +66,15 @@ export function ContactForm({ dict }: { dict: Dictionary }) {
       })
       if (!res.ok) throw new Error('bad response')
       setStatus('ok')
-      setValues({ name: '', email: '', company: '', subject: '', message: '', consent: false })
+      setValues({
+        name: '',
+        email: '',
+        company: '',
+        profile: '',
+        subject: '',
+        message: '',
+        consent: false,
+      })
     } catch {
       setStatus('error')
     }
@@ -69,6 +88,36 @@ export function ContactForm({ dict }: { dict: Dictionary }) {
 
   return (
     <form onSubmit={onSubmit} noValidate className="space-y-5">
+      {/* Perfil: en botones y por delante de todo, para que se responda sin pensarlo */}
+      <fieldset>
+        <legend className="mb-2.5 text-[0.82rem] font-semibold">
+          {dict.contact.profile}
+          <span className="ml-0.5 text-brand-500">*</span>
+        </legend>
+        <div className="flex flex-wrap gap-2">
+          {profiles.map((option) => {
+            const selected = values.profile === option.value
+            return (
+              <button
+                key={option.value}
+                type="button"
+                onClick={() => setValues({ ...values, profile: option.value })}
+                aria-pressed={selected}
+                className={cn(
+                  'h-10 rounded-full border px-4 text-[0.85rem] font-semibold transition-all duration-200',
+                  selected
+                    ? 'border-brand-500 bg-brand-500/12 text-brand-500'
+                    : 'border-line text-fg-muted hover:border-brand-500/50 hover:text-fg'
+                )}
+              >
+                {option.label}
+              </button>
+            )
+          })}
+        </div>
+        {errors.profile && <p className="mt-1.5 text-[0.78rem] text-red-500">{errors.profile}</p>}
+      </fieldset>
+
       <div className="grid gap-5 sm:grid-cols-2">
         <Field label={dict.contact.name} error={errors.name} htmlFor="name" required>
           <input

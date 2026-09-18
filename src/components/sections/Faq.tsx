@@ -6,13 +6,21 @@ import Link from 'next/link'
 import { useState } from 'react'
 
 import { Section, SectionHeading, ButtonLink } from '@/components/ui/primitives'
-import { faqs } from '@/data/faq'
+import type { FaqItem } from '@/data/faq'
 import { routes } from '@/lib/navigation'
 import { cn } from '@/lib/utils'
 import type { Dictionary } from '@/i18n'
 import type { Locale } from '@/i18n/config'
 
-export function Faq({ locale, dict }: { locale: Locale; dict: Dictionary }) {
+export function Faq({
+  locale,
+  dict,
+  faqs,
+}: {
+  locale: Locale
+  dict: Dictionary
+  faqs: FaqItem[]
+}) {
   const [open, setOpen] = useState<string | null>(faqs[0]?.id ?? null)
 
   return (

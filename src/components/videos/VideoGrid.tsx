@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { Eye, Play } from 'lucide-react'
 import { useState } from 'react'
@@ -63,12 +64,12 @@ export function VideoGrid({
             )}
           >
             <span className="relative block aspect-video overflow-hidden bg-ink-800">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image
                 src={video.thumbnail}
                 alt={`Miniatura del vídeo: ${video.title}`}
-                loading="lazy"
-                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.06]"
+                fill
+                sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 30vw"
+                className="object-cover transition-transform duration-700 group-hover:scale-[1.06]"
               />
               <span className="absolute inset-0 bg-gradient-to-t from-ink-950/75 via-transparent to-transparent" />
               <span className="absolute inset-0 grid place-items-center">

@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "faq_items",
+  "info": {
+    "singularName": "faq-item",
+    "pluralName": "faq-items",
+    "displayName": "Pregunta frecuente",
+    "description": "FAQ de la portada y de soporte."
+  },
+  "options": { "draftAndPublish": true },
+  "pluginOptions": { "i18n": { "localized": true } },
+  "attributes": {
+    "slug": {
+      "type": "string",
+      "required": true,
+      "unique": true,
+      "pluginOptions": { "i18n": { "localized": false } }
+    },
+    "question": {
+      "type": "text",
+      "required": true,
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "answer": {
+      "type": "text",
+      "required": true,
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "resource": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::resource.resource"
+    }
+  }
+}

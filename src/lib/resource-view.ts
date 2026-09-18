@@ -1,6 +1,6 @@
 import type { Resource } from '@/data/resources'
-import { categoryById, deviceById } from '@/data/taxonomy'
-import type { CategoryId, DeviceId, ResourceType } from '@/data/taxonomy'
+import type { Category, CategoryId, Device, DeviceId, ResourceType } from '@/data/taxonomy'
+import { getCategoryMap, getDeviceMap } from '@/lib/content'
 import type { Locale } from '@/i18n/config'
 import { formatDuration, thumbnailFor, watchUrl, type YouTubeVideo } from './youtube'
 
@@ -38,7 +38,9 @@ export interface ResourceView {
 export function toResourceView(
   resource: Resource,
   locale: Locale,
-  videos: Record<string, YouTubeVideo> = {}
+  videos: Record<string, YouTubeVideo> = {},
+  categoryMap: Record<CategoryId, Category>,
+  deviceMap: Record<DeviceId, Device>
 ): ResourceView {
   const live = resource.youtubeId ? videos[resource.youtubeId] : undefined
 
@@ -46,9 +48,9 @@ export function toResourceView(
     id: resource.id,
     type: resource.type,
     category: resource.category,
-    categoryName: categoryById[resource.category].name[locale],
+    categoryName: categoryMap[resource.category]?.name[locale] ?? resource.category,
     device: resource.device,
-    deviceName: deviceById[resource.device].name,
+    deviceName: deviceMap[resource.device]?.name ?? resource.device,
     // El titulo curado manda: es el que esta categorizado y traducido.
     title: resource.title[locale],
     summary: resource.summary?.[locale] ?? live?.description?.split('\n')[0]?.slice(0, 180) ?? '',
@@ -68,10 +70,11 @@ export function toResourceView(
   }
 }
 
-export function toResourceViews(
+export async function toResourceViews(
   list: Resource[],
   locale: Locale,
   videos: Record<string, YouTubeVideo> = {}
-): ResourceView[] {
-  return list.map((r) => toResourceView(r, locale, videos))
+): Promise<ResourceView[]> {
+  const [categoryMap, deviceMap] = await Promise.all([getCategoryMap(), getDeviceMap()])
+  return list.map((r) => toResourceView(r, locale, videos, categoryMap, deviceMap))
 }

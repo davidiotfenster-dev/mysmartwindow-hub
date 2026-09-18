@@ -19,7 +19,11 @@ export async function GET() {
 /**
  * Fuerza una resincronizacion inmediata.
  * Si REVALIDATE_SECRET esta definido, se exige como cabecera `x-revalidate-secret`.
- * Sirve tambien como webhook para Strapi en la fase 2.
+ *
+ * Es tambien el webhook que usa Strapi: en Settings -> Webhooks, apuntar a
+ * esta URL con los eventos entry.publish/update/unpublish. Sin esto, un
+ * cambio en el CMS tarda hasta la revalidacion por tiempo (una hora) en
+ * verse en el sitio.
  */
 export async function POST(request: Request) {
   const secret = process.env.REVALIDATE_SECRET
@@ -28,5 +32,6 @@ export async function POST(request: Request) {
   }
 
   revalidateTag('youtube')
-  return NextResponse.json({ ok: true, revalidated: 'youtube', at: new Date().toISOString() })
+  revalidateTag('cms')
+  return NextResponse.json({ ok: true, revalidated: ['youtube', 'cms'], at: new Date().toISOString() })
 }

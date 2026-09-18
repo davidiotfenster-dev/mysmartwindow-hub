@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { alternates } from '@/lib/seo'
 import type { Metadata } from 'next'
 import { Youtube } from 'lucide-react'
@@ -8,7 +9,7 @@ import { toVideoItem, type VideoItem } from '@/lib/video-item'
 import { ButtonLink, Section, SectionHeading, Badge } from '@/components/ui/primitives'
 import { GradientTitle } from '@/components/ui/GradientTitle'
 import { CHANNEL_URL, getChannelData, thumbnailFor } from '@/lib/youtube'
-import { resources } from '@/data/resources'
+import { getResources } from '@/lib/content'
 import { getDictionary } from '@/i18n'
 import { formatDate } from '@/lib/utils'
 import type { Locale } from '@/i18n/config'
@@ -33,7 +34,10 @@ export default async function VideosPage({ params }: { params: Promise<{ locale:
   const { locale } = await params
   const dict = getDictionary(locale)
 
-  const { videos, playlists, source, fetchedAt } = await getChannelData()
+  const [resources, { videos, playlists, source, fetchedAt }] = await Promise.all([
+    getResources(),
+    getChannelData(),
+  ])
   const liveById = new Map(videos.map((v) => [v.id, v]))
 
   /**
@@ -106,12 +110,12 @@ export default async function VideosPage({ params }: { params: Promise<{ locale:
                 className="group flex flex-col overflow-hidden rounded-3xl border border-line bg-bg-elevated/60 transition-all duration-400 hover:-translate-y-1 hover:border-brand-500/40"
               >
                 <span className="relative block aspect-video overflow-hidden bg-ink-800">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                  <Image
                     src={playlist.thumbnail}
                     alt={`Portada de la lista de reproducción: ${playlist.title}`}
-                    loading="lazy"
-                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    fill
+                    sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 30vw"
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                   <span className="absolute bottom-2.5 right-2.5 rounded-md bg-ink-950/85 px-2 py-0.5 text-[0.7rem] font-semibold text-white">
                     {playlist.itemCount}

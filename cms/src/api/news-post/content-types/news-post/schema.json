@@ -1,0 +1,68 @@
+{
+  "kind": "collectionType",
+  "collectionName": "news_posts",
+  "info": {
+    "singularName": "news-post",
+    "pluralName": "news-posts",
+    "displayName": "Noticia",
+    "description": "Blog / novedades del sitio."
+  },
+  "options": { "draftAndPublish": true },
+  "pluginOptions": { "i18n": { "localized": true } },
+  "attributes": {
+    "slug": {
+      "type": "string",
+      "required": true,
+      "unique": true,
+      "pluginOptions": { "i18n": { "localized": false } }
+    },
+    "title": {
+      "type": "string",
+      "required": true,
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "excerpt": {
+      "type": "text",
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "body": {
+      "type": "text",
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "tag": {
+      "type": "string",
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "postDate": {
+      "type": "date",
+      "required": true,
+      "pluginOptions": { "i18n": { "localized": false } }
+    },
+    "readingMinutes": {
+      "type": "integer",
+      "default": 3,
+      "pluginOptions": { "i18n": { "localized": false } }
+    },
+    "gradient": {
+      "type": "string",
+      "pluginOptions": { "i18n": { "localized": false } }
+    },
+    "cover": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"],
+      "pluginOptions": { "i18n": { "localized": false } }
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false,
+      "pluginOptions": { "i18n": { "localized": false } }
+    },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo",
+      "pluginOptions": { "i18n": { "localized": true } }
+    }
+  }
+}

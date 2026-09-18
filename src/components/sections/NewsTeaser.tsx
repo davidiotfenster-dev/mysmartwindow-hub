@@ -3,13 +3,13 @@ import { ArrowUpRight, Clock } from 'lucide-react'
 
 import { Section, SectionHeading, ButtonLink, Badge } from '@/components/ui/primitives'
 import { Stagger, StaggerItem } from '@/components/ui/motion'
-import { getNews } from '@/data/news'
+import { getNews } from '@/lib/content'
 import { routes } from '@/lib/navigation'
 import { formatDate } from '@/lib/utils'
 import type { Dictionary } from '@/i18n'
 import type { Locale } from '@/i18n/config'
 
-export function NewsTeaser({
+export async function NewsTeaser({
   locale,
   dict,
   limit = 3,
@@ -18,7 +18,8 @@ export function NewsTeaser({
   dict: Dictionary
   limit?: number
 }) {
-  const posts = getNews().slice(0, limit)
+  const news = await getNews()
+  const posts = news.slice(0, limit)
   if (posts.length === 0) return null
 
   return (

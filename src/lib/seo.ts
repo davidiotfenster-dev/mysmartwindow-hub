@@ -56,17 +56,43 @@ export function clamp(text: string, max: number): string {
   return `${clean.slice(0, max - 1).replace(/[\s,;:.—-]+\S*$/, '')}…`
 }
 
+/**
+ * Bloque de SEO editable desde el CMS (componente `shared.seo` en Strapi).
+ * Cuando el editor lo rellena, sustituye al titulo/descripcion generados
+ * automaticamente a partir del contenido.
+ */
+export interface SeoOverride {
+  metaTitle?: string
+  metaDescription?: string
+  keywords?: string
+  ogImage?: string
+}
+
+/** El override del CMS manda; si no existe o esta vacio, se usa el generado. */
+export function resolveTitle(override: SeoOverride | undefined, generated: string, max = 70): string {
+  return clamp(override?.metaTitle || generated, max)
+}
+
+export function resolveDescription(
+  override: SeoOverride | undefined,
+  generated: string,
+  max = 155
+): string {
+  return clamp(override?.metaDescription || generated, max)
+}
+
 /* ==========================================================================
    Datos estructurados
    ========================================================================== */
 
-export function organizationSchema() {
+export function organizationSchema(description?: string) {
   return {
     '@type': 'Organization',
     '@id': `${SITE_URL}/#organization`,
     name: ORG_NAME,
     url: ORG_URL,
     description:
+      description ||
       'Ingeniería electrónica e IoT para fabricantes de cerramientos: domótica para ventanas, puertas, persianas y toldos.',
     sameAs: [
       'https://www.linkedin.com/company/iotfenster/',

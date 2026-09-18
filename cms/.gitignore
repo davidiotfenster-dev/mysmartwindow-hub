@@ -1,0 +1,41 @@
+############################
+# Node.js
+############################
+node_modules/
+
+############################
+# Strapi
+############################
+.tmp/
+.cache/
+dist/
+build/
+exports/
+*.cache
+license.txt
+.strapi/
+
+############################
+# dotenv environment variable files
+############################
+.env
+.env.local
+.env.*.local
+
+############################
+# generated (nunca al repo)
+############################
+.seed-token.txt
+.strapi-dev.log
+
+############################
+# IDE
+############################
+.idea/
+.vscode/
+.DS_Store
+
+# Las imágenes subidas desde el panel son datos, no código: en producción
+# viven en un volumen de Docker con su propia copia de seguridad.
+public/uploads/*
+!public/uploads/.gitkeep

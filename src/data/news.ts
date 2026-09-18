@@ -1,10 +1,11 @@
 import type { Localized } from '@/i18n/config'
+import type { SeoOverride } from '@/lib/seo'
 
 /**
- * Noticias de ejemplo.
+ * Noticias.
  *
- * Es el modelo que ocupara Strapi en la fase 2: mismo contrato, mismos campos.
- * Cuando exista el CMS, `getNews()` pasa a leer la API y nada mas cambia.
+ * Contenido gestionado por Strapi (`src/lib/content/news.ts`); estos datos
+ * son el catalogo de partida y el fallback si el CMS no responde.
  */
 export interface NewsPost {
   slug: string
@@ -14,9 +15,13 @@ export interface NewsPost {
   tag: Localized
   publishedAt: string
   readingMinutes: number
-  /** Degradado de portada; el CMS traera una imagen real. */
+  /** Degradado de portada, usado mientras no haya imagen en el CMS. */
   gradient: string
   featured?: boolean
+  /** Imagen de portada subida en el CMS, si existe. */
+  cover?: string
+  /** SEO editable desde el CMS; si no existe se genera a partir del contenido. */
+  seo?: SeoOverride
 }
 
 export const news: NewsPost[] = [

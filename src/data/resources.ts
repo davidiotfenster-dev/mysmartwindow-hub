@@ -1,4 +1,5 @@
 import type { Localized } from '@/i18n/config'
+import type { SeoOverride } from '@/lib/seo'
 import type { CategoryId, DeviceId, ResourceType } from './taxonomy'
 
 /**
@@ -30,6 +31,8 @@ export interface Resource {
   featured?: boolean
   /** Terminos extra para el buscador. */
   tags?: string[]
+  /** SEO editable desde el CMS; si no existe se genera a partir del contenido. */
+  seo?: SeoOverride
 }
 
 const CDN = 'https://www.iotfenster.com/wp-content/uploads'
@@ -39,7 +42,7 @@ export const resources: Resource[] = [
      ADMINISTRACION
      ====================================================================== */
   {
-    id: 'adm-perfiles-manual',
+    id: 'perfiles-de-usuario-manual',
     type: 'manual',
     category: 'administracion',
     device: 'general',
@@ -55,7 +58,7 @@ export const resources: Resource[] = [
     tags: ['roles', 'permisos', 'invitados', 'compartir'],
   },
   {
-    id: 'adm-faq-manual',
+    id: 'preguntas-frecuentes-manual',
     type: 'manual',
     category: 'administracion',
     device: 'general',
@@ -70,7 +73,7 @@ export const resources: Resource[] = [
     tags: ['faq', 'dudas', 'ayuda'],
   },
   {
-    id: 'adm-perfiles-video',
+    id: 'perfiles-de-usuario-video',
     type: 'video',
     category: 'administracion',
     device: 'general',
@@ -80,7 +83,7 @@ export const resources: Resource[] = [
     tags: ['roles', 'permisos'],
   },
   {
-    id: 'adm-faq-video',
+    id: 'preguntas-frecuentes-video',
     type: 'video',
     category: 'administracion',
     device: 'general',
@@ -89,7 +92,7 @@ export const resources: Resource[] = [
     tags: ['faq'],
   },
   {
-    id: 'adm-perfiles-tarjeta',
+    id: 'perfiles-de-usuario-tarjeta',
     type: 'tarjeta',
     category: 'administracion',
     device: 'general',
@@ -103,7 +106,7 @@ export const resources: Resource[] = [
     },
   },
   {
-    id: 'adm-tarjeta-dispositivo',
+    id: 'preguntas-frecuentes-dispositivo-tarjeta',
     type: 'tarjeta',
     category: 'administracion',
     device: 'general',
@@ -116,7 +119,7 @@ export const resources: Resource[] = [
     },
   },
   {
-    id: 'adm-tarjeta-conectividad',
+    id: 'preguntas-frecuentes-conectividad-y-vinculacion-tarjeta',
     type: 'tarjeta',
     category: 'administracion',
     device: 'general',
@@ -129,7 +132,7 @@ export const resources: Resource[] = [
     },
   },
   {
-    id: 'adm-tarjeta-motores',
+    id: 'preguntas-frecuentes-tipos-de-motor-tarjeta',
     type: 'tarjeta',
     category: 'administracion',
     device: 'general',
@@ -147,7 +150,7 @@ export const resources: Resource[] = [
      CONECTIVIDAD
      ====================================================================== */
   {
-    id: 'con-cobertura',
+    id: 'como-ampliar-mi-cobertura-manual',
     type: 'manual',
     category: 'conectividad',
     device: 'general',
@@ -167,7 +170,7 @@ export const resources: Resource[] = [
     tags: ['wifi', 'señal', 'repetidor', 'cobertura'],
   },
   {
-    id: 'con-multiwifi',
+    id: 'multiwifi-wifi-complementario-manual',
     type: 'manual',
     category: 'conectividad',
     device: 'general',
@@ -186,7 +189,7 @@ export const resources: Resource[] = [
     tags: ['wifi', 'red secundaria', 'respaldo'],
   },
   {
-    id: 'con-android-hotspot',
+    id: 'compartir-una-red-wi-fi-desde-android-manual',
     type: 'manual',
     category: 'conectividad',
     device: 'general',
@@ -200,7 +203,7 @@ export const resources: Resource[] = [
     tags: ['android', 'hotspot', 'compartir internet'],
   },
   {
-    id: 'con-router-movistar',
+    id: 'crear-una-red-wi-fi-movistar-o2-manual',
     type: 'manual',
     category: 'conectividad',
     device: 'general',
@@ -218,7 +221,7 @@ export const resources: Resource[] = [
     tags: ['router', 'movistar', 'o2', '2.4ghz'],
   },
   {
-    id: 'con-multiwifi-video',
+    id: 'multiwifi-wifi-complementario-video',
     type: 'video',
     category: 'conectividad',
     device: 'general',
@@ -234,7 +237,7 @@ export const resources: Resource[] = [
      APP
      ====================================================================== */
   {
-    id: 'app-menu-edicion',
+    id: 'connect-1-menu-de-edicion-video',
     type: 'video',
     category: 'app',
     device: 'connect-1',
@@ -258,7 +261,7 @@ export const resources: Resource[] = [
      DISPOSITIVOS
      ====================================================================== */
   {
-    id: 'dis-hard-reset-manual',
+    id: 'hard-reset-botones-del-dispositivo-manual',
     type: 'manual',
     category: 'dispositivos',
     device: 'general',
@@ -277,7 +280,7 @@ export const resources: Resource[] = [
     tags: ['reset', 'botones', 'fabrica'],
   },
   {
-    id: 'dis-reset-software',
+    id: 'reset-software-manual',
     type: 'manual',
     category: 'dispositivos',
     device: 'general',
@@ -287,7 +290,7 @@ export const resources: Resource[] = [
     tags: ['reset', 'software'],
   },
   {
-    id: 'dis-doc-c-pulsar',
+    id: 'c-pulsar-documentacion-de-funcionalidades-manual',
     type: 'manual',
     category: 'dispositivos',
     device: 'c-pulsar',
@@ -300,7 +303,7 @@ export const resources: Resource[] = [
     },
   },
   {
-    id: 'dis-doc-c-wall',
+    id: 'c-wall-documentacion-de-funcionalidades-manual',
     type: 'manual',
     category: 'dispositivos',
     device: 'c-wall',
@@ -313,7 +316,7 @@ export const resources: Resource[] = [
     },
   },
   {
-    id: 'dis-doc-connect-1',
+    id: 'connect-1-documentacion-de-funcionalidades-manual',
     type: 'manual',
     category: 'dispositivos',
     device: 'connect-1',
@@ -326,7 +329,7 @@ export const resources: Resource[] = [
     },
   },
   {
-    id: 'dis-doc-connect-2',
+    id: 'connect-2-documentacion-de-funcionalidades-manual',
     type: 'manual',
     category: 'dispositivos',
     device: 'connect-2',
@@ -345,7 +348,7 @@ export const resources: Resource[] = [
     },
   },
   {
-    id: 'dis-doc-connect-evo',
+    id: 'connect-evo-documentacion-de-funcionalidades-manual',
     type: 'manual',
     category: 'dispositivos',
     device: 'connect-evo',
@@ -358,7 +361,7 @@ export const resources: Resource[] = [
     },
   },
   {
-    id: 'dis-doc-remote-witooth',
+    id: 'remotewitooth-documentacion-de-funcionalidades-manual',
     type: 'manual',
     category: 'dispositivos',
     device: 'remote-witooth',
@@ -371,7 +374,7 @@ export const resources: Resource[] = [
     },
   },
   {
-    id: 'dis-hard-reset-video',
+    id: 'connect-1-hard-reset-y-botones-del-dispositivo-video',
     type: 'video',
     category: 'dispositivos',
     device: 'connect-1',
@@ -384,7 +387,7 @@ export const resources: Resource[] = [
     tags: ['reset', 'botones'],
   },
   {
-    id: 'dis-reset-software-video',
+    id: 'connect-reset-software-video',
     type: 'video',
     category: 'dispositivos',
     device: 'general',
@@ -396,7 +399,7 @@ export const resources: Resource[] = [
     },
   },
   {
-    id: 'dis-hard-reset-tarjeta',
+    id: 'hard-reset-del-dispositivo-botones-tarjeta',
     type: 'tarjeta',
     category: 'dispositivos',
     device: 'connect-1',
@@ -413,7 +416,7 @@ export const resources: Resource[] = [
      ECOSISTEMAS
      ====================================================================== */
   {
-    id: 'eco-alexa-vinculacion',
+    id: 'alexa-vinculacion-con-mysmartwindow-manual',
     type: 'manual',
     category: 'ecosistemas',
     device: 'general',
@@ -433,7 +436,7 @@ export const resources: Resource[] = [
     tags: ['alexa', 'amazon', 'voz', 'skill'],
   },
   {
-    id: 'eco-alexa-tarea',
+    id: 'alexa-subir-la-persiana-a-una-hora-de-la-manana-manual',
     type: 'manual',
     category: 'ecosistemas',
     device: 'general',
@@ -447,7 +450,7 @@ export const resources: Resource[] = [
     tags: ['alexa', 'rutina', 'tarea programada'],
   },
   {
-    id: 'eco-google-anochecer',
+    id: 'google-home-bajar-las-persianas-al-anochecer-manual',
     type: 'manual',
     category: 'ecosistemas',
     device: 'general',
@@ -461,7 +464,7 @@ export const resources: Resource[] = [
     tags: ['google home', 'rutina', 'anochecer'],
   },
   {
-    id: 'eco-google-8am',
+    id: 'google-home-subir-las-persianas-a-las-8-00-manual',
     type: 'manual',
     category: 'ecosistemas',
     device: 'general',
@@ -475,7 +478,7 @@ export const resources: Resource[] = [
     tags: ['google home', 'rutina'],
   },
   {
-    id: 'eco-ifttt-integracion',
+    id: 'ifttt-integracion-y-tareas-programadas-manual',
     type: 'manual',
     category: 'ecosistemas',
     device: 'general',
@@ -489,7 +492,7 @@ export const resources: Resource[] = [
     tags: ['ifttt', 'automatización', 'applet'],
   },
   {
-    id: 'eco-ifttt-que-es',
+    id: 'que-es-ifttt-manual',
     type: 'manual',
     category: 'ecosistemas',
     device: 'general',
@@ -499,7 +502,7 @@ export const resources: Resource[] = [
     tags: ['ifttt'],
   },
   {
-    id: 'eco-aidoo-skills',
+    id: 'aidoo-skills-manual',
     type: 'manual',
     category: 'ecosistemas',
     device: 'general',
@@ -509,7 +512,7 @@ export const resources: Resource[] = [
     tags: ['aidoo', 'clima', 'airzone'],
   },
   {
-    id: 'eco-alexa-vincular-video',
+    id: 'alexa-vincular-cuenta-video',
     type: 'video',
     category: 'ecosistemas',
     device: 'general',
@@ -522,7 +525,7 @@ export const resources: Resource[] = [
     },
   },
   {
-    id: 'eco-alexa-tarea-video',
+    id: 'alexa-subir-la-persiana-a-una-hora-de-la-manana-video',
     type: 'video',
     category: 'ecosistemas',
     device: 'general',
@@ -534,7 +537,7 @@ export const resources: Resource[] = [
     },
   },
   {
-    id: 'eco-google-anochecer-video',
+    id: 'google-home-bajar-las-persianas-al-anochecer-video',
     type: 'video',
     category: 'ecosistemas',
     device: 'general',
@@ -546,7 +549,7 @@ export const resources: Resource[] = [
     },
   },
   {
-    id: 'eco-google-8am-video',
+    id: 'google-home-subir-las-persianas-a-las-8-00-video',
     type: 'video',
     category: 'ecosistemas',
     device: 'general',
@@ -558,7 +561,7 @@ export const resources: Resource[] = [
     },
   },
   {
-    id: 'eco-google-vincular-video',
+    id: 'google-home-vincular-cuenta-video',
     type: 'video',
     category: 'ecosistemas',
     device: 'general',
@@ -570,7 +573,7 @@ export const resources: Resource[] = [
     },
   },
   {
-    id: 'eco-ifttt-video',
+    id: 'ifttt-que-es-ifttt-video',
     type: 'video',
     category: 'ecosistemas',
     device: 'general',
@@ -578,7 +581,7 @@ export const resources: Resource[] = [
     title: { es: 'IFTTT — ¿Qué es IFTTT?', en: 'IFTTT — What is IFTTT?', it: 'IFTTT — Che cos’è IFTTT?' },
   },
   {
-    id: 'eco-servicio-persiana-video',
+    id: 'connect-servicio-de-persiana-video',
     type: 'video',
     category: 'ecosistemas',
     device: 'general',
@@ -594,7 +597,7 @@ export const resources: Resource[] = [
      INSTALACION
      ====================================================================== */
   {
-    id: 'ins-connect-1',
+    id: 'connect-1-como-se-instala-el-dispositivo-manual',
     type: 'manual',
     category: 'instalacion',
     device: 'connect-1',
@@ -607,7 +610,7 @@ export const resources: Resource[] = [
     },
   },
   {
-    id: 'ins-connect-2',
+    id: 'connect-2-como-se-instala-el-dispositivo-manual',
     type: 'manual',
     category: 'instalacion',
     device: 'connect-2',
@@ -626,7 +629,7 @@ export const resources: Resource[] = [
     },
   },
   {
-    id: 'ins-sensor-apertura',
+    id: 'instalacion-del-sensor-de-apertura-manual',
     type: 'manual',
     category: 'instalacion',
     device: 'sensor-rc33',
@@ -639,7 +642,7 @@ export const resources: Resource[] = [
     },
   },
   {
-    id: 'ins-c-pulsar',
+    id: 'c-pulsar-instalacion-del-dispositivo-manual',
     type: 'manual',
     category: 'instalacion',
     device: 'c-pulsar',
@@ -652,7 +655,7 @@ export const resources: Resource[] = [
     },
   },
   {
-    id: 'ins-cajon-rtx',
+    id: 'fabricacion-del-cajon-rtx-manual',
     type: 'manual',
     category: 'instalacion',
     device: 'general',
@@ -671,7 +674,7 @@ export const resources: Resource[] = [
     tags: ['fabricante', 'cajón', 'rtx'],
   },
   {
-    id: 'ins-c-wall',
+    id: 'c-wall-instalacion-del-dispositivo-manual',
     type: 'manual',
     category: 'instalacion',
     device: 'c-wall',
@@ -684,7 +687,7 @@ export const resources: Resource[] = [
     },
   },
   {
-    id: 'ins-evo',
+    id: 'connect-evo-instalacion-del-dispositivo-manual',
     type: 'manual',
     category: 'instalacion',
     device: 'connect-evo',
@@ -697,7 +700,7 @@ export const resources: Resource[] = [
     },
   },
   {
-    id: 'ins-connect-1-video',
+    id: 'connect-1-como-se-instala-el-dispositivo-video',
     type: 'video',
     category: 'instalacion',
     device: 'connect-1',
@@ -709,7 +712,7 @@ export const resources: Resource[] = [
     },
   },
   {
-    id: 'ins-connect-2-video',
+    id: 'connect-2-como-se-instala-el-dispositivo-video',
     type: 'video',
     category: 'instalacion',
     device: 'connect-2',
@@ -722,7 +725,7 @@ export const resources: Resource[] = [
     },
   },
   {
-    id: 'ins-sensor-video',
+    id: 'instalacion-del-sensor-de-apertura-video',
     type: 'video',
     category: 'instalacion',
     device: 'sensor-rc33',
@@ -734,7 +737,7 @@ export const resources: Resource[] = [
     },
   },
   {
-    id: 'ins-motorizacion-video',
+    id: 'motorizacion-de-una-ventana-video',
     type: 'video',
     category: 'instalacion',
     device: 'general',
@@ -747,7 +750,7 @@ export const resources: Resource[] = [
     tags: ['motor', 'ventana'],
   },
   {
-    id: 'ins-c-wall-video',
+    id: 'c-wall-como-se-instala-video',
     type: 'video',
     category: 'instalacion',
     device: 'c-wall',
@@ -759,7 +762,7 @@ export const resources: Resource[] = [
      SOPORTE
      ====================================================================== */
   {
-    id: 'sop-router-video',
+    id: 'configuracion-del-router-video',
     type: 'video',
     category: 'soporte',
     device: 'general',
@@ -778,7 +781,7 @@ export const resources: Resource[] = [
     tags: ['router', '2.4ghz', 'incidencias'],
   },
   {
-    id: 'sop-vinculacion-video',
+    id: 'solucion-de-problemas-vinculacion-video',
     type: 'video',
     category: 'soporte',
     device: 'general',
@@ -795,7 +798,7 @@ export const resources: Resource[] = [
      SEGURIDAD
      ====================================================================== */
   {
-    id: 'seg-alarma-video',
+    id: 'integrar-con-alarma-de-sirena-video',
     type: 'video',
     category: 'seguridad',
     device: 'general',
@@ -812,7 +815,7 @@ export const resources: Resource[] = [
      VINCULACION
      ====================================================================== */
   {
-    id: 'vin-punto-a-punto',
+    id: 'vinculacion-punto-a-punto-manual',
     type: 'manual',
     category: 'vinculacion',
     device: 'general',
@@ -832,7 +835,7 @@ export const resources: Resource[] = [
     tags: ['emparejar', 'pairing'],
   },
   {
-    id: 'vin-multivinculacion',
+    id: 'multivinculacion-manual',
     type: 'manual',
     category: 'vinculacion',
     device: 'general',
@@ -847,7 +850,7 @@ export const resources: Resource[] = [
     tags: ['multicast', 'grupo'],
   },
   {
-    id: 'vin-multivinculacion-cwall',
+    id: 'c-wall-multivinculacion-manual',
     type: 'manual',
     category: 'vinculacion',
     device: 'c-wall',
@@ -860,7 +863,7 @@ export const resources: Resource[] = [
     },
   },
   {
-    id: 'vin-punto-a-punto-video',
+    id: 'vinculacion-punto-a-punto-video',
     type: 'video',
     category: 'vinculacion',
     device: 'general',
@@ -873,7 +876,7 @@ export const resources: Resource[] = [
     },
   },
   {
-    id: 'vin-multivinculacion-video',
+    id: 'multivinculacion-video',
     type: 'video',
     category: 'vinculacion',
     device: 'general',
@@ -881,7 +884,7 @@ export const resources: Resource[] = [
     title: { es: 'Multivinculación', en: 'Multi-pairing', it: 'Associazione multipla' },
   },
   {
-    id: 'vin-cwall-video',
+    id: 'vinculacion-c-wall-video',
     type: 'video',
     category: 'vinculacion',
     device: 'c-wall',
@@ -889,7 +892,7 @@ export const resources: Resource[] = [
     title: { es: 'Vinculación C-WALL', en: 'C-WALL pairing', it: 'Associazione C-WALL' },
   },
   {
-    id: 'vin-punto-a-punto-tarjeta',
+    id: 'vinculacion-punto-a-punto-tarjeta',
     type: 'tarjeta',
     category: 'vinculacion',
     device: 'general',
@@ -902,7 +905,7 @@ export const resources: Resource[] = [
     },
   },
   {
-    id: 'vin-cwall-tarjeta',
+    id: 'vinculacion-c-wall-tarjeta',
     type: 'tarjeta',
     category: 'vinculacion',
     device: 'c-wall',
@@ -911,7 +914,7 @@ export const resources: Resource[] = [
     title: { es: 'Vinculación C-WALL', en: 'C-WALL pairing', it: 'Associazione C-WALL' },
   },
   {
-    id: 'vin-multivinculacion-tarjeta',
+    id: 'multivinculacion-tarjeta',
     type: 'tarjeta',
     category: 'vinculacion',
     device: 'general',

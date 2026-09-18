@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import Image from 'next/image'
 import Link from 'next/link'
 import {
   AlertCircle,
@@ -81,12 +82,12 @@ export function ResourceCard({
         >
           {isVideo && resource.thumbnail ? (
             <>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image
                 src={resource.thumbnail}
                 alt={`Miniatura del videotutorial: ${resource.title}`}
-                loading="lazy"
-                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                fill
+                sizes="96px"
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
               />
               <span className="absolute inset-0 grid place-items-center bg-ink-950/35">
                 <Play className="h-4 w-4 fill-white text-white" />
@@ -131,12 +132,12 @@ export function ResourceCard({
       {/* Miniatura o cabecera gráfica */}
       {isVideo && resource.thumbnail ? (
         <span className="relative block aspect-video overflow-hidden bg-ink-800">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image
             src={resource.thumbnail}
             alt={`Miniatura del videotutorial: ${resource.title}`}
-            loading="lazy"
-            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.06]"
+            fill
+            sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 30vw"
+            className="object-cover transition-transform duration-700 group-hover:scale-[1.06]"
           />
           <span className="absolute inset-0 bg-gradient-to-t from-ink-950/80 via-ink-950/10 to-transparent" />
           <span className="absolute inset-0 grid place-items-center">

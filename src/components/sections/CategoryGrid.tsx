@@ -4,14 +4,14 @@ import { ArrowUpRight } from 'lucide-react'
 import { Section, SectionHeading, Badge } from '@/components/ui/primitives'
 import { Icon } from '@/components/ui/Icon'
 import { Stagger, StaggerItem } from '@/components/ui/motion'
-import { categories, resourceTypeMeta } from '@/data/taxonomy'
-import { countByCategory } from '@/data/resources'
+import { resourceTypeMeta } from '@/data/taxonomy'
+import { countByCategory, getCategories } from '@/lib/content'
 import { routes } from '@/lib/navigation'
 import type { Dictionary } from '@/i18n'
 import type { Locale } from '@/i18n/config'
 
-export function CategoryGrid({ locale, dict }: { locale: Locale; dict: Dictionary }) {
-  const counts = countByCategory()
+export async function CategoryGrid({ locale, dict }: { locale: Locale; dict: Dictionary }) {
+  const [categories, counts] = await Promise.all([getCategories(), countByCategory()])
 
   /** Singular cuando sólo hay uno: "1 vídeo", no "1 vídeos". */
   const label = (type: keyof typeof resourceTypeMeta, count: number) =>

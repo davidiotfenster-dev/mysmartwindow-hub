@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_shared_seos",
+  "info": {
+    "displayName": "SEO",
+    "icon": "search",
+    "description": "Metadatos de SEO opcionales. Si se dejan vacios, el sitio genera el titulo y la descripcion a partir del contenido."
+  },
+  "options": {},
+  "attributes": {
+    "metaTitle": {
+      "type": "string",
+      "maxLength": 70
+    },
+    "metaDescription": {
+      "type": "text",
+      "maxLength": 160
+    },
+    "keywords": {
+      "type": "string"
+    },
+    "ogImage": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    }
+  }
+}

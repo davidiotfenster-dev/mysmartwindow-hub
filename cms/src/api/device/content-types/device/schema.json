@@ -1,0 +1,66 @@
+{
+  "kind": "collectionType",
+  "collectionName": "devices",
+  "info": {
+    "singularName": "device",
+    "pluralName": "devices",
+    "displayName": "Dispositivo",
+    "description": "Los dispositivos del ecosistema. El slug no se debe cambiar: las fichas de recurso lo referencian."
+  },
+  "options": { "draftAndPublish": true },
+  "pluginOptions": { "i18n": { "localized": true } },
+  "attributes": {
+    "slug": {
+      "type": "string",
+      "required": true,
+      "unique": true,
+      "pluginOptions": { "i18n": { "localized": false } }
+    },
+    "name": {
+      "type": "string",
+      "required": true,
+      "pluginOptions": { "i18n": { "localized": false } }
+    },
+    "url": {
+      "type": "string",
+      "pluginOptions": { "i18n": { "localized": false } }
+    },
+    "hidden": {
+      "type": "boolean",
+      "default": false,
+      "pluginOptions": { "i18n": { "localized": false } }
+    },
+    "tagline": {
+      "type": "string",
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "description": {
+      "type": "text",
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "features": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.feature-item",
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "photo": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"],
+      "pluginOptions": { "i18n": { "localized": false } }
+    },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo",
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "resources": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::resource.resource",
+      "mappedBy": "device"
+    }
+  }
+}

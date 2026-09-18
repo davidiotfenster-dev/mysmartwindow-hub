@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 import { BookOpen, CornerDownLeft, CreditCard, PlayCircle, Search } from 'lucide-react'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
-import { categoryById } from '@/data/taxonomy'
+import type { Category, CategoryId } from '@/data/taxonomy'
 import type { Dictionary } from '@/i18n'
 import type { Locale } from '@/i18n/config'
 import { routes } from '@/lib/navigation'
@@ -35,11 +35,17 @@ export function CommandPalette({
   locale,
   dict,
   index,
+  categories,
 }: {
   locale: Locale
   dict: Dictionary
   index: SearchEntry[]
+  categories: Category[]
 }) {
+  const categoryById = Object.fromEntries(categories.map((c) => [c.id, c])) as Record<
+    CategoryId,
+    Category
+  >
   const router = useRouter()
   const [open, setOpen] = useState(false)
   const [query, setQuery] = useState('')

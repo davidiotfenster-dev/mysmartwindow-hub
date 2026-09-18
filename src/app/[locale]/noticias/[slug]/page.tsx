@@ -4,13 +4,15 @@ import { notFound } from 'next/navigation'
 import { ArrowLeft, ArrowUpRight, Clock } from 'lucide-react'
 
 import { Badge } from '@/components/ui/primitives'
-import { getNews, getNewsPost, news } from '@/data/news'
+import { getNews, getNewsPost } from '@/lib/content'
 import { getDictionary } from '@/i18n'
 import { locales, type Locale } from '@/i18n/config'
 import { routes } from '@/lib/navigation'
+import { resolveDescription, resolveTitle } from '@/lib/seo'
 import { formatDate } from '@/lib/utils'
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const news = await getNews()
   return locales.flatMap((locale) => news.map((post) => ({ locale, slug: post.slug })))
 }
 
@@ -20,12 +22,16 @@ export async function generateMetadata({
   params: Promise<{ locale: Locale; slug: string }>
 }): Promise<Metadata> {
   const { locale, slug } = await params
-  const post = getNewsPost(slug)
+  const post = await getNewsPost(slug)
   if (!post) return {}
   return {
-    title: post.title[locale],
-    description: post.excerpt[locale],
-    openGraph: { type: 'article', publishedTime: post.publishedAt },
+    title: resolveTitle(post.seo, post.title[locale]),
+    description: resolveDescription(post.seo, post.excerpt[locale]),
+    openGraph: {
+      type: 'article',
+      publishedTime: post.publishedAt,
+      ...(post.seo?.ogImage ? { images: [{ url: post.seo.ogImage }] } : post.cover ? { images: [{ url: post.cover }] } : {}),
+    },
   }
 }
 
@@ -35,13 +41,10 @@ export default async function NewsPostPage({
   params: Promise<{ locale: Locale; slug: string }>
 }) {
   const { locale, slug } = await params
-  const dict = getDictionary(locale)
-  const post = getNewsPost(slug)
+  const [dict, post, allNews] = await Promise.all([getDictionary(locale), getNewsPost(slug), getNews()])
   if (!post) notFound()
 
-  const related = getNews()
-    .filter((p) => p.slug !== post.slug)
-    .slice(0, 2)
+  const related = allNews.filter((p) => p.slug !== post.slug).slice(0, 2)
 
   return (
     <article>

@@ -6,8 +6,8 @@ import { ArrowLeft, ArrowUpRight, Download, ExternalLink, Eye, Youtube } from 'l
 import { JsonLd } from '@/components/seo/JsonLd'
 import { Badge, ButtonLink, Section } from '@/components/ui/primitives'
 import { PdfViewer } from '@/components/resources/PdfViewer'
-import { categoryById, deviceById, resourceTypeMeta } from '@/data/taxonomy'
-import { resources } from '@/data/resources'
+import { resourceTypeMeta } from '@/data/taxonomy'
+import { getCategoryMap, getDeviceMap, getResourceById, getResources } from '@/lib/content'
 import { getDictionary } from '@/i18n'
 import { locales, localeMeta, type Locale } from '@/i18n/config'
 import { routes } from '@/lib/navigation'
@@ -16,10 +16,11 @@ import {
   absolute,
   alternates,
   breadcrumbSchema,
-  clamp,
   jsonLd,
   ORG_NAME,
   ORG_URL,
+  resolveDescription,
+  resolveTitle,
 } from '@/lib/seo'
 import { embedUrl, getVideoMap, toIsoDuration, watchUrl } from '@/lib/youtube'
 import { formatDate, formatViews } from '@/lib/utils'
@@ -27,8 +28,9 @@ import { pdfProxyUrl } from '@/lib/base-path'
 
 export const revalidate = 3600
 
-/** Una página por recurso y por idioma: 63 × 3 = 189 URLs indexables. */
-export function generateStaticParams() {
+/** Una página por recurso y por idioma: recursos × 3 idiomas, URLs indexables. */
+export async function generateStaticParams() {
+  const resources = await getResources()
   return locales.flatMap((locale) => resources.map((r) => ({ locale, id: r.id })))
 }
 
@@ -38,12 +40,16 @@ export async function generateMetadata({
   params: Promise<{ locale: Locale; id: string }>
 }): Promise<Metadata> {
   const { locale, id } = await params
-  const resource = resources.find((r) => r.id === id)
+  const resource = await getResourceById(id)
   if (!resource) return {}
 
-  const dict = getDictionary(locale)
-  const category = categoryById[resource.category].name[locale]
-  const device = deviceById[resource.device]
+  const [dict, categoryMap, deviceMap] = await Promise.all([
+    getDictionary(locale),
+    getCategoryMap(),
+    getDeviceMap(),
+  ])
+  const category = categoryMap[resource.category].name[locale]
+  const device = deviceMap[resource.device]
   const typeLabel = resourceTypeMeta[resource.type].short[locale]
 
   // La plantilla del layout ya añade " · MySmartWindow": no lo repetimos aquí.
@@ -51,30 +57,36 @@ export async function generateMetadata({
   const base = resource.title[locale]
   const mentionsDevice = base.toLowerCase().includes(device.name.toLowerCase())
   const deviceBit = device.id === 'general' || mentionsDevice ? '' : `${device.name} · `
-  const title = `${base} — ${deviceBit}${typeLabel}`
+  const generatedTitle = `${base} — ${deviceBit}${typeLabel}`
 
-  const description =
+  const generatedDescription =
     resource.summary?.[locale] ??
     `${typeLabel} de ${category} para ${device.id === 'general' ? 'dispositivos MySmartWindow' : device.name}. ${dict.explorer.subtitle}`
 
+  const title = resolveTitle(resource.seo, generatedTitle)
+  const description = resolveDescription(resource.seo, generatedDescription)
+
   return {
-    title: clamp(title, 70),
-    description: clamp(description, 155),
+    title,
+    description,
     alternates: alternates(`/recursos/${id}`, locale),
     openGraph: {
       type: resource.type === 'video' ? 'video.other' : 'article',
-      title: clamp(resource.title[locale], 70),
-      description: clamp(description, 155),
+      title: resolveTitle(resource.seo, resource.title[locale]),
+      description,
       url: absolute(`/${locale}/recursos/${id}`),
-      ...(resource.youtubeId
-        ? { images: [{ url: `https://i.ytimg.com/vi/${resource.youtubeId}/maxresdefault.jpg` }] }
-        : {}),
+      ...(resource.seo?.ogImage
+        ? { images: [{ url: resource.seo.ogImage }] }
+        : resource.youtubeId
+          ? { images: [{ url: `https://i.ytimg.com/vi/${resource.youtubeId}/maxresdefault.jpg` }] }
+          : {}),
     },
     keywords: [
       resource.title[locale],
       category,
       device.id === 'general' ? 'MySmartWindow' : device.name,
       ...(resource.tags ?? []),
+      ...(resource.seo?.keywords ? resource.seo.keywords.split(',').map((k) => k.trim()) : []),
     ],
   }
 }
@@ -85,15 +97,20 @@ export default async function ResourcePage({
   params: Promise<{ locale: Locale; id: string }>
 }) {
   const { locale, id } = await params
-  const resource = resources.find((r) => r.id === id)
+  const [resource, resources, dict, videoMap, categoryMap, deviceMap] = await Promise.all([
+    getResourceById(id),
+    getResources(),
+    getDictionary(locale),
+    getVideoMap(),
+    getCategoryMap(),
+    getDeviceMap(),
+  ])
   if (!resource) notFound()
 
-  const dict = getDictionary(locale)
-  const videoMap = await getVideoMap()
-  const view = toResourceView(resource, locale, videoMap)
+  const view = toResourceView(resource, locale, videoMap, categoryMap, deviceMap)
 
-  const category = categoryById[resource.category]
-  const device = deviceById[resource.device]
+  const category = categoryMap[resource.category]
+  const device = deviceMap[resource.device]
   const isVideo = view.type === 'video'
   const typeLabel = resourceTypeMeta[view.type].label[locale]
 
@@ -107,7 +124,7 @@ export default async function ResourcePage({
     .filter((x) => x.score > 0)
     .sort((a, b) => b.score - a.score)
     .slice(0, 4)
-    .map((x) => toResourceView(x.r, locale, videoMap))
+    .map((x) => toResourceView(x.r, locale, videoMap, categoryMap, deviceMap))
 
   const crumbs = [
     { name: dict.nav.home, path: `/${locale}` },

@@ -1,0 +1,38 @@
+{
+  "kind": "collectionType",
+  "collectionName": "partners",
+  "info": {
+    "singularName": "partner",
+    "pluralName": "partners",
+    "displayName": "Distribuidor",
+    "description": "Distribuidores oficiales B2B. El slug no se debe cambiar."
+  },
+  "options": { "draftAndPublish": true },
+  "pluginOptions": { "i18n": { "localized": true } },
+  "attributes": {
+    "slug": {
+      "type": "string",
+      "required": true,
+      "unique": true,
+      "pluginOptions": { "i18n": { "localized": false } }
+    },
+    "name": {
+      "type": "string",
+      "required": true,
+      "pluginOptions": { "i18n": { "localized": false } }
+    },
+    "url": { "type": "string", "pluginOptions": { "i18n": { "localized": false } } },
+    "contactUrl": { "type": "string", "pluginOptions": { "i18n": { "localized": false } } },
+    "accent": { "type": "string", "pluginOptions": { "i18n": { "localized": false } } },
+    "brands": { "type": "json", "pluginOptions": { "i18n": { "localized": false } } },
+    "tagline": { "type": "string", "pluginOptions": { "i18n": { "localized": true } } },
+    "description": { "type": "text", "pluginOptions": { "i18n": { "localized": true } } },
+    "country": { "type": "string", "pluginOptions": { "i18n": { "localized": true } } },
+    "logo": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"],
+      "pluginOptions": { "i18n": { "localized": false } }
+    }
+  }
+}

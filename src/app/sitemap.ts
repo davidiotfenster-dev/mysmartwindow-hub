@@ -1,8 +1,6 @@
 import type { MetadataRoute } from 'next'
 import { locales, localeMeta, type Locale } from '@/i18n/config'
-import { news } from '@/data/news'
-import { resources } from '@/data/resources'
-import { visibleDevices } from '@/data/taxonomy'
+import { getNews, getResources, getVisibleDevices } from '@/lib/content'
 import { SITE_URL } from '@/lib/seo'
 
 const staticPaths = [
@@ -10,7 +8,9 @@ const staticPaths = [
   '/recursos',
   '/videos',
   '/dispositivos',
+  '/ingenieria',
   '/ecosistemas',
+  '/distribuidores',
   '/noticias',
   '/soporte',
   '/contacto',
@@ -41,7 +41,13 @@ function entry(
   }
 }
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const [resources, visibleDevices, news] = await Promise.all([
+    getResources(),
+    getVisibleDevices(),
+    getNews(),
+  ])
+
   const pages = locales.flatMap((locale) =>
     staticPaths.map((path) =>
       entry(
@@ -53,7 +59,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     )
   )
 
-  // Las 63 fichas de recurso: el grueso del valor SEO del sitio
+  // Las fichas de recurso: el grueso del valor SEO del sitio
   const resourcePages = locales.flatMap((locale) =>
     resources.map((r) =>
       entry(

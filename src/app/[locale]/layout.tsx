@@ -14,9 +14,10 @@ import { alternates, jsonLd, organizationSchema, websiteSchema, SITE_URL } from 
 import { BackToTop } from '@/components/layout/BackToTop'
 import { CookieBanner } from '@/components/layout/CookieBanner'
 import { CommandPalette } from '@/components/layout/CommandPalette'
+import { SupportAssistant } from '@/components/layout/SupportAssistant'
 import { getDictionary } from '@/i18n'
 import { isLocale, locales, localeMeta, type Locale } from '@/i18n/config'
-import { resources } from '@/data/resources'
+import { getCategories, getResources, getSiteSettings, getVisibleDevices } from '@/lib/content'
 
 const leagueSpartan = League_Spartan({
   subsets: ['latin'],
@@ -43,10 +44,13 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params
   const dict = getDictionary(locale)
+  const settings = await getSiteSettings()
+  const title = settings.seo.metaTitle || dict.meta.title
+  const description = settings.seo.metaDescription || dict.meta.description
   return {
     metadataBase: new URL(SITE_URL),
-    title: { default: dict.meta.title, template: `%s · MySmartWindow` },
-    description: dict.meta.description,
+    title: { default: title, template: `%s · MySmartWindow` },
+    description,
     applicationName: 'MySmartWindow',
     authors: [{ name: 'IoT Fenster', url: 'https://www.iotfenster.com' }],
     // hreflang completo: el portal original declara es/en pero se deja fuera el
@@ -55,11 +59,12 @@ export async function generateMetadata({
     openGraph: {
       type: 'website',
       siteName: 'MySmartWindow — IoT Fenster',
-      title: dict.meta.title,
-      description: dict.meta.description,
+      title,
+      description,
       locale: localeMeta[isLocale(locale) ? locale : 'es'].htmlLang,
+      ...(settings.seo.ogImage ? { images: [{ url: settings.seo.ogImage }] } : {}),
     },
-    twitter: { card: 'summary_large_image', title: dict.meta.title, description: dict.meta.description },
+    twitter: { card: 'summary_large_image', title, description },
     icons: { icon: '/icon.svg' },
   }
 }
@@ -83,6 +88,20 @@ export default async function LocaleLayout({
 
   const typedLocale = locale as Locale
   const dict = getDictionary(typedLocale)
+  const [resources, categories, settings, devices] = await Promise.all([
+    getResources(),
+    getCategories(),
+    getSiteSettings(),
+    getVisibleDevices(),
+  ])
+
+  // El asistente ofrece WhatsApp como salida; sin número configurado, no lo propone.
+  const whatsapp = settings.whatsappNumber
+    ? {
+        sales: `https://wa.me/${settings.whatsappNumber.replace(/\D/g, '')}?text=${encodeURIComponent(settings.salesWhatsappMessage[typedLocale])}`,
+        support: `https://wa.me/${settings.whatsappNumber.replace(/\D/g, '')}?text=${encodeURIComponent(settings.supportWhatsappMessage[typedLocale])}`,
+      }
+    : undefined
 
   // El paletazo ⌘K necesita el índice completo, pero sólo los campos que usa.
   const searchIndex = resources.map((r) => ({
@@ -103,7 +122,12 @@ export default async function LocaleLayout({
     >
       <body className="min-h-dvh antialiased">
         {/* Identidad del sitio y de la empresa, una sola vez para todo el dominio */}
-        <JsonLd data={jsonLd(organizationSchema(), websiteSchema(typedLocale))} />
+        <JsonLd
+          data={jsonLd(
+            organizationSchema(settings.organizationDescription[typedLocale]),
+            websiteSchema(typedLocale)
+          )}
+        />
 
         <Providers>
           <a
@@ -126,8 +150,14 @@ export default async function LocaleLayout({
           <Footer locale={typedLocale} dict={dict} />
 
           <BackToTop />
+          <SupportAssistant
+            locale={typedLocale}
+            dict={dict}
+            devices={devices.map((device) => ({ id: device.id, name: device.name }))}
+            whatsapp={whatsapp}
+          />
           <CookieBanner dict={dict} locale={typedLocale} />
-          <CommandPalette locale={typedLocale} dict={dict} index={searchIndex} />
+          <CommandPalette locale={typedLocale} dict={dict} index={searchIndex} categories={categories} />
         </Providers>
       </body>
     </html>

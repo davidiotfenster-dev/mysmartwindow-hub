@@ -6,6 +6,7 @@ import { Pillars } from '@/components/sections/Pillars'
 import { CategoryGrid } from '@/components/sections/CategoryGrid'
 import { LatestVideos } from '@/components/sections/LatestVideos'
 import { DevicesShowcase } from '@/components/sections/DevicesShowcase'
+import { EngineeringTeaser } from '@/components/sections/Engineering'
 import { Ecosystems } from '@/components/sections/Ecosystems'
 import { Values } from '@/components/sections/Values'
 import { NewsTeaser } from '@/components/sections/NewsTeaser'
@@ -13,8 +14,7 @@ import { Faq } from '@/components/sections/Faq'
 import { ButtonLink } from '@/components/ui/primitives'
 import { ChevronRain } from '@/components/ui/motion'
 import { VideoRailSkeleton } from '@/components/videos/VideoRailSkeleton'
-import { categories } from '@/data/taxonomy'
-import { resources } from '@/data/resources'
+import { getCategories, getFaqs, getResources } from '@/lib/content'
 import { getDictionary } from '@/i18n'
 import { routes } from '@/lib/navigation'
 import type { Locale } from '@/i18n/config'
@@ -23,7 +23,12 @@ export const revalidate = 3600
 
 export default async function HomePage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params
-  const dict = getDictionary(locale)
+  const [dict, categories, resources, faqs] = await Promise.all([
+    getDictionary(locale),
+    getCategories(),
+    getResources(),
+    getFaqs(),
+  ])
 
   const stats = {
     manuals: resources.filter((r) => r.type === 'manual').length,
@@ -35,7 +40,10 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
   return (
     <>
       <Hero locale={locale} dict={dict} stats={stats} />
+      {/* Los dispositivos son lo primero: son el producto, el resto es apoyo */}
+      <DevicesShowcase locale={locale} dict={dict} />
       <Pillars locale={locale} dict={dict} />
+      <EngineeringTeaser locale={locale} dict={dict} />
       <CategoryGrid locale={locale} dict={dict} />
 
       {/* El carril de vídeos depende de YouTube: no bloquea el resto de la página */}
@@ -43,11 +51,10 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
         <LatestVideos locale={locale} dict={dict} />
       </Suspense>
 
-      <DevicesShowcase locale={locale} dict={dict} limit={6} />
       <Ecosystems locale={locale} dict={dict} />
       <Values dict={dict} />
       <NewsTeaser locale={locale} dict={dict} />
-      <Faq locale={locale} dict={dict} />
+      <Faq locale={locale} dict={dict} faqs={faqs} />
 
       {/* Llamada final */}
       <section className="relative overflow-hidden border-t border-line py-20 sm:py-28">

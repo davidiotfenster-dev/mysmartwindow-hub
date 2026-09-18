@@ -97,6 +97,13 @@
   }
 }
 
+/* Un pulso de luz recorriendo el contorno de un plano, como corriente por una pista */
+@keyframes trace {
+  to {
+    stroke-dashoffset: -460;
+  }
+}
+
 @keyframes aurora {
   0% {
     transform: translate3d(0, 0, 0) scale(1);

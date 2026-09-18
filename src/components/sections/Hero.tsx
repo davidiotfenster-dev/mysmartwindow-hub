@@ -1,11 +1,19 @@
 'use client'
 
-import { motion, useReducedMotion } from 'framer-motion'
+import {
+  animate,
+  motion,
+  useMotionTemplate,
+  useMotionValue,
+  useReducedMotion,
+  useTransform,
+  type AnimationPlaybackControls,
+} from 'framer-motion'
 import { ArrowRight, PlayCircle } from 'lucide-react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { ButtonLink } from '@/components/ui/primitives'
 import { ChevronRain, Counter, Magnetic } from '@/components/ui/motion'
-import { ProductWordmark } from '@/components/brand/Logo'
 import { routes } from '@/lib/navigation'
 import type { Dictionary } from '@/i18n'
 import type { Locale } from '@/i18n/config'
@@ -128,7 +136,7 @@ export function Hero({
             transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             className="relative mx-auto w-full max-w-sm lg:max-w-none"
           >
-            <WindowMockup reduced={Boolean(reduced)} />
+            <WindowMockup reduced={Boolean(reduced)} dict={dict} />
           </motion.div>
         </div>
       </div>
@@ -146,12 +154,77 @@ export function Hero({
   )
 }
 
+/** Captura real de la app controlando el Pulsar, para la pantalla del móvil del mockup. */
+const APP_SCREENSHOT_URL = '/hero/app-screenshot.webp'
+/** Proporción exacta de la captura, para que se vea completa sin recortes dentro del marco. */
+const APP_SCREENSHOT_RATIO = '1280/2856'
+/** Foto real del Pulsar (con el fondo ya recortado), para montarla sobre el marco de la ventana. */
+const PULSAR_PHOTO_URL = '/hero/pulsar-button.png'
+/** La misma ventana de la app pero con la persiana bajada del todo: se va descubriendo por arriba. */
+const APP_BLIND_URL = '/hero/app-blind.webp'
+/** Dónde cae esa ventana dentro de la captura, en % de la imagen. */
+const APP_WINDOW = { left: '36.8%', top: '34.17%', width: '53.05%' }
+
+/** Cuánto tapa la persiana, en % de la ventana, en cada extremo del recorrido. */
+const BLIND_CLOSED = 100
+const BLIND_OPEN = 13
+/** Segundos del recorrido completo, para que subir a medias tarde la mitad. */
+const BLIND_TRAVEL = 2.6
+
+/**
+ * Posición de los tres botones dentro de la captura de la app, en % de la
+ * imagen. Van encima de las flechas que ya salen dibujadas en la captura,
+ * así que si algún día se cambia la captura hay que reajustarlos.
+ */
+const APP_CONTROLS = { left: '12.8%', width: '16.7%', height: '7.3%' }
+const APP_CONTROL_TOP = { up: '35.5%', stop: '46.3%', down: '57.3%' }
+
 /* ==========================================================================
-   Mockup: una ventana cuya persiana sube, y el móvil que la controla.
-   Todo es SVG/CSS: sin imágenes, nítido en cualquier pantalla.
+   Mockup: una ventana con persiana motorizada que sube y baja de verdad
+   -desde las flechas de la app o desde el Pulsar del marco-. Todo es CSS
+   salvo dos fotos reales: la captura de la app y el propio Pulsar.
    ========================================================================== */
-function WindowMockup({ reduced }: { reduced: boolean }) {
-  const slats = Array.from({ length: 9 })
+function WindowMockup({ reduced, dict }: { reduced: boolean; dict: Dictionary }) {
+  const cover = useMotionValue(BLIND_CLOSED)
+  const coverHeight = useMotionTemplate`${cover}%`
+  /** La persiana dibujada en la app se descubre por arriba en la misma proporción. */
+  const appBlindClip = useTransform(cover, (value) => `inset(0 0 ${100 - value}% 0)`)
+  const travel = useRef<AnimationPlaybackControls | null>(null)
+  const [moving, setMoving] = useState(false)
+
+  const move = useCallback(
+    (to: number) => {
+      travel.current?.stop()
+      if (reduced) {
+        cover.set(to)
+        return
+      }
+      setMoving(true)
+      travel.current = animate(cover, to, {
+        duration: (Math.abs(cover.get() - to) / 100) * BLIND_TRAVEL,
+        ease: 'linear',
+        onComplete: () => setMoving(false),
+      })
+    },
+    [cover, reduced]
+  )
+
+  const halt = useCallback(() => {
+    travel.current?.stop()
+    setMoving(false)
+  }, [])
+
+  /** Al entrar, la persiana sube sola: enseña de qué va el mockup sin tocar nada. */
+  useEffect(() => {
+    const timer = setTimeout(() => move(BLIND_OPEN), 700)
+    return () => {
+      clearTimeout(timer)
+      travel.current?.stop()
+    }
+  }, [move])
+
+  const toggle = () =>
+    move(cover.get() > (BLIND_CLOSED + BLIND_OPEN) / 2 ? BLIND_OPEN : BLIND_CLOSED)
 
   return (
     <div className="relative aspect-[4/5] w-full sm:aspect-[5/5]">
@@ -183,26 +256,65 @@ function WindowMockup({ reduced }: { reduced: boolean }) {
           aria-hidden="true"
         />
 
-        {/* Persiana: las lamas suben al cargar */}
-        <div className="absolute inset-x-0 top-5 flex flex-col">
-          {slats.map((_, i) => (
-            <motion.span
-              key={i}
-              className="h-[2.4rem] border-b border-ink-950/30 bg-gradient-to-b from-ink-700 to-ink-800"
-              initial={{ scaleY: 1, opacity: 1 }}
-              animate={reduced ? { scaleY: 1 } : { scaleY: i < 2 ? 1 : 0, opacity: 1 }}
-              style={{ transformOrigin: 'top' }}
-              transition={{
-                duration: 0.9,
-                delay: 0.7 + (slats.length - i) * 0.07,
-                ease: [0.16, 1, 0.3, 1],
-              }}
-            />
-          ))}
-        </div>
+        {/* Persiana: sale del cajón y baja hasta tapar la ventana entera */}
+        <motion.div
+          className="absolute inset-x-0 top-5 overflow-hidden"
+          style={{ height: coverHeight }}
+          aria-hidden="true"
+        >
+          {/* Lamas: un degradado que se repite, así llenan cualquier altura */}
+          <div className="h-full w-full bg-[repeating-linear-gradient(to_bottom,#26323b_0,#171f26_1.6rem,#080c0f_1.85rem,#26323b_2rem)]" />
+          {/* Barra inferior, más gruesa que las lamas, como en una persiana real */}
+          <div className="absolute inset-x-0 bottom-0 h-2 bg-gradient-to-b from-ink-600 via-ink-800 to-ink-950 shadow-[0_4px_12px_-2px_rgba(0,0,0,0.65)]" />
+        </motion.div>
 
         {/* Reflejo */}
         <div className="pointer-events-none absolute -inset-x-10 -top-1/2 h-full rotate-12 bg-gradient-to-b from-white/12 to-transparent" />
+      </div>
+
+      {/* Jamba y Pulsar: fuera del cristal (sin overflow-hidden), a caballo sobre el borde de la ventana */}
+      <div className="pointer-events-none absolute inset-x-4 top-0 bottom-16 sm:inset-x-8">
+        {/* Jamba izquierda: el perfil lateral de la ventana, de cajón a suelo.
+            Tono ink-800, el mismo que el fondo de la foto del Pulsar, para que el
+            botón se funda con el perfil en vez de leerse como una pegatina aparte. */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.75 }}
+          className="absolute left-0 top-5 bottom-0 z-10 w-7 -translate-x-1/2 overflow-hidden rounded-full bg-ink-800 shadow-[0_10px_26px_-10px_rgba(0,0,0,0.7)] ring-1 ring-black/40 sm:w-8"
+          aria-hidden="true"
+        >
+          {/* Canto izquierdo iluminado y canto derecho recogiendo el verde del cristal */}
+          <span className="absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-white/10 to-transparent" />
+          <span className="absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-signal-400/18 to-transparent" />
+          <span className="absolute inset-y-0 left-[24%] w-px bg-white/12" />
+          {/* La luz del LED derramándose sobre el perfil */}
+          <span
+            className={`absolute left-1/2 top-1/2 h-24 w-24 -translate-x-1/2 -translate-y-1/2 rounded-full bg-signal-400/25 blur-xl transition-opacity duration-500 ${moving ? 'opacity-100' : 'opacity-50'}`}
+          />
+        </motion.div>
+
+        {/* Pulsar: el mando de pared real; se puede pulsar como el de verdad */}
+        <motion.button
+          type="button"
+          onClick={toggle}
+          aria-label={dict.hero.blindToggle}
+          initial={{ opacity: 0, scale: 0.6 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          whileTap={{ scale: 0.92 }}
+          className="pointer-events-auto absolute left-0 top-1/2 z-20 grid -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full transition-transform duration-300 hover:scale-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-signal-400"
+        >
+          <span
+            className={`absolute inset-0 -m-1 rounded-full bg-signal-400/40 blur-[6px] motion-safe:animate-[pulse-ring_2.4s_cubic-bezier(0.4,0,0.6,1)_infinite] ${moving ? 'opacity-100' : 'opacity-70'}`}
+          />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={PULSAR_PHOTO_URL}
+            alt=""
+            className="relative h-7 w-7 drop-shadow-[0_2px_4px_rgba(0,0,0,0.75)] sm:h-8 sm:w-8"
+          />
+        </motion.button>
       </div>
 
       {/* Móvil con la app */}
@@ -210,35 +322,54 @@ function WindowMockup({ reduced }: { reduced: boolean }) {
         initial={{ opacity: 0, y: 40, rotate: -6 }}
         animate={{ opacity: 1, y: 0, rotate: -4 }}
         transition={{ duration: 0.9, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
-        className="absolute bottom-0 right-0 w-[8.5rem] sm:right-2 sm:w-[10rem] lg:w-[11rem]"
+        className="absolute bottom-0 right-0 w-[7.4rem] sm:right-2 sm:w-[8.6rem] lg:w-[9.4rem]"
       >
-        <div className="glass rounded-[1.6rem] p-2.5 shadow-2xl">
-          <div className="rounded-[1.1rem] bg-ink-900 p-3 text-white">
-            <div className="mx-auto mb-3 h-1 w-8 rounded-full bg-white/25" />
-            <ProductWordmark className="block text-[0.6rem] leading-none text-white/70" />
-            <p className="mt-2 font-display text-[0.72rem] font-bold leading-tight">Salón</p>
+        {/* Chasis: bisel oscuro con muescas de botones laterales, como un movil real */}
+        <div className="relative rounded-[1.9rem] bg-ink-950 p-[3px] shadow-2xl ring-1 ring-white/10">
+          <span className="absolute -left-[2px] top-[19%] h-6 w-[3px] rounded-l-full bg-ink-700" />
+          <span className="absolute -left-[2px] top-[30%] h-9 w-[3px] rounded-l-full bg-ink-700" />
+          <span className="absolute -right-[2px] top-[22%] h-10 w-[3px] rounded-r-full bg-ink-700" />
 
-            {/* Barra de posición de la persiana */}
-            <div className="mt-2.5 h-1.5 overflow-hidden rounded-full bg-white/12">
-              <motion.div
-                className="h-full rounded-full bg-gradient-to-r from-brand-500 to-signal-500"
-                initial={{ width: '8%' }}
-                animate={{ width: reduced ? '82%' : ['8%', '82%'] }}
-                transition={{ duration: 1.6, delay: 1.1, ease: [0.16, 1, 0.3, 1] }}
+          <div
+            className="relative overflow-hidden rounded-[1.7rem] bg-ink-900 text-white"
+            style={{ aspectRatio: APP_SCREENSHOT_RATIO }}
+          >
+            {/* Notch */}
+            <div className="absolute left-1/2 top-0 z-20 h-[0.9rem] w-[38%] -translate-x-1/2 rounded-b-lg bg-ink-950" />
+
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={APP_SCREENSHOT_URL}
+              alt="App MySmartWindow controlando el Pulsar"
+              className="h-full w-full object-cover"
+            />
+
+            {/* La persiana dibujada en la app se mueve a la vez que la de la ventana */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <motion.img
+              src={APP_BLIND_URL}
+              alt=""
+              className="absolute"
+              style={{ ...APP_WINDOW, clipPath: appBlindClip }}
+            />
+
+            {/* Mandos reales, justo encima de las flechas de la captura */}
+            {(
+              [
+                { key: 'up', top: APP_CONTROL_TOP.up, label: dict.hero.blindUp, run: () => move(BLIND_OPEN) },
+                { key: 'stop', top: APP_CONTROL_TOP.stop, label: dict.hero.blindStop, run: halt },
+                { key: 'down', top: APP_CONTROL_TOP.down, label: dict.hero.blindDown, run: () => move(BLIND_CLOSED) },
+              ] as const
+            ).map(({ key, top, label, run }) => (
+              <button
+                key={key}
+                type="button"
+                onClick={run}
+                aria-label={label}
+                style={{ ...APP_CONTROLS, top }}
+                className="absolute z-10 rounded-full ring-white/0 transition-all duration-200 hover:bg-white/15 hover:ring-2 hover:ring-white/50 active:scale-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-signal-400"
               />
-            </div>
-            <p className="mt-1.5 text-[0.55rem] text-white/50">82% abierta</p>
-
-            <div className="mt-3 grid grid-cols-3 gap-1">
-              {['▲', '■', '▼'].map((symbol, i) => (
-                <span
-                  key={i}
-                  className="grid h-6 place-items-center rounded-lg bg-white/8 text-[0.6rem] text-white/80"
-                >
-                  {symbol}
-                </span>
-              ))}
-            </div>
+            ))}
           </div>
         </div>
       </motion.div>

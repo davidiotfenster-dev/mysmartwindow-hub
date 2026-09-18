@@ -3,13 +3,13 @@ import { ArrowUpRight } from 'lucide-react'
 
 import { Section, SectionHeading, Badge } from '@/components/ui/primitives'
 import { Stagger, StaggerItem, Marquee } from '@/components/ui/motion'
-import { ecosystems } from '@/data/ecosystems'
-import { resources } from '@/data/resources'
+import type { Resource } from '@/data/resources'
+import { getEcosystems, getResources } from '@/lib/content'
 import { routes } from '@/lib/navigation'
 import type { Dictionary } from '@/i18n'
 import type { Locale } from '@/i18n/config'
 
-function countFor(match: string[]) {
+function countFor(resources: Resource[], match: string[]) {
   return resources.filter((r) => {
     const haystack = [
       r.title.es.toLowerCase(),
@@ -19,7 +19,9 @@ function countFor(match: string[]) {
   }).length
 }
 
-export function Ecosystems({ locale, dict }: { locale: Locale; dict: Dictionary }) {
+export async function Ecosystems({ locale, dict }: { locale: Locale; dict: Dictionary }) {
+  const [ecosystems, resources] = await Promise.all([getEcosystems(), getResources()])
+
   return (
     <Section id="ecosistemas" className="border-y border-line bg-bg-subtle">
       <SectionHeading
@@ -48,7 +50,7 @@ export function Ecosystems({ locale, dict }: { locale: Locale; dict: Dictionary 
 
       <Stagger className="mt-10 grid gap-5 sm:grid-cols-2">
         {ecosystems.map((eco) => {
-          const count = countFor(eco.match)
+          const count = countFor(resources, eco.match)
           return (
             <StaggerItem key={eco.id} className="h-full">
               <Link

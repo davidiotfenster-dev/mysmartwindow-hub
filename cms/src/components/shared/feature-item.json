@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_shared_feature_items",
+  "info": {
+    "displayName": "Caracteristica",
+    "icon": "check"
+  },
+  "options": {},
+  "attributes": {
+    "text": {
+      "type": "string",
+      "required": true,
+      "pluginOptions": { "i18n": { "localized": true } }
+    }
+  }
+}

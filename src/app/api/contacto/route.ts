@@ -12,6 +12,7 @@ const schema = z.object({
   name: z.string().min(2).max(120),
   email: z.string().email().max(180),
   company: z.string().max(180).optional().or(z.literal('')),
+  profile: z.enum(['manufacturer', 'distributor', 'installer', 'user']),
   subject: z.enum(['support', 'commercial', 'docs', 'other']),
   message: z.string().min(10).max(5000),
   consent: z.literal(true),
@@ -33,8 +34,14 @@ export async function POST(request: Request) {
     )
   }
 
-  const { name, email, subject } = parsed.data
-  console.info('[contacto] nuevo mensaje', { name, email, subject, at: new Date().toISOString() })
+  const { name, email, profile, subject } = parsed.data
+  console.info('[contacto] nuevo mensaje', {
+    name,
+    email,
+    profile,
+    subject,
+    at: new Date().toISOString(),
+  })
 
   return NextResponse.json({ ok: true })
 }

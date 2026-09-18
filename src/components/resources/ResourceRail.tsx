@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { BookOpen, CreditCard, Play } from 'lucide-react'
 
@@ -50,12 +51,12 @@ export function ResourceRail({
             >
               {isVideo && resource.thumbnail ? (
                 <span className="relative block aspect-video overflow-hidden bg-ink-800">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                  <Image
                     src={resource.thumbnail}
                     alt={`Miniatura del videotutorial: ${resource.title}`}
-                    loading="lazy"
-                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    fill
+                    sizes="(max-width: 640px) 80vw, 20rem"
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                   <span className="absolute inset-0 grid place-items-center bg-ink-950/25">
                     <span className="grid h-11 w-11 place-items-center rounded-full bg-white/15 backdrop-blur-md transition-transform duration-400 group-hover:scale-110">

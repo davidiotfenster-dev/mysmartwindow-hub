@@ -7,7 +7,7 @@ import { PageHeader } from '@/components/layout/PageHeader'
 import { Badge } from '@/components/ui/primitives'
 import { GradientTitle } from '@/components/ui/GradientTitle'
 import { Stagger, StaggerItem } from '@/components/ui/motion'
-import { getNews } from '@/data/news'
+import { getNews } from '@/lib/content'
 import { getDictionary } from '@/i18n'
 import { routes } from '@/lib/navigation'
 import { formatDate } from '@/lib/utils'
@@ -29,8 +29,7 @@ export async function generateMetadata({
 
 export default async function NewsPage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params
-  const dict = getDictionary(locale)
-  const posts = getNews()
+  const [dict, posts] = await Promise.all([getDictionary(locale), getNews()])
   const [lead, ...rest] = posts
 
   return (

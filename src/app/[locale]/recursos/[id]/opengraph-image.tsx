@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og'
-import { categoryById, deviceById, resourceTypeMeta } from '@/data/taxonomy'
-import { resources } from '@/data/resources'
+import { resourceTypeMeta } from '@/data/taxonomy'
+import { getCategoryMap, getDeviceMap, getResourceById } from '@/lib/content'
 import type { Locale } from '@/i18n/config'
 
 export const alt = 'Recurso de MySmartWindow'
@@ -16,12 +16,16 @@ export default async function Image({
   params: Promise<{ locale: string; id: string }>
 }) {
   const { locale, id } = await params
-  const resource = resources.find((r) => r.id === id)
+  const [resource, categoryMap, deviceMap] = await Promise.all([
+    getResourceById(id),
+    getCategoryMap(),
+    getDeviceMap(),
+  ])
   const l = locale as Locale
 
   const title = resource?.title[l] ?? 'MySmartWindow'
-  const category = resource ? categoryById[resource.category].name[l] : ''
-  const device = resource ? deviceById[resource.device] : undefined
+  const category = resource ? categoryMap[resource.category].name[l] : ''
+  const device = resource ? deviceMap[resource.device] : undefined
   const typeLabel = resource ? resourceTypeMeta[resource.type].short[l] : ''
   const accent = resource ? typeColor[resource.type] : '#0097b2'
 

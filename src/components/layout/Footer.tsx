@@ -5,7 +5,7 @@ import { Logo } from '@/components/brand/Logo'
 import { NewsletterForm } from './NewsletterForm'
 import { SlatDivider } from '@/components/ui/primitives'
 import { EXTERNAL, mainNav, routes } from '@/lib/navigation'
-import { categories } from '@/data/taxonomy'
+import { getCategories } from '@/lib/content'
 import type { Dictionary } from '@/i18n'
 import type { Locale } from '@/i18n/config'
 
@@ -17,8 +17,9 @@ function TikTokIcon({ className }: { className?: string }) {
   )
 }
 
-export function Footer({ locale, dict }: { locale: Locale; dict: Dictionary }) {
+export async function Footer({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   const nav = mainNav(locale, dict)
+  const categories = await getCategories()
   const year = new Date().getFullYear()
 
   const socials = [

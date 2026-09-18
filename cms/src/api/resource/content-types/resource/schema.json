@@ -1,0 +1,89 @@
+{
+  "kind": "collectionType",
+  "collectionName": "resources",
+  "info": {
+    "singularName": "resource",
+    "pluralName": "resources",
+    "displayName": "Recurso",
+    "description": "Manuales, videos y tarjetas del centro de recursos. El slug no se debe cambiar: es la URL publica del recurso."
+  },
+  "options": { "draftAndPublish": true },
+  "pluginOptions": { "i18n": { "localized": true } },
+  "attributes": {
+    "slug": {
+      "type": "string",
+      "required": true,
+      "unique": true,
+      "pluginOptions": { "i18n": { "localized": false } }
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": ["manual", "video", "tarjeta"],
+      "required": true,
+      "pluginOptions": { "i18n": { "localized": false } }
+    },
+    "category": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::category.category",
+      "inversedBy": "resources"
+    },
+    "device": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::device.device",
+      "inversedBy": "resources"
+    },
+    "title": {
+      "type": "string",
+      "required": true,
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "summary": {
+      "type": "text",
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "file": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["files"],
+      "pluginOptions": { "i18n": { "localized": false } }
+    },
+    "url": {
+      "type": "string",
+      "pluginOptions": { "i18n": { "localized": false } }
+    },
+    "youtubeId": {
+      "type": "string",
+      "pluginOptions": { "i18n": { "localized": false } }
+    },
+    "playlistId": {
+      "type": "string",
+      "pluginOptions": { "i18n": { "localized": false } }
+    },
+    "updatedOn": {
+      "type": "date",
+      "pluginOptions": { "i18n": { "localized": false } }
+    },
+    "broken": {
+      "type": "boolean",
+      "default": false,
+      "pluginOptions": { "i18n": { "localized": false } }
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false,
+      "pluginOptions": { "i18n": { "localized": false } }
+    },
+    "tags": {
+      "type": "json",
+      "pluginOptions": { "i18n": { "localized": false } }
+    },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo",
+      "pluginOptions": { "i18n": { "localized": true } }
+    }
+  }
+}

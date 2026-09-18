@@ -11,7 +11,7 @@ export interface FaqItem {
 export const faqs: FaqItem[] = [
   {
     id: 'banda-wifi',
-    resourceId: 'sop-router-video',
+    resourceId: 'configuracion-del-router-video',
     question: {
       es: '¿Por qué mi dispositivo no encuentra la red Wi-Fi?',
       en: 'Why can’t my device find the Wi-Fi network?',
@@ -25,7 +25,7 @@ export const faqs: FaqItem[] = [
   },
   {
     id: 'hard-reset',
-    resourceId: 'dis-hard-reset-manual',
+    resourceId: 'hard-reset-botones-del-dispositivo-manual',
     question: {
       es: '¿Cómo devuelvo el dispositivo a su estado de fábrica?',
       en: 'How do I restore the device to factory settings?',
@@ -39,7 +39,7 @@ export const faqs: FaqItem[] = [
   },
   {
     id: 'varios-cerramientos',
-    resourceId: 'vin-multivinculacion',
+    resourceId: 'multivinculacion-manual',
     question: {
       es: '¿Puedo mover varias persianas a la vez?',
       en: 'Can I move several blinds at once?',
@@ -53,7 +53,7 @@ export const faqs: FaqItem[] = [
   },
   {
     id: 'compartir-control',
-    resourceId: 'adm-perfiles-manual',
+    resourceId: 'perfiles-de-usuario-manual',
     question: {
       es: '¿Puede mi familia controlar los cerramientos?',
       en: 'Can my family control the enclosures?',
@@ -67,7 +67,7 @@ export const faqs: FaqItem[] = [
   },
   {
     id: 'asistentes-voz',
-    resourceId: 'eco-alexa-vinculacion',
+    resourceId: 'alexa-vinculacion-con-mysmartwindow-manual',
     question: {
       es: '¿Funciona con Alexa y Google Home?',
       en: 'Does it work with Alexa and Google Home?',

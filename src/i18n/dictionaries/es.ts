@@ -10,7 +10,9 @@ const es = {
     recursos: 'Recursos',
     videos: 'Vídeos',
     dispositivos: 'Dispositivos',
+    ingenieria: 'Ingeniería',
     ecosistemas: 'Ecosistemas',
+    distribuidores: 'Distribuidores',
     noticias: 'Noticias',
     soporte: 'Soporte',
     contacto: 'Contacto',
@@ -69,6 +71,10 @@ const es = {
     statCards: 'Tarjetas paso a paso',
     statCategories: 'Categorías',
     scroll: 'Desliza',
+    blindUp: 'Subir la persiana',
+    blindStop: 'Parar la persiana',
+    blindDown: 'Bajar la persiana',
+    blindToggle: 'Pulsar: subir o bajar la persiana',
   },
 
   pillars: {
@@ -139,6 +145,10 @@ const es = {
     resourcesFor: 'Recursos de este dispositivo',
     noResources: 'Todavía no hay material específico para este dispositivo.',
     seeProduct: 'Ficha de producto',
+    soonEyebrow: 'Próximamente',
+    soonTitle: 'Nuevos productos en camino',
+    soonText: 'Seguimos diseñando: el siguiente dispositivo del ecosistema ya está sobre la mesa.',
+    soonCta: 'Enterarte el primero',
   },
 
   ecosystems: {
@@ -148,6 +158,19 @@ const es = {
       'Busca nuestra marca para integrar dispositivos IoT Fenster en los ecosistemas que ya usas en casa.',
     guides: 'guías disponibles',
     guide: 'guía disponible',
+  },
+
+  partners: {
+    eyebrow: 'Distribuidores oficiales',
+    title: 'Dónde comprar',
+    subtitle:
+      'IoT Fenster trabaja con fabricantes de cerramientos, no vende directamente al usuario final. Estos son nuestros distribuidores oficiales: contacta con ellos para conseguir nuestros dispositivos.',
+    noOnlineNotice:
+      'No es posible comprar online: cada distribuidor gestiona el pedido a través de su propio equipo comercial.',
+    brandsLabel: 'Marcas que distribuyen',
+    visitSite: 'Visitar web',
+    contact: 'Contactar',
+    country: 'País',
   },
 
   values: {
@@ -204,6 +227,13 @@ const es = {
     sending: 'Enviando…',
     success: 'Mensaje enviado. Te respondemos lo antes posible.',
     error: 'No se ha podido enviar. Inténtalo de nuevo en un momento.',
+    profile: '¿Quién eres?',
+    profiles: {
+      manufacturer: 'Fabricante',
+      distributor: 'Distribuidor',
+      installer: 'Instalador',
+      user: 'Usuario final',
+    },
     subjects: {
       support: 'Soporte técnico',
       commercial: 'Consulta comercial',
@@ -213,6 +243,7 @@ const es = {
     errors: {
       name: 'Dinos cómo te llamas.',
       email: 'Necesitamos un email válido.',
+      profile: 'Dinos desde dónde nos escribes.',
       subject: 'Elige un asunto.',
       message: 'Cuéntanos un poco más (mínimo 10 caracteres).',
       consent: 'Necesitamos tu consentimiento para responderte.',
@@ -255,6 +286,104 @@ const es = {
     subtitle: 'La página que buscas se ha mudado o nunca existió.',
     cta: 'Ir al centro de recursos',
     home: 'Volver al inicio',
+  },
+
+  assistant: {
+    launcher: 'Te ayudamos a encontrarlo',
+    title: 'Asistente',
+    subtitle: 'Te llevo a lo que buscas en dos clics',
+    restart: 'Volver a empezar',
+    close: 'Cerrar',
+    root: '¡Hola! ¿Qué necesitas?',
+    optProblem: 'Algo no me funciona',
+    optDocs: 'Busco un manual o un vídeo',
+    optBuy: 'Quiero comprarlo',
+    optDevices: 'Ver los dispositivos',
+    askDevice: '¿Con qué dispositivo?',
+    optOtherDevice: 'Otro, o no lo sé',
+    deviceAnswer:
+      'Ahí tienes sus manuales, vídeos y tarjetas. Si con eso no se resuelve, escríbenos y lo miramos contigo.',
+    goDevice: 'Ver sus recursos',
+    goAllDevices: 'Ver todos los dispositivos',
+    askFormat: '¿Cómo prefieres aprenderlo?',
+    formatAnswer: 'Te llevo al buscador con ese filtro ya puesto.',
+    goResources: 'Ver el listado',
+    askProfile: '¿Quién eres?',
+    proAnswer: 'Perfecto. Déjanos tus datos y te responde el equipo comercial.',
+    goContact: 'Abrir el formulario',
+    userAnswer:
+      'Nosotros no vendemos directamente al usuario final: lo hacen nuestros distribuidores oficiales.',
+    goPartners: 'Ver distribuidores',
+    devicesAnswer: 'Este es el ecosistema completo, cada dispositivo con su documentación.',
+    whatsappSales: 'Preguntar por WhatsApp',
+    whatsappSupport: 'Contar la incidencia por WhatsApp',
+  },
+
+  engineering: {
+    eyebrow: 'Ingeniería',
+    title: 'La solución completa, bajo el mismo techo',
+    subtitle:
+      'Electrónica, firmware, nube y aplicación: cada capa del ecosistema MySmartWindow se diseña aquí. Por eso encajan entre sí, y por eso respondemos de ellas.',
+    homeCta: 'Ver cómo lo hacemos',
+    layers: {
+      hardware: {
+        title: 'Electrónica',
+        description:
+          'Diseñamos nuestros propios dispositivos para que vivan dentro del perfil de la carpintería, no colgados de la pared.',
+      },
+      firmware: {
+        title: 'Firmware',
+        description:
+          'La lógica vive en el dispositivo: sigue trabajando aunque se caiga la conexión, y se actualiza por aire sin tocar el cerramiento.',
+      },
+      cloud: {
+        title: 'Nube',
+        description:
+          'Cada cerramiento tiene su gemelo digital: su estado real, al momento, desde el salón o desde el otro lado del mundo.',
+      },
+      app: {
+        title: 'Aplicación',
+        description:
+          'MySmartWindow es nuestra, no una app prestada. Y lo que no cubra se integra por API o con Alexa, Google Home e IFTTT.',
+      },
+    },
+    reasonsTitle: 'Qué cambia cuando lo controla una sola ingeniería',
+    reasons: {
+      fit: {
+        title: 'Encaja en tu perfil, no al revés',
+        description:
+          'Trabajamos con el fabricante desde el diseño, para que el dispositivo entre en su carpintería sin rediseñarla.',
+      },
+      single: {
+        title: 'Un solo interlocutor',
+        description:
+          'Cuando la electrónica, el firmware y la app salen del mismo equipo, no hay pelota que pasarse entre proveedores: la respuesta sale de aquí.',
+      },
+      evolves: {
+        title: 'Mejora después de instalado',
+        description:
+          'Las actualizaciones llegan por aire al dispositivo ya montado: funciones nuevas sin cambiar el hardware.',
+      },
+    },
+    ctaTitle: '¿Fabricas o distribuyes cerramientos?',
+    ctaText: 'Cuéntanos con qué perfil trabajas y te contamos cómo encaja el ecosistema.',
+    ctaButton: 'Hablar con nosotros',
+  },
+
+  contactChannels: {
+    eyebrow: 'Contacto directo',
+    sales: {
+      title: 'Consulta comercial',
+      description: 'Precios, catálogo y disponibilidad para tu proyecto.',
+      emailCta: 'Escribir un email',
+      whatsappCta: 'Escribir por WhatsApp',
+    },
+    support: {
+      title: 'Soporte técnico',
+      description: '¿Ya tienes un dispositivo instalado y algo no va bien?',
+      emailCta: 'Escribir un email',
+      whatsappCta: 'Escribir por WhatsApp',
+    },
   },
 }
 

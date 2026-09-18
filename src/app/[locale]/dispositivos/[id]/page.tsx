@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ArrowUpRight, Check, ExternalLink } from 'lucide-react'
@@ -7,19 +8,29 @@ import { JsonLd } from '@/components/seo/JsonLd'
 import { LogoMark } from '@/components/brand/Logo'
 import { Badge, ButtonLink, Section, SectionHeading } from '@/components/ui/primitives'
 import { ResourceRail } from '@/components/resources/ResourceRail'
-import { categoryById, deviceById, resourceTypeMeta, visibleDevices } from '@/data/taxonomy'
-import { resources } from '@/data/resources'
+import { resourceTypeMeta } from '@/data/taxonomy'
+import { getCategoryMap, getResources, getVisibleDevices } from '@/lib/content'
 import { getDictionary } from '@/i18n'
 import { locales, localeMeta, type Locale } from '@/i18n/config'
 import { routes } from '@/lib/navigation'
 import { toResourceViews } from '@/lib/resource-view'
-import { absolute, alternates, breadcrumbSchema, clamp, jsonLd, ORG_NAME, ORG_URL } from '@/lib/seo'
+import {
+  absolute,
+  alternates,
+  breadcrumbSchema,
+  jsonLd,
+  ORG_NAME,
+  ORG_URL,
+  resolveDescription,
+  resolveTitle,
+} from '@/lib/seo'
 import { getVideoMap } from '@/lib/youtube'
 
 export const revalidate = 3600
 
-export function generateStaticParams() {
-  return locales.flatMap((locale) => visibleDevices.map((d) => ({ locale, id: d.id })))
+export async function generateStaticParams() {
+  const devices = await getVisibleDevices()
+  return locales.flatMap((locale) => devices.map((d) => ({ locale, id: d.id })))
 }
 
 export async function generateMetadata({
@@ -28,23 +39,28 @@ export async function generateMetadata({
   params: Promise<{ locale: Locale; id: string }>
 }): Promise<Metadata> {
   const { locale, id } = await params
-  const device = visibleDevices.find((d) => d.id === id)
+  const [devices, resources] = await Promise.all([getVisibleDevices(), getResources()])
+  const device = devices.find((d) => d.id === id)
   if (!device) return {}
 
   const count = resources.filter((r) => r.device === device.id).length
   // La plantilla del layout ya añade " · MySmartWindow"
-  const title = `${device.name} — ${device.tagline[locale]}`
-  const description = `${device.description[locale]} ${count} ${count === 1 ? 'recurso' : 'recursos'}: manuales, videotutoriales y tarjetas paso a paso.`
+  const generatedTitle = `${device.name} — ${device.tagline[locale]}`
+  const generatedDescription = `${device.description[locale]} ${count} ${count === 1 ? 'recurso' : 'recursos'}: manuales, videotutoriales y tarjetas paso a paso.`
+
+  const title = resolveTitle(device.seo, generatedTitle)
+  const description = resolveDescription(device.seo, generatedDescription)
 
   return {
-    title: clamp(title, 70),
-    description: clamp(description, 155),
+    title,
+    description,
     alternates: alternates(`/dispositivos/${id}`, locale),
     openGraph: {
       type: 'website',
-      title: clamp(`${device.name} — ${device.tagline[locale]}`, 70),
-      description: clamp(description, 155),
+      title: resolveTitle(device.seo, `${device.name} — ${device.tagline[locale]}`),
+      description,
       url: absolute(`/${locale}/dispositivos/${id}`),
+      ...(device.seo?.ogImage ? { images: [{ url: device.seo.ogImage }] } : device.photo ? { images: [{ url: device.photo }] } : {}),
     },
     keywords: [device.name, 'MySmartWindow', 'IoT Fenster', 'domótica', 'cerramientos'],
   }
@@ -56,14 +72,18 @@ export default async function DevicePage({
   params: Promise<{ locale: Locale; id: string }>
 }) {
   const { locale, id } = await params
-  const device = visibleDevices.find((d) => d.id === id)
+  const [devices, resources, dict, videoMap, categoryMap] = await Promise.all([
+    getVisibleDevices(),
+    getResources(),
+    getDictionary(locale),
+    getVideoMap(),
+    getCategoryMap(),
+  ])
+  const device = devices.find((d) => d.id === id)
   if (!device) notFound()
 
-  const dict = getDictionary(locale)
-  const videoMap = await getVideoMap()
-
   const own = resources.filter((r) => r.device === device.id)
-  const views = toResourceViews(own, locale, videoMap)
+  const views = await toResourceViews(own, locale, videoMap)
 
   const byType = {
     manual: views.filter((r) => r.type === 'manual'),
@@ -73,10 +93,10 @@ export default async function DevicePage({
 
   // Categorías que cubre este dispositivo, para enlazar hacia el explorador
   const coveredCategories = Array.from(new Set(own.map((r) => r.category))).map(
-    (c) => categoryById[c]
+    (c) => categoryMap[c]
   )
 
-  const others = visibleDevices.filter((d) => d.id !== device.id).slice(0, 4)
+  const others = devices.filter((d) => d.id !== device.id).slice(0, 4)
 
   const crumbs = [
     { name: dict.nav.home, path: `/${locale}` },
@@ -94,6 +114,9 @@ export default async function DevicePage({
     manufacturer: { '@type': 'Organization', name: ORG_NAME, url: ORG_URL },
     inLanguage: localeMeta[locale].htmlLang,
     ...(device.url ? { sameAs: device.url } : {}),
+    // En los datos estructurados la URL tiene que ser absoluta: la lee Google,
+    // no el navegador (las de Open Graph las completa Next con metadataBase).
+    ...(device.photo ? { image: absolute(device.photo) } : {}),
     additionalProperty: device.features.map((f) => ({
       '@type': 'PropertyValue',
       name: f[locale],
@@ -165,44 +188,62 @@ export default async function DevicePage({
               </div>
             </div>
 
-            {/* Resumen de material disponible */}
-            <div className="relative overflow-hidden rounded-3xl border border-line bg-bg-elevated/60 p-7">
-              <LogoMark className="pointer-events-none absolute -right-6 -top-4 h-28 w-28 text-brand-500/6" />
-              <p className="relative font-display text-sm font-bold uppercase tracking-[0.16em] text-fg-subtle">
-                {dict.devices.resourcesFor}
-              </p>
-              <dl className="relative mt-5 space-y-3.5">
-                {(['manual', 'video', 'tarjeta'] as const).map((type) => (
-                  <div key={type} className="flex items-baseline justify-between gap-4">
-                    <dt className="text-[0.9rem] text-fg-muted">
-                      {resourceTypeMeta[type].label[locale]}
-                    </dt>
-                    <dd className="font-display text-2xl font-bold text-brand-500">
-                      {byType[type].length}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-
-              {coveredCategories.length > 0 && (
-                <div className="relative mt-6 border-t border-line pt-5">
-                  <p className="text-[0.72rem] uppercase tracking-[0.12em] text-fg-subtle">
-                    {dict.common.category}
-                  </p>
-                  <div className="mt-3 flex flex-wrap gap-1.5">
-                    {coveredCategories.map((category) => (
-                      <Link
-                        key={category.id}
-                        href={`${routes.recursos(locale)}?cat=${category.id}&dispositivo=${device.id}`}
-                      >
-                        <Badge tone="neutral" className="transition-colors hover:border-brand-500/50">
-                          {category.name[locale]}
-                        </Badge>
-                      </Link>
-                    ))}
-                  </div>
+            <div className="space-y-5">
+              {device.photo && (
+                <div className="relative flex h-56 items-center justify-center overflow-hidden rounded-3xl border border-line bg-[radial-gradient(circle_at_50%_20%,rgb(0_151_178/0.16),transparent_70%)]">
+                  <div className="grid-tech absolute inset-0 opacity-40" aria-hidden="true" />
+                  <Image
+                    src={device.photo}
+                    alt={device.name}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 26rem"
+                    priority
+                    className="object-contain p-8"
+                  />
                 </div>
               )}
+
+              {/* Resumen de material disponible */}
+              <div className="relative overflow-hidden rounded-3xl border border-line bg-bg-elevated/60 p-7">
+                {!device.photo && (
+                  <LogoMark className="pointer-events-none absolute -right-6 -top-4 h-28 w-28 text-brand-500/6" />
+                )}
+                <p className="relative font-display text-sm font-bold uppercase tracking-[0.16em] text-fg-subtle">
+                  {dict.devices.resourcesFor}
+                </p>
+                <dl className="relative mt-5 space-y-3.5">
+                  {(['manual', 'video', 'tarjeta'] as const).map((type) => (
+                    <div key={type} className="flex items-baseline justify-between gap-4">
+                      <dt className="text-[0.9rem] text-fg-muted">
+                        {resourceTypeMeta[type].label[locale]}
+                      </dt>
+                      <dd className="font-display text-2xl font-bold text-brand-500">
+                        {byType[type].length}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+
+                {coveredCategories.length > 0 && (
+                  <div className="relative mt-6 border-t border-line pt-5">
+                    <p className="text-[0.72rem] uppercase tracking-[0.12em] text-fg-subtle">
+                      {dict.common.category}
+                    </p>
+                    <div className="mt-3 flex flex-wrap gap-1.5">
+                      {coveredCategories.map((category) => (
+                        <Link
+                          key={category.id}
+                          href={`${routes.recursos(locale)}?cat=${category.id}&dispositivo=${device.id}`}
+                        >
+                          <Badge tone="neutral" className="transition-colors hover:border-brand-500/50">
+                            {category.name[locale]}
+                          </Badge>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>

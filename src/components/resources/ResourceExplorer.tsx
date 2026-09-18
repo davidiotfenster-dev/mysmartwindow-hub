@@ -9,7 +9,8 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { ResourceCard } from './ResourceCard'
 import { ResourceModal } from './ResourceModal'
 import { Badge } from '@/components/ui/primitives'
-import { categories, resourceTypeMeta, resourceTypes, visibleDevices } from '@/data/taxonomy'
+import { resourceTypeMeta, resourceTypes } from '@/data/taxonomy'
+import type { Category, Device } from '@/data/taxonomy'
 import type { ResourceView } from '@/lib/resource-view'
 import { cn, normalize } from '@/lib/utils'
 import type { Dictionary } from '@/i18n'
@@ -21,10 +22,14 @@ const ALL = 'all'
 
 export function ResourceExplorer({
   resources,
+  categories,
+  devices: visibleDevices,
   locale,
   dict,
 }: {
   resources: ResourceView[]
+  categories: Category[]
+  devices: Device[]
   locale: Locale
   dict: Dictionary
 }) {

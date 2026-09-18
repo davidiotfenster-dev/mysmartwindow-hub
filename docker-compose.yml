@@ -1,0 +1,40 @@
+# Levanta el sitio y el CMS juntos, con SQLite persistido en un volumen.
+#
+# Uso:
+#   1. cp cms/.env.example cms/.env   y rellena los secretos (ver ese fichero)
+#   2. docker compose up -d --build
+#   3. Crea el primer admin en http://localhost:1337/admin
+#   4. Crea un API token (Settings -> API Tokens -> Full access) y ejecuta el
+#      seed una vez: STRAPI_API_TOKEN=xxxx node scripts/seed-cms.mjs
+#
+# El dominio real del sitio (NEXT_PUBLIC_SITE_URL) se incrusta al compilar la
+# imagen `web`: cambialo en el build-arg de abajo, no como variable de entorno.
+services:
+  cms:
+    build: ./cms
+    restart: unless-stopped
+    env_file: ./cms/.env
+    environment:
+      NODE_ENV: production
+    volumes:
+      - strapi-data:/opt/cms/.tmp
+      - strapi-uploads:/opt/cms/public/uploads
+    ports:
+      - '1337:1337'
+
+  web:
+    build:
+      context: .
+      args:
+        NEXT_PUBLIC_SITE_URL: http://localhost:3000
+    restart: unless-stopped
+    environment:
+      STRAPI_URL: http://cms:1337
+    depends_on:
+      - cms
+    ports:
+      - '3000:3000'
+
+volumes:
+  strapi-data:
+  strapi-uploads:

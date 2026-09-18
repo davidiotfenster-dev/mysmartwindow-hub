@@ -1,6 +1,6 @@
 import { absolute, alternates, breadcrumbSchema, jsonLd } from '@/lib/seo'
 import { JsonLd } from '@/components/seo/JsonLd'
-import { faqs } from '@/data/faq'
+import { getFaqs } from '@/lib/content'
 import { localeMeta } from '@/i18n/config'
 import type { Metadata } from 'next'
 
@@ -27,7 +27,7 @@ export async function generateMetadata({
 
 export default async function SupportPage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params
-  const dict = getDictionary(locale)
+  const [dict, faqs] = await Promise.all([getDictionary(locale), getFaqs()])
 
   // FAQPage: es lo que hace que las respuestas puedan salir desplegadas en Google
   const faqSchema = {
@@ -55,7 +55,7 @@ export default async function SupportPage({ params }: { params: Promise<{ locale
         title={<GradientTitle text={dict.nav.soporte} />}
         subtitle={dict.values.support.description}
       />
-      <Faq locale={locale} dict={dict} />
+      <Faq locale={locale} dict={dict} faqs={faqs} />
       <div className="border-t border-line bg-bg-subtle">
         <Values dict={dict} />
       </div>

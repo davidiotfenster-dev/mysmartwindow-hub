@@ -1,0 +1,39 @@
+{
+  "kind": "collectionType",
+  "collectionName": "categories",
+  "info": {
+    "singularName": "category",
+    "pluralName": "categories",
+    "displayName": "Categoria",
+    "description": "Las 9 categorias del catalogo de recursos. El id (slug) no se debe cambiar: rutas y filtros dependen de el."
+  },
+  "options": { "draftAndPublish": true },
+  "pluginOptions": { "i18n": { "localized": true } },
+  "attributes": {
+    "slug": {
+      "type": "string",
+      "required": true,
+      "unique": true,
+      "pluginOptions": { "i18n": { "localized": false } }
+    },
+    "name": {
+      "type": "string",
+      "required": true,
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "description": {
+      "type": "text",
+      "pluginOptions": { "i18n": { "localized": true } }
+    },
+    "icon": {
+      "type": "string",
+      "pluginOptions": { "i18n": { "localized": false } }
+    },
+    "resources": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::resource.resource",
+      "mappedBy": "category"
+    }
+  }
+}

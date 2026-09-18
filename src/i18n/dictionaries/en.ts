@@ -12,7 +12,9 @@ const en: Dictionary = {
     recursos: 'Resources',
     videos: 'Videos',
     dispositivos: 'Devices',
+    ingenieria: 'Engineering',
     ecosistemas: 'Ecosystems',
+    distribuidores: 'Distributors',
     noticias: 'News',
     soporte: 'Support',
     contacto: 'Contact',
@@ -71,6 +73,10 @@ const en: Dictionary = {
     statCards: 'Step-by-step cards',
     statCategories: 'Categories',
     scroll: 'Scroll',
+    blindUp: 'Raise the blind',
+    blindStop: 'Stop the blind',
+    blindDown: 'Lower the blind',
+    blindToggle: 'Pulsar: raise or lower the blind',
   },
 
   pillars: {
@@ -140,6 +146,10 @@ const en: Dictionary = {
     resourcesFor: 'Resources for this device',
     noResources: 'There is no device-specific material yet.',
     seeProduct: 'Product page',
+    soonEyebrow: 'Coming soon',
+    soonTitle: 'New products on the way',
+    soonText: 'We keep designing: the next device in the ecosystem is already on the drawing board.',
+    soonCta: 'Be the first to know',
   },
 
   ecosystems: {
@@ -149,6 +159,19 @@ const en: Dictionary = {
       'Look for our brand to integrate IoT Fenster devices into the ecosystems you already use at home.',
     guides: 'guides available',
     guide: 'guide available',
+  },
+
+  partners: {
+    eyebrow: 'Official distributors',
+    title: 'Where to buy',
+    subtitle:
+      'IoT Fenster works with enclosure manufacturers, not directly with end users. These are our official distributors: get in touch with them to get our devices.',
+    noOnlineNotice:
+      'Online purchase is not available: each distributor handles orders through their own sales team.',
+    brandsLabel: 'Brands they distribute',
+    visitSite: 'Visit website',
+    contact: 'Contact',
+    country: 'Country',
   },
 
   values: {
@@ -205,6 +228,13 @@ const en: Dictionary = {
     sending: 'Sending…',
     success: 'Message sent. We will get back to you as soon as possible.',
     error: 'It could not be sent. Please try again in a moment.',
+    profile: 'Who are you?',
+    profiles: {
+      manufacturer: 'Manufacturer',
+      distributor: 'Distributor',
+      installer: 'Installer',
+      user: 'End user',
+    },
     subjects: {
       support: 'Technical support',
       commercial: 'Sales enquiry',
@@ -214,6 +244,7 @@ const en: Dictionary = {
     errors: {
       name: 'Tell us your name.',
       email: 'We need a valid email.',
+      profile: 'Tell us where you are writing from.',
       subject: 'Pick a subject.',
       message: 'Tell us a bit more (at least 10 characters).',
       consent: 'We need your consent to reply.',
@@ -256,6 +287,104 @@ const en: Dictionary = {
     subtitle: 'The page you are looking for moved, or never existed.',
     cta: 'Go to the resource hub',
     home: 'Back home',
+  },
+
+  assistant: {
+    launcher: 'We help you find it',
+    title: 'Assistant',
+    subtitle: 'Two clicks and you are where you need to be',
+    restart: 'Start again',
+    close: 'Close',
+    root: 'Hi! What do you need?',
+    optProblem: 'Something is not working',
+    optDocs: 'I am looking for a manual or a video',
+    optBuy: 'I want to buy it',
+    optDevices: 'Show me the devices',
+    askDevice: 'Which device?',
+    optOtherDevice: 'Another one, or not sure',
+    deviceAnswer:
+      'There you have its manuals, videos and cards. If that does not solve it, write to us and we will look into it with you.',
+    goDevice: 'See its resources',
+    goAllDevices: 'See every device',
+    askFormat: 'How do you prefer to learn it?',
+    formatAnswer: 'Taking you to the search with that filter already applied.',
+    goResources: 'See the list',
+    askProfile: 'Who are you?',
+    proAnswer: 'Great. Leave us your details and the sales team will get back to you.',
+    goContact: 'Open the form',
+    userAnswer:
+      'We do not sell directly to end users: our official distributors do.',
+    goPartners: 'See distributors',
+    devicesAnswer: 'This is the whole ecosystem, each device with its documentation.',
+    whatsappSales: 'Ask on WhatsApp',
+    whatsappSupport: 'Report the issue on WhatsApp',
+  },
+
+  engineering: {
+    eyebrow: 'Engineering',
+    title: 'The whole solution, under one roof',
+    subtitle:
+      'Electronics, firmware, cloud and app: every layer of the MySmartWindow ecosystem is designed here. That is why they fit together, and why we answer for them.',
+    homeCta: 'See how we do it',
+    layers: {
+      hardware: {
+        title: 'Electronics',
+        description:
+          'We design our own devices to live inside the window profile, not hanging off a wall.',
+      },
+      firmware: {
+        title: 'Firmware',
+        description:
+          'The logic lives in the device: it keeps working when the connection drops, and updates over the air without touching the window.',
+      },
+      cloud: {
+        title: 'Cloud',
+        description:
+          'Every enclosure has its digital twin: its real state, right now, from the living room or from the other side of the world.',
+      },
+      app: {
+        title: 'App',
+        description:
+          'MySmartWindow is ours, not a borrowed app. And whatever it does not cover integrates through our API or with Alexa, Google Home and IFTTT.',
+      },
+    },
+    reasonsTitle: 'What changes when one engineering team owns it all',
+    reasons: {
+      fit: {
+        title: 'It fits your profile, not the other way around',
+        description:
+          'We work with the manufacturer from the design stage, so the device fits their joinery without redesigning it.',
+      },
+      single: {
+        title: 'One single contact',
+        description:
+          'When the electronics, the firmware and the app come from the same team, there is no passing the buck between suppliers: the answer comes from here.',
+      },
+      evolves: {
+        title: 'It improves after installation',
+        description:
+          'Updates reach the installed device over the air: new features without changing the hardware.',
+      },
+    },
+    ctaTitle: 'Do you manufacture or distribute enclosures?',
+    ctaText: 'Tell us which profile you work with and we will show you how the ecosystem fits.',
+    ctaButton: 'Talk to us',
+  },
+
+  contactChannels: {
+    eyebrow: 'Direct contact',
+    sales: {
+      title: 'Sales inquiry',
+      description: 'Pricing, catalog and availability for your project.',
+      emailCta: 'Send an email',
+      whatsappCta: 'Chat on WhatsApp',
+    },
+    support: {
+      title: 'Technical support',
+      description: 'Already have a device installed and something is wrong?',
+      emailCta: 'Send an email',
+      whatsappCta: 'Chat on WhatsApp',
+    },
   },
 }
 
