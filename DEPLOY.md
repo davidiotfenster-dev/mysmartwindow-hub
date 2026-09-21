@@ -178,10 +178,22 @@ Deberías ver dos servicios, `web` y `cms`, en estado `running`.
    Nombre: `seed`. Tipo: **Full access**. Copia el token — solo se muestra
    una vez.
 3. Importa el catálogo de partida (recursos, dispositivos, categorías...)
-   con ese token:
+   con ese token. Se lanza **desde tu ordenador**, no desde el servidor: la
+   imagen de la web contiene sólo lo necesario para servir el sitio, sin los
+   scripts ni el catálogo. Si el CMS no está publicado hacia fuera, abre un
+   túnel (`ssh -L 1337:localhost:1337 usuario@servidor`) y apunta ahí:
 
    ```bash
-   docker compose exec web sh -c "STRAPI_API_TOKEN=tu-token node scripts/seed-cms.mjs"
+   STRAPI_URL=http://localhost:1337 STRAPI_API_TOKEN=tu-token node scripts/seed-cms.mjs
+   ```
+
+4. Sube los PDF de los manuales al CMS, igual desde tu ordenador. El nombre
+   de cada fichero tiene que ser el del recurso al que pertenece, y cada
+   idioma se sube por separado:
+
+   ```bash
+   STRAPI_URL=http://localhost:1337 node scripts/subir-pdfs.mjs ./documentos-es es --simular
+   STRAPI_URL=http://localhost:1337 STRAPI_API_TOKEN=tu-token node scripts/subir-pdfs.mjs ./documentos-es es
    ```
 
 Es seguro volver a ejecutarlo más adelante: actualiza el contenido existente

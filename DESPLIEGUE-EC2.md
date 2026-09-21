@@ -131,10 +131,35 @@ Los dos deben responder `200`.
    administrador. Guarda la contraseña en un gestor, no en un papel.
 2. Dentro: **Settings → API Tokens → Create new API Token**. Nombre `seed`,
    tipo **Full access**. Copia el token: sólo se ve una vez.
-3. Carga el catálogo de partida:
+3. Carga el catálogo de partida. Esto **se lanza desde tu ordenador**, no
+   desde el servidor: la imagen de la web lleva sólo lo necesario para
+   servir, sin los scripts ni el catálogo. Abre un túnel en una terminal:
 
    ```bash
-   docker compose exec web sh -c "STRAPI_API_TOKEN=tu-token node scripts/seed-cms.mjs"
+   ssh -L 1337:localhost:1337 deploy@52.209.147.26
+   ```
+
+   Y en otra, dentro de tu copia del proyecto:
+
+   ```bash
+   STRAPI_URL=http://localhost:1337 STRAPI_API_TOKEN=tu-token node scripts/seed-cms.mjs
+   ```
+
+   Mientras el túnel esté abierto, `localhost:1337` es el CMS del servidor.
+   Así no hace falta abrir ese puerto a internet.
+
+4. Sube los PDF de los manuales, también desde tu ordenador y por el mismo
+   túnel. Primero en seco, para ver que cada fichero encuentra su recurso:
+
+   ```bash
+   STRAPI_URL=http://localhost:1337 node scripts/subir-pdfs.mjs ./documentos-es es --simular
+   ```
+
+   Y si la lista sale bien, de verdad:
+
+   ```bash
+   STRAPI_URL=http://localhost:1337 STRAPI_API_TOKEN=tu-token node scripts/subir-pdfs.mjs ./documentos-es es
+   STRAPI_URL=http://localhost:1337 STRAPI_API_TOKEN=tu-token node scripts/subir-pdfs.mjs ./documentos-it it
    ```
 
 4. **Cierra el registro público**, que viene abierto de serie:
