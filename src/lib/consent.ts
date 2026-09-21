@@ -9,7 +9,7 @@
  * en cualquier momento mediante `openCookiePreferences()`.
  *
  * La clave y el nombre del evento se documentan en la política de cookies
- * (`src/data/legal/cookies.ts`): si cambian aquí, hay que cambiarlos allí.
+ * (`src/data/legal.ts`): si cambian aquí, hay que cambiarlos allí.
  */
 
 export const COOKIE_CHOICE_KEY = 'msw-cookie-choice'

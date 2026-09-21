@@ -40,7 +40,6 @@ export const routes = {
  */
 export const EXTERNAL = {
   corporate: 'https://www.iotfenster.com',
-  clientArea: 'https://www.iotfenster.com/area-cliente/',
   linkedin: 'https://www.linkedin.com/company/iotfenster/',
   youtube: 'https://www.youtube.com/@MySmartWindow',
   tiktok: 'https://www.tiktok.com/@iotfenster',

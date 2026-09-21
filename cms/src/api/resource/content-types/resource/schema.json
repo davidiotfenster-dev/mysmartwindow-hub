@@ -47,7 +47,7 @@
       "type": "media",
       "multiple": false,
       "allowedTypes": ["files"],
-      "pluginOptions": { "i18n": { "localized": false } }
+      "pluginOptions": { "i18n": { "localized": true } }
     },
     "url": {
       "type": "string",

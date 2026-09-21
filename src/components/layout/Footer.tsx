@@ -76,17 +76,6 @@ export async function Footer({ locale, dict }: { locale: Locale; dict: Dictionar
                   </Link>
                 </li>
               ))}
-              <li>
-                <a
-                  href={EXTERNAL.clientArea}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-sm text-fg-muted transition-colors hover:text-brand-500"
-                >
-                  {dict.nav.areaCliente}
-                  <ExternalLink className="h-3 w-3" />
-                </a>
-              </li>
             </ul>
           </nav>
 

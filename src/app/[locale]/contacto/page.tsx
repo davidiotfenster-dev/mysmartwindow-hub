@@ -143,22 +143,6 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
             </div>
 
             <div className="rounded-3xl border border-line bg-bg-elevated/60 p-7">
-              <h2 className="font-display text-lg font-bold">{dict.nav.areaCliente}</h2>
-              <p className="mt-2.5 text-[0.86rem] leading-relaxed text-fg-muted">
-                {dict.values.support.description}
-              </p>
-              <a
-                href={EXTERNAL.clientArea}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-5 inline-flex h-11 items-center gap-2 rounded-full border border-line px-5 text-[0.85rem] font-semibold transition-colors hover:border-brand-500 hover:text-brand-500"
-              >
-                {dict.nav.areaCliente}
-                <ExternalLink className="h-3.5 w-3.5" />
-              </a>
-            </div>
-
-            <div className="rounded-3xl border border-line bg-bg-elevated/60 p-7">
               <h2 className="font-display text-lg font-bold">{dict.footer.social}</h2>
               <div className="mt-4 flex gap-2">
                 <a

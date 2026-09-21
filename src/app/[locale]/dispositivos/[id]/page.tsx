@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { ArrowUpRight, Check, ExternalLink } from 'lucide-react'
+import { ArrowUpRight, Check } from 'lucide-react'
 
 import { JsonLd } from '@/components/seo/JsonLd'
 import { LogoMark } from '@/components/brand/Logo'
@@ -113,7 +113,6 @@ export default async function DevicePage({
     brand: { '@type': 'Brand', name: ORG_NAME },
     manufacturer: { '@type': 'Organization', name: ORG_NAME, url: ORG_URL },
     inLanguage: localeMeta[locale].htmlLang,
-    ...(device.url ? { sameAs: device.url } : {}),
     // En los datos estructurados la URL tiene que ser absoluta: la lee Google,
     // no el navegador (las de Open Graph las completa Next con metadataBase).
     ...(device.photo ? { image: absolute(device.photo) } : {}),
@@ -179,12 +178,9 @@ export default async function DevicePage({
                   {dict.devices.resourcesFor}
                   <ArrowUpRight className="h-4 w-4" />
                 </ButtonLink>
-                {device.url && (
-                  <ButtonLink href={device.url} external variant="outline">
-                    {dict.devices.seeProduct}
-                    <ExternalLink className="h-3.5 w-3.5" />
-                  </ButtonLink>
-                )}
+                {/* La ficha comercial vivía en el WordPress corporativo, que se
+                    retira: sus especificaciones, fotos y vídeos pasarán a esta
+                    misma página, así que el botón hacia fuera sobra. */}
               </div>
             </div>
 

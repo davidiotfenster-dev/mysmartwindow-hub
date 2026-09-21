@@ -51,7 +51,7 @@ sitio corporativo.
 
 Los **textos legales sí se editan aquí** (`legal-page`), y son el único
 contenido con una regla de seguridad extra: aunque se borren del CMS o Strapi
-no responda, el sitio sigue publicando la versión de `src/data/legal/`. Una
+no responda, el sitio sigue publicando la versión de `src/data/legal.ts`. Una
 web no se puede quedar sin aviso legal por una caída del panel.
 
 ## Importar el catálogo de partida

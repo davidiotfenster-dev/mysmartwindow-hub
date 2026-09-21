@@ -3,14 +3,14 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Menu, Search, X, ChevronRight, ExternalLink } from 'lucide-react'
+import { Menu, Search, X, ChevronRight } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 import { Logo } from '@/components/brand/Logo'
 import { ThemeToggle } from './ThemeToggle'
 import { LanguageSwitcher } from './LanguageSwitcher'
 import { ButtonLink } from '@/components/ui/primitives'
-import { EXTERNAL, mainNav, routes } from '@/lib/navigation'
+import { mainNav, routes } from '@/lib/navigation'
 import { cn } from '@/lib/utils'
 import type { Dictionary } from '@/i18n'
 import type { Locale } from '@/i18n/config'
@@ -198,15 +198,6 @@ export function Header({ locale, dict }: { locale: Locale; dict: Dictionary }) {
               <div className="space-y-2 border-t border-line p-4">
                 <ButtonLink href={routes.contacto(locale)} className="w-full">
                   {dict.nav.contacto}
-                </ButtonLink>
-                <ButtonLink
-                  href={EXTERNAL.clientArea}
-                  external
-                  variant="outline"
-                  className="w-full"
-                >
-                  {dict.nav.areaCliente}
-                  <ExternalLink className="h-3.5 w-3.5" />
                 </ButtonLink>
               </div>
             </motion.aside>

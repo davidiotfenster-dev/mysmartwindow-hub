@@ -1027,7 +1027,7 @@ export interface ApiResourceResource extends Struct.CollectionTypeSchema {
     file: Schema.Attribute.Media<'files'> &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
-          localized: false;
+          localized: true;
         };
       }>;
     locale: Schema.Attribute.String;

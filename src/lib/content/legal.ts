@@ -20,7 +20,7 @@ export interface LegalPage extends LegalDocument {
  * A diferencia del resto del catálogo, aquí el respaldo estático no es solo
  * una comodidad de desarrollo: un sitio no puede quedarse sin aviso legal
  * porque el CMS no conteste. Si Strapi no devuelve una página, o la devuelve
- * sin cuerpo, se sirve la de `src/data/legal/`.
+ * sin cuerpo, se sirve la de `src/data/legal.ts`.
  */
 export const getLegalPages = cache(async (): Promise<LegalPage[]> => {
   const byLocale = await fetchCollectionAllLocales('/api/legal-pages', 'seo.ogImage')

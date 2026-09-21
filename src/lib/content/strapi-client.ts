@@ -199,6 +199,25 @@ export function mediaUrl(field: unknown): string | undefined {
   return url.startsWith('http') ? url : `/api/media${url}`
 }
 
+/**
+ * El fichero de cada idioma, para los documentos que existen traducidos.
+ *
+ * Un manual sólo publicado en español se sirve igual a los tres idiomas: mejor
+ * el PDF en otro idioma que ningún PDF.
+ */
+export function pickLocalizedMedia(
+  bucket: Partial<Record<Locale, StrapiEntry>>,
+  field: string
+): Partial<Record<Locale, string>> {
+  const out: Partial<Record<Locale, string>> = {}
+  const fallback = locales.map((l) => mediaUrl(bucket[l]?.[field])).find(Boolean)
+  for (const locale of locales) {
+    const own = mediaUrl(bucket[locale]?.[field]) ?? fallback
+    if (own) out[locale] = own
+  }
+  return out
+}
+
 export interface SeoOverrideRaw {
   metaTitle?: string
   metaDescription?: string

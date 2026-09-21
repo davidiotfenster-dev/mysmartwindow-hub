@@ -1,4 +1,4 @@
-import type { Localized } from '@/i18n/config'
+import type { Locale, Localized } from '@/i18n/config'
 import type { SeoOverride } from '@/lib/seo'
 import type { CategoryId, DeviceId, ResourceType } from './taxonomy'
 
@@ -19,6 +19,8 @@ export interface Resource {
   summary?: Localized
   /** URL del PDF (manuales y tarjetas). */
   url?: string
+  /** El PDF de cada idioma, cuando el documento existe traducido. */
+  urlByLocale?: Partial<Record<Locale, string>>
   /** ID del video de YouTube (recursos de tipo video). */
   youtubeId?: string
   /** Lista de reproduccion a la que pertenece, si aplica. */

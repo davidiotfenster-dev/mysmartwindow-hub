@@ -61,7 +61,7 @@ export function toResourceView(
       resource.summary?.[locale] ||
       (locale === 'es' ? live?.description?.split('\n')[0]?.slice(0, 180) : '') ||
       '',
-    url: resource.url,
+    url: resource.urlByLocale?.[locale] ?? resource.url,
     youtubeId: resource.youtubeId,
     playlistId: resource.playlistId,
     watchUrl: resource.youtubeId ? watchUrl(resource.youtubeId, resource.playlistId) : undefined,

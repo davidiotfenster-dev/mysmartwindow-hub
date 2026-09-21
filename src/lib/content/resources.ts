@@ -7,6 +7,7 @@ import {
   fetchCollectionAllLocales,
   mediaUrl,
   pickLocalized,
+  pickLocalizedMedia,
   seoOverride,
   zipByDocumentId,
   type StrapiEntry,
@@ -39,6 +40,8 @@ export const getResources = cache(async (): Promise<Resource[]> => {
       summary: pickLocalized(bucket, 'summary'),
       // El PDF subido en el CMS manda; si no hay, se usa el enlace externo (o el catalogo estatico).
       url: mediaUrl(base.file) ?? ((base.url as string) || undefined),
+      // Y si el documento esta traducido, cada idioma se lleva el suyo.
+      urlByLocale: pickLocalizedMedia(bucket, 'file'),
       youtubeId: (base.youtubeId as string) || undefined,
       playlistId: (base.playlistId as string) || undefined,
       updated: (base.updatedOn as string) || undefined,

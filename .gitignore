@@ -18,3 +18,6 @@ next-env.d.ts
 
 # Los PDF traducidos al italiano: pesan 75 MB y viven en el CMS, no en git
 documentos-it/*.pdf
+
+# Los PDF originales en espanol: pesan 78 MB y su sitio es el CMS, no git
+documentos-es/*.pdf

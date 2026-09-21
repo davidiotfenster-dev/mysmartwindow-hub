@@ -15,7 +15,7 @@ import { ecosystems } from '../src/data/ecosystems.ts'
 import { faqs } from '../src/data/faq.ts'
 import { news } from '../src/data/news.ts'
 import { partners } from '../src/data/partners.ts'
-import { legalDocuments } from '../src/data/legal/index.ts'
+import { legalDocuments } from '../src/data/legal.ts'
 
 const STRAPI_URL = (process.env.STRAPI_URL ?? 'http://localhost:1337').replace(/\/$/, '')
 const TOKEN = process.env.STRAPI_API_TOKEN
