@@ -51,7 +51,9 @@ export default async function VideosPage({ params }: { params: Promise<{ locale:
       return {
         id: r.youtubeId!,
         title: r.title[locale],
-        description: r.summary?.[locale] ?? live?.description,
+        // La descripción de YouTube está en español, el idioma del canal: sólo
+        // se usa de red en la versión española.
+        description: r.summary?.[locale] || (locale === 'es' ? live?.description : undefined),
         thumbnail: live?.thumbnail ?? thumbnailFor(r.youtubeId!),
         publishedAt: live?.publishedAt ?? r.updated,
         durationSeconds: live?.durationSeconds,

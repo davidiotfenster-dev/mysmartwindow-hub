@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next'
 import { locales, localeMeta, type Locale } from '@/i18n/config'
-import { getNews, getResources, getVisibleDevices } from '@/lib/content'
+import { getLegalPages, getNews, getResources, getVisibleDevices } from '@/lib/content'
 import { SITE_URL } from '@/lib/seo'
 
 const staticPaths = [
@@ -16,12 +16,19 @@ const staticPaths = [
   '/contacto',
 ]
 
-/** Cada entrada declara sus equivalentes en los otros idiomas. */
+/**
+ * Cada entrada declara sus equivalentes en los otros idiomas, más el
+ * `x-default` que le dice al buscador qué versión servir cuando el idioma del
+ * visitante no es ninguno de los tres.
+ */
 function withAlternates(path: string) {
   return {
-    languages: Object.fromEntries(
-      locales.map((l) => [localeMeta[l].htmlLang, `${SITE_URL}/${l}${path}`])
-    ),
+    languages: {
+      ...Object.fromEntries(
+        locales.map((l) => [localeMeta[l].htmlLang, `${SITE_URL}/${l}${path}`])
+      ),
+      'x-default': `${SITE_URL}/es${path}`,
+    },
   }
 }
 
@@ -42,10 +49,11 @@ function entry(
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [resources, visibleDevices, news] = await Promise.all([
+  const [resources, visibleDevices, news, legalPages] = await Promise.all([
     getResources(),
     getVisibleDevices(),
     getNews(),
+    getLegalPages(),
   ])
 
   const pages = locales.flatMap((locale) =>
@@ -82,5 +90,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     )
   )
 
-  return [...pages, ...resourcePages, ...devicePages, ...posts]
+  // Indexables pero con la prioridad mas baja: son paginas de referencia,
+  // no contenido por el que queramos competir.
+  const legal = locales.flatMap((locale) =>
+    legalPages.map((page) =>
+      entry(locale, `/legal/${page.id}`, 0.3, 'yearly', new Date(page.lastUpdated))
+    )
+  )
+
+  return [...pages, ...resourcePages, ...devicePages, ...posts, ...legal]
 }

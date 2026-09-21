@@ -53,7 +53,14 @@ export function toResourceView(
     deviceName: deviceMap[resource.device]?.name ?? resource.device,
     // El titulo curado manda: es el que esta categorizado y traducido.
     title: resource.title[locale],
-    summary: resource.summary?.[locale] ?? live?.description?.split('\n')[0]?.slice(0, 180) ?? '',
+    // `||` y no `??`: un recurso sin resumen llega con la cadena vacía, no con
+    // nulo. La descripción de YouTube sólo sirve de red en español, que es el
+    // idioma del canal: en italiano o inglés vale más una tarjeta sin texto
+    // que una frase en otro idioma.
+    summary:
+      resource.summary?.[locale] ||
+      (locale === 'es' ? live?.description?.split('\n')[0]?.slice(0, 180) : '') ||
+      '',
     url: resource.url,
     youtubeId: resource.youtubeId,
     playlistId: resource.playlistId,

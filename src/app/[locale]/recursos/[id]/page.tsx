@@ -59,8 +59,11 @@ export async function generateMetadata({
   const deviceBit = device.id === 'general' || mentionsDevice ? '' : `${device.name} · `
   const generatedTitle = `${base} — ${deviceBit}${typeLabel}`
 
+  // `||`, no `??`: cuando el recurso no tiene resumen en el CMS el campo llega
+  // como cadena vacía, no como nulo, y con `??` la página se quedaba sin
+  // meta description.
   const generatedDescription =
-    resource.summary?.[locale] ??
+    resource.summary?.[locale] ||
     `${typeLabel} de ${category} para ${device.id === 'general' ? 'dispositivos MySmartWindow' : device.name}. ${dict.explorer.subtitle}`
 
   const title = resolveTitle(resource.seo, generatedTitle)

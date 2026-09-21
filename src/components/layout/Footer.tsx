@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { Linkedin, Youtube, ExternalLink } from 'lucide-react'
 
 import { Logo } from '@/components/brand/Logo'
+import { CookiePreferencesLink } from './CookiePreferencesLink'
 import { NewsletterForm } from './NewsletterForm'
 import { SlatDivider } from '@/components/ui/primitives'
 import { EXTERNAL, mainNav, routes } from '@/lib/navigation'
@@ -134,31 +135,24 @@ export async function Footer({ locale, dict }: { locale: Locale; dict: Dictionar
           <p>
             © {year} IoT Fenster. {dict.footer.rights}
           </p>
+          {/* Los textos legales son de este sitio, no del portal antiguo. */}
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
-            <a
-              href={EXTERNAL.privacy}
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href={routes.privacidad(locale)}
               className="transition-colors hover:text-brand-500"
             >
               {dict.footer.privacy}
-            </a>
-            <a
-              href={EXTERNAL.legal}
-              target="_blank"
-              rel="noopener noreferrer"
+            </Link>
+            <Link
+              href={routes.avisoLegal(locale)}
               className="transition-colors hover:text-brand-500"
             >
               {dict.footer.notice}
-            </a>
-            <a
-              href={EXTERNAL.corporate}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="transition-colors hover:text-brand-500"
-            >
-              www.iotfenster.com
-            </a>
+            </Link>
+            <Link href={routes.cookies(locale)} className="transition-colors hover:text-brand-500">
+              {dict.footer.cookies}
+            </Link>
+            <CookiePreferencesLink label={dict.footer.cookieSettings} />
           </div>
         </div>
 
