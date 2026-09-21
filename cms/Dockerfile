@@ -39,6 +39,13 @@ RUN addgroup --system --gid 1001 strapi \
 
 COPY --from=builder --chown=strapi:strapi /opt/cms ./
 
+# Las dos carpetas tienen que existir en la imagen y pertenecer ya a `strapi`:
+# cuando Docker crea un volumen nuevo copia el contenido y los permisos de la
+# ruta que tapa, y si no existe lo crea como root. Entonces Strapi, que corre
+# sin privilegios, no puede crear la base de datos y arranca en bucle.
+RUN mkdir -p /opt/cms/.tmp /opt/cms/public/uploads \
+ && chown -R strapi:strapi /opt/cms/.tmp /opt/cms/public/uploads
+
 # .tmp guarda la base sqlite y las cachés: debe persistir entre despliegues,
 # monta un volumen aqui. public/uploads guarda los ficheros subidos en el CMS.
 VOLUME ["/opt/cms/.tmp", "/opt/cms/public/uploads"]
