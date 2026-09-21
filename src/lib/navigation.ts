@@ -1,3 +1,4 @@
+import { LEGAL_SLUGS } from '@/data/legal'
 import type { Dictionary } from '@/i18n'
 import type { Locale } from '@/i18n/config'
 
@@ -23,13 +24,23 @@ export const routes = {
   soporte: (l: Locale) => `/${l}/soporte`,
   contacto: (l: Locale) => `/${l}/contacto`,
   distribuidores: (l: Locale) => `/${l}/distribuidores`,
+  legal: (l: Locale, slug: string) => `/${l}/legal/${slug}`,
+  privacidad: (l: Locale) => `/${l}/legal/${LEGAL_SLUGS.privacy}`,
+  avisoLegal: (l: Locale) => `/${l}/legal/${LEGAL_SLUGS.notice}`,
+  cookies: (l: Locale) => `/${l}/legal/${LEGAL_SLUGS.cookies}`,
 } as const
 
+/**
+ * Enlaces fuera de este sitio. Los textos legales ya NO estan aqui: viven en
+ * `/[locale]/legal/[slug]` y se editan desde el CMS. El portal antiguo
+ * (iotfenster.com/politica-de-privacidad, /aviso-legal) desaparece en cuanto
+ * este sitio entre en produccion, asi que enlazarlo dejaria el aviso legal
+ * apuntando a un 404. Ver `routes.privacidad`, `routes.avisoLegal` y
+ * `routes.cookies`.
+ */
 export const EXTERNAL = {
   corporate: 'https://www.iotfenster.com',
   clientArea: 'https://www.iotfenster.com/area-cliente/',
-  privacy: 'https://www.iotfenster.com/politica-de-privacidad/',
-  legal: 'https://www.iotfenster.com/aviso-legal',
   linkedin: 'https://www.linkedin.com/company/iotfenster/',
   youtube: 'https://www.youtube.com/@MySmartWindow',
   tiktok: 'https://www.tiktok.com/@iotfenster',

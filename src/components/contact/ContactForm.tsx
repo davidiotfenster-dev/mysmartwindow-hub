@@ -4,15 +4,18 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { Check, Loader2, Send } from 'lucide-react'
 import { useState } from 'react'
 
-import { EXTERNAL } from '@/lib/navigation'
+import Link from 'next/link'
+
+import { routes } from '@/lib/navigation'
 import { cn } from '@/lib/utils'
 import type { Dictionary } from '@/i18n'
+import type { Locale } from '@/i18n/config'
 import { withBasePath } from '@/lib/base-path'
 
 type Field = 'name' | 'email' | 'profile' | 'subject' | 'message' | 'consent'
 type Status = 'idle' | 'loading' | 'ok' | 'error'
 
-export function ContactForm({ dict }: { dict: Dictionary }) {
+export function ContactForm({ dict, locale }: { dict: Dictionary; locale: Locale }) {
   const [values, setValues] = useState({
     name: '',
     email: '',
@@ -188,14 +191,14 @@ export function ContactForm({ dict }: { dict: Dictionary }) {
           />
           <span>
             {dict.contact.consent}{' '}
-            <a
-              href={EXTERNAL.privacy}
+            <Link
+              href={routes.privacidad(locale)}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-brand-500 underline-offset-4 hover:underline"
+              className="text-brand-500 underline underline-offset-4 hover:text-brand-400"
             >
-              ↗
-            </a>
+              {dict.contact.consentLink}
+            </Link>
           </span>
         </label>
         {errors.consent && <p className="mt-1.5 text-[0.78rem] text-red-500">{errors.consent}</p>}

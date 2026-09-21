@@ -223,6 +223,7 @@ const es = {
     message: 'Mensaje',
     messagePlaceholder: 'Describe tu consulta con el mayor detalle posible…',
     consent: 'He leído y acepto la política de privacidad.',
+    consentLink: 'Leer la política',
     submit: 'Enviar mensaje',
     sending: 'Enviando…',
     success: 'Mensaje enviado. Te respondemos lo antes posible.',
@@ -269,13 +270,21 @@ const es = {
     privacy: 'Política de privacidad',
     notice: 'Aviso legal',
     cookies: 'Cookies',
+    cookieSettings: 'Configurar cookies',
     rights: 'Todos los derechos reservados.',
     builtWith: 'Sitio de demostración construido a partir del portal público de IoT Fenster.',
   },
 
+  legal: {
+    eyebrow: 'Información legal',
+    lastUpdated: 'Última actualización',
+    contents: 'Contenido',
+    related: 'Otros documentos legales',
+  },
+
   cookies: {
     title: 'Cookies',
-    text: 'Usamos cookies técnicas necesarias para que el sitio funcione. Puedes aceptar las opcionales o rechazarlas: el sitio funciona igual.',
+    text: 'Solo guardamos en tu navegador lo imprescindible: tu elección aquí y si prefieres el tema claro u oscuro. Sin analítica ni publicidad. Los vídeos de YouTube solo activan sus cookies si les das al play.',
     accept: 'Aceptar',
     reject: 'Rechazar',
     more: 'Más información',

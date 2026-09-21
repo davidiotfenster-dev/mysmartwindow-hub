@@ -2,35 +2,40 @@
 
 import { AnimatePresence, motion } from 'framer-motion'
 import { Cookie } from 'lucide-react'
+import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
 import { Button } from '@/components/ui/primitives'
-import { EXTERNAL } from '@/lib/navigation'
+import {
+  COOKIE_PREFERENCES_EVENT,
+  readCookieChoice,
+  storeCookieChoice,
+  type CookieChoice,
+} from '@/lib/consent'
+import { routes } from '@/lib/navigation'
 import type { Dictionary } from '@/i18n'
 import type { Locale } from '@/i18n/config'
 
-const STORAGE_KEY = 'msw-cookie-choice'
-
-export function CookieBanner({ dict }: { dict: Dictionary; locale: Locale }) {
+export function CookieBanner({ dict, locale }: { dict: Dictionary; locale: Locale }) {
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
-    try {
-      if (!localStorage.getItem(STORAGE_KEY)) {
-        const timer = setTimeout(() => setVisible(true), 1200)
-        return () => clearTimeout(timer)
-      }
-    } catch {
-      // Modo privado o almacenamiento bloqueado: no insistimos
+    if (!readCookieChoice()) {
+      const timer = setTimeout(() => setVisible(true), 1200)
+      return () => clearTimeout(timer)
     }
   }, [])
 
-  const choose = (choice: 'accepted' | 'rejected') => {
-    try {
-      localStorage.setItem(STORAGE_KEY, choice)
-    } catch {
-      /* sin persistencia, pero la UI responde igual */
-    }
+  // Retirar el consentimiento tiene que ser tan facil como darlo: el enlace
+  // «Cookies» del pie vuelve a abrir este aviso aunque ya se hubiera elegido.
+  useEffect(() => {
+    const reopen = () => setVisible(true)
+    window.addEventListener(COOKIE_PREFERENCES_EVENT, reopen)
+    return () => window.removeEventListener(COOKIE_PREFERENCES_EVENT, reopen)
+  }, [])
+
+  const choose = (choice: CookieChoice) => {
+    storeCookieChoice(choice)
     setVisible(false)
   }
 
@@ -59,14 +64,13 @@ export function CookieBanner({ dict }: { dict: Dictionary; locale: Locale }) {
               <Button size="sm" variant="outline" onClick={() => choose('rejected')}>
                 {dict.cookies.reject}
               </Button>
-              <a
-                href={EXTERNAL.privacy}
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href={routes.cookies(locale)}
+                onClick={() => setVisible(false)}
                 className="ml-auto text-[0.75rem] text-fg-subtle underline-offset-4 hover:text-brand-500 hover:underline"
               >
                 {dict.cookies.more}
-              </a>
+              </Link>
             </div>
           </div>
         </motion.div>

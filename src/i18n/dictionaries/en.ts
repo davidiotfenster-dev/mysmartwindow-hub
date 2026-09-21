@@ -224,6 +224,7 @@ const en: Dictionary = {
     message: 'Message',
     messagePlaceholder: 'Describe your question in as much detail as you can…',
     consent: 'I have read and accept the privacy policy.',
+    consentLink: 'Read the policy',
     submit: 'Send message',
     sending: 'Sending…',
     success: 'Message sent. We will get back to you as soon as possible.',
@@ -270,13 +271,21 @@ const en: Dictionary = {
     privacy: 'Privacy policy',
     notice: 'Legal notice',
     cookies: 'Cookies',
+    cookieSettings: 'Cookie settings',
     rights: 'All rights reserved.',
     builtWith: 'Demo site built from the public IoT Fenster portal.',
   },
 
+  legal: {
+    eyebrow: 'Legal information',
+    lastUpdated: 'Last updated',
+    contents: 'Contents',
+    related: 'Other legal documents',
+  },
+
   cookies: {
     title: 'Cookies',
-    text: 'We use technical cookies needed for the site to work. You can accept the optional ones or reject them: the site works either way.',
+    text: 'We only store the essentials in your browser: your choice here and whether you prefer the light or dark theme. No analytics, no advertising. YouTube videos only set their cookies if you press play.',
     accept: 'Accept',
     reject: 'Reject',
     more: 'More information',

@@ -15,6 +15,7 @@ import { ecosystems } from '../src/data/ecosystems.ts'
 import { faqs } from '../src/data/faq.ts'
 import { news } from '../src/data/news.ts'
 import { partners } from '../src/data/partners.ts'
+import { legalDocuments } from '../src/data/legal/index.ts'
 
 const STRAPI_URL = (process.env.STRAPI_URL ?? 'http://localhost:1337').replace(/\/$/, '')
 const TOKEN = process.env.STRAPI_API_TOKEN
@@ -230,6 +231,24 @@ async function seedNews() {
   console.log(`noticias: ${count}`)
 }
 
+async function seedLegalPages() {
+  let count = 0
+  for (const doc of legalDocuments) {
+    await upsert(
+      'legal-pages',
+      doc.id,
+      {
+        es: { title: doc.title.es, intro: doc.intro.es, body: doc.body.es },
+        en: { title: doc.title.en, intro: doc.intro.en, body: doc.body.en },
+        it: { title: doc.title.it, intro: doc.intro.it, body: doc.body.it },
+      },
+      { lastUpdated: doc.lastUpdated }
+    )
+    count++
+  }
+  console.log(`paginas legales: ${count}`)
+}
+
 async function seedSiteSettings() {
   const description = {
     es: 'Ingeniería electrónica e IoT para fabricantes de cerramientos: domótica para ventanas, puertas, persianas y toldos.',
@@ -268,6 +287,7 @@ async function main() {
   await seedFaqs(resourceIds)
 
   await seedNews()
+  await seedLegalPages()
   await seedSiteSettings()
 
   console.log('\nListo. Revisa el contenido en ' + STRAPI_URL + '/admin')

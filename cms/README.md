@@ -36,6 +36,7 @@ ficheros de `src/data/`.
 | **Distribuidores** | `partner` | Eslogan, descripción, país |
 | **Noticias** | `news-post` | Título, extracto, cuerpo, etiqueta, SEO |
 | **Preguntas frecuentes** | `faq-item` | Pregunta, respuesta |
+| **Páginas legales** (aviso legal, privacidad, cookies) | `legal-page` | Título, entradilla, cuerpo, SEO |
 | **Ajustes del sitio** | `site-setting` (único) | Descripción de la organización, SEO por defecto |
 
 Cada tipo con SEO trae un bloque opcional (título, descripción, palabras
@@ -45,7 +46,13 @@ partir del contenido; si se deja vacío, no cambia nada.
 **Lo que NO se edita aquí** (vive en el código porque son estructura, no
 contenido): los identificadores de categoría y dispositivo (`slug`: cambiarlos
 rompe las URLs existentes y el enlazado interno), las etiquetas de tipo de
-recurso (manual/vídeo/tarjeta) y los enlaces legales/corporativos del footer.
+recurso (manual/vídeo/tarjeta) y los enlaces del footer a redes sociales y al
+sitio corporativo.
+
+Los **textos legales sí se editan aquí** (`legal-page`), y son el único
+contenido con una regla de seguridad extra: aunque se borren del CMS o Strapi
+no responda, el sitio sigue publicando la versión de `src/data/legal/`. Una
+web no se puede quedar sin aviso legal por una caída del panel.
 
 ## Importar el catálogo de partida
 

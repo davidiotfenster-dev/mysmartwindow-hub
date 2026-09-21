@@ -19,6 +19,7 @@ export {
 } from './resources'
 export { getEcosystems } from './ecosystems'
 export { getFaqs } from './faq'
+export { getLegalPages, getLegalPage, type LegalPage } from './legal'
 export { getNews, getNewsPost } from './news'
 export { getPartners } from './partners'
 export { getSiteSettings, type SiteSettings, type SiteSeo } from './site-settings'

@@ -24,6 +24,7 @@ const PUBLIC_READ_CONTENT_TYPES = [
   'faq-item',
   'partner',
   'site-setting',
+  'legal-page',
 ];
 
 async function ensureLocales(strapi: Core.Strapi) {

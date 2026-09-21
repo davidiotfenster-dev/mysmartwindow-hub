@@ -65,7 +65,7 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
       <div className="container-page py-14 sm:py-20">
         <div className="grid gap-12 lg:grid-cols-[1.25fr_0.75fr] lg:gap-16">
           <div className="rounded-3xl border border-line bg-bg-elevated/60 p-6 sm:p-9">
-            <ContactForm dict={dict} />
+            <ContactForm dict={dict} locale={locale} />
           </div>
 
           <aside className="space-y-5">

@@ -131,6 +131,85 @@ aparecerá un botón "Ver más" debajo de la respuesta en la web.
 
 ---
 
+## Páginas legales (`LegalPage`)
+
+Los tres documentos legales del sitio: **aviso legal**, **política de
+privacidad** y **política de cookies**. Salen enlazados en el pie de página,
+en el aviso de cookies y en la casilla de consentimiento del formulario de
+contacto.
+
+| Campo | Qué es | ¿Traducible? |
+| --- | --- | --- |
+| `slug` | El identificador de la URL. **No lo toques** (ver abajo) | No |
+| `title` | El título grande de la página | **Sí** |
+| `intro` | La frase que va bajo el título, antes del texto | **Sí** |
+| `body` | El documento completo | **Sí** |
+| `lastUpdated` | La fecha de «Última actualización» que se muestra arriba | No |
+| `seo` | Ver el apartado *SEO* | Sí (dentro del bloque) |
+
+**Cambia siempre `lastUpdated` cuando toques el texto.** Es la fecha que ve
+el usuario y la que demuestra, si algún día hay una reclamación, desde
+cuándo está publicada esa versión.
+
+### Cómo se escribe el `body`
+
+El cuerpo admite un Markdown sencillo. Esto es todo lo que entiende:
+
+| Escribes | Sale |
+| --- | --- |
+| `## 1. Título del apartado` | Un apartado, que además aparece solo en el índice lateral |
+| `### Subapartado` | Un subtítulo dentro del apartado |
+| `- Una cosa` | Un punto de una lista |
+| `**importante**` | Texto en **negrita** |
+| `[texto](/es/contacto)` | Un enlace a otra página del sitio |
+| `[texto](https://www.aepd.es)` | Un enlace externo, que se abre en otra pestaña |
+
+También se pueden hacer tablas, poniendo una fila por línea y separando las
+columnas con barras verticales. La segunda línea, con los guiones, es
+obligatoria:
+
+```
+| Dato | Valor |
+| --- | --- |
+| CIF | B30780191 |
+```
+
+Cualquier otra cosa (HTML, imágenes, código) se muestra como texto tal cual:
+es a propósito, para que nadie pueda inyectar código en las páginas que
+justamente tienen que ser las más fiables del sitio.
+
+### El índice lateral se hace solo
+
+No hay que escribirlo. Cada `## Apartado` del cuerpo aparece automáticamente
+en la columna de la izquierda, con su enlace. Si renumeras o renombras un
+apartado, el índice se actualiza solo.
+
+### Enlaces entre documentos
+
+Enlaza siempre a las páginas de **este** sitio, nunca a las del portal
+antiguo (`iotfenster.com/aviso-legal` y similares), que desaparecerán:
+
+- Política de privacidad: `/es/legal/politica-de-privacidad`
+- Aviso legal: `/es/legal/aviso-legal`
+- Política de cookies: `/es/legal/politica-de-cookies`
+
+Cambia el `/es/` por `/en/` o `/it/` en las versiones inglesa e italiana.
+
+### Lo que no debes hacer
+
+- **No cambies el `slug`.** Los tres slugs están escritos en el código del
+  pie de página y del aviso de cookies. Si lo cambias, esos enlaces se van a
+  una página que no existe.
+- **No borres una página ni la despubliques.** Si lo haces, el sitio no se
+  queda sin aviso legal —vuelve automáticamente al texto guardado en el
+  código—, pero entonces tus cambios en el panel dejan de verse y es fácil
+  volverse loco buscando por qué.
+- **No crees páginas nuevas aquí esperando que salgan en el pie.** El pie
+  enlaza esos tres documentos y solo esos. Para añadir un cuarto hay que
+  tocar el código.
+
+---
+
 ## Ajustes del sitio (`SiteSettings`)
 
 Es un tipo **único** (no hay una lista, hay una sola ficha): datos globales
@@ -157,7 +236,7 @@ sencillamente no aparece en la web.
 
 ## El bloque SEO
 
-Varios tipos (`Resource`, `Device`, `NewsPost`, `SiteSettings`) llevan un
+Varios tipos (`Resource`, `Device`, `NewsPost`, `LegalPage`, `SiteSettings`) llevan un
 bloque `seo` opcional con estos campos:
 
 | Campo | Para qué sirve |

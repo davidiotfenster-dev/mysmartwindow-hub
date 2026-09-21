@@ -224,6 +224,7 @@ const it: Dictionary = {
     message: 'Messaggio',
     messagePlaceholder: 'Descrivi la tua richiesta nel modo più dettagliato possibile…',
     consent: 'Ho letto e accetto l’informativa sulla privacy.',
+    consentLink: 'Leggi l’informativa',
     submit: 'Invia messaggio',
     sending: 'Invio in corso…',
     success: 'Messaggio inviato. Ti rispondiamo il prima possibile.',
@@ -270,13 +271,21 @@ const it: Dictionary = {
     privacy: 'Informativa sulla privacy',
     notice: 'Note legali',
     cookies: 'Cookie',
+    cookieSettings: 'Impostazioni cookie',
     rights: 'Tutti i diritti riservati.',
     builtWith: 'Sito dimostrativo costruito a partire dal portale pubblico di IoT Fenster.',
   },
 
+  legal: {
+    eyebrow: 'Informazioni legali',
+    lastUpdated: 'Ultimo aggiornamento',
+    contents: 'Contenuti',
+    related: 'Altri documenti legali',
+  },
+
   cookies: {
     title: 'Cookie',
-    text: 'Usiamo cookie tecnici necessari al funzionamento del sito. Puoi accettare quelli opzionali o rifiutarli: il sito funziona comunque.',
+    text: 'Nel tuo browser salviamo solo l’essenziale: la tua scelta qui e se preferisci il tema chiaro o scuro. Nessuna analisi, nessuna pubblicità. I video di YouTube attivano i loro cookie solo se premi play.',
     accept: 'Accetta',
     reject: 'Rifiuta',
     more: 'Maggiori informazioni',
