@@ -15,3 +15,6 @@ next-env.d.ts
 
 # capturas generadas: se regeneran con scripts/screenshots.mjs
 !docs/screenshots/
+
+# Los PDF traducidos al italiano: pesan 75 MB y viven en el CMS, no en git
+documentos-it/*.pdf

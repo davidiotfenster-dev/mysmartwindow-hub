@@ -1,0 +1,10 @@
+{
+"Bloqueo de botones (candado)": "Blocco dei tasti (lucchetto)",
+"Con el candado puesto, ningún botón responde (tampoco Master)": "Con il lucchetto inserito nessun tasto risponde (nemmeno Master)",
+"Activado, candado abierto": "Attivato, lucchetto aperto",
+"2 destellos azules": "2 lampi blu",
+"La ventana se ha abierto o cerrado (sensor de apertura) sin conexión a la nube": "La finestra è stata aperta o chiusa (sensore di apertura) senza connessione al cloud",
+"El botón de quitar integración no sólo quita esa integración si no que desactiva la skill y nos deshabilita el servicio.": "Il pulsante di rimozione dell’integrazione non elimina solo quell’integrazione: disattiva anche la skill e disabilita il servizio.",
+"El elemento que se muestra es la representación del Dispositivo Aidoo Integrado. Por defecto aunque la integración está finalizada y ambos dispositivos se conocen y tienen capacidad para comunicarse entre ellos hay que indicarle cuales van a ser los eventos que se deben de producir a través de la activación de los SKILLS. Para ello pulsamos el Botón de Edición.": "L’elemento mostrato è la rappresentazione del Dispositivo Aidoo integrato. Anche se l’integrazione è conclusa e i due dispositivi si riconoscono e possono comunicare fra loro, occorre indicare quali eventi devono prodursi tramite l’attivazione delle SKILLS. Per farlo premiamo il Pulsante di Modifica.",
+"En este momento la única SKILL disponible para este tipo de integración es la de Control de Aidoo mediante eventos de Apertura.": "Al momento l’unica SKILL disponibile per questo tipo di integrazione è quella di Controllo di Aidoo tramite eventi di Apertura."
+}
