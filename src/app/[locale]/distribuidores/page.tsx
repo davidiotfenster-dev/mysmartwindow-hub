@@ -12,6 +12,13 @@ import { getDictionary } from '@/i18n'
 import type { Locale } from '@/i18n/config'
 import { absolute, alternates, breadcrumbSchema, jsonLd } from '@/lib/seo'
 
+/**
+ * Se regenera cada hora contra el CMS. Sin esto la pagina se queda
+ * congelada en la version que se genero al construir la imagen, que es
+ * anterior a que hubiera contenido, y no se entera de nada.
+ */
+export const revalidate = 3600
+
 export async function generateMetadata({
   params,
 }: {

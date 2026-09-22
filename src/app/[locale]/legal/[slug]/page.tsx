@@ -22,6 +22,13 @@ import {
 } from '@/lib/seo'
 import { formatDate } from '@/lib/utils'
 
+/**
+ * Se regenera cada hora contra el CMS. Sin esto la pagina se queda
+ * congelada en la version que se genero al construir la imagen, que es
+ * anterior a que hubiera contenido, y no se entera de nada.
+ */
+export const revalidate = 3600
+
 export async function generateStaticParams() {
   const pages = await getLegalPages()
   return locales.flatMap((locale) => pages.map((page) => ({ locale, slug: page.id })))

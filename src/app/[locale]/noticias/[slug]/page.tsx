@@ -11,6 +11,13 @@ import { routes } from '@/lib/navigation'
 import { resolveDescription, resolveTitle } from '@/lib/seo'
 import { formatDate } from '@/lib/utils'
 
+/**
+ * Se regenera cada hora contra el CMS. Sin esto la pagina se queda
+ * congelada en la version que se genero al construir la imagen, que es
+ * anterior a que hubiera contenido, y no se entera de nada.
+ */
+export const revalidate = 3600
+
 export async function generateStaticParams() {
   const news = await getNews()
   return locales.flatMap((locale) => news.map((post) => ({ locale, slug: post.slug })))
