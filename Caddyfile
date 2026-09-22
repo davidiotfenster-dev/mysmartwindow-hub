@@ -1,0 +1,113 @@
+# Recepcionista del sitio: recibe en el 80 y el 443, sirve el HTTPS y pasa la
+# peticion al contenedor `web`, que escucha en el 3000 dentro de la red de
+# Docker y no esta publicado hacia fuera.
+#
+# El certificado lo pide y lo renueva Caddy solo, contra Let's Encrypt. No hay
+# que instalar nada mas ni programar ninguna tarea: mientras el dominio apunte
+# a esta maquina y los puertos 80 y 443 esten abiertos, se encarga el.
+
+www.iotfenster.com, iotfenster.com {
+	encode zstd gzip
+
+	# ---------------------------------------------------------------------
+	# Direcciones del WordPress anterior
+	#
+	# Al sustituir aquella web, sus direcciones dejan de existir. Sin estas
+	# lineas, todo el que llegue desde Google o desde un enlace guardado se
+	# encuentra un error, y se pierde el posicionamiento que tuvieran.
+	# `permanent` es un 301: le dice al buscador que la pagina se ha mudado
+	# para siempre y que traslade a la nueva lo que tenia la vieja.
+	# ---------------------------------------------------------------------
+
+	# Fichas de producto
+	@connect2 path /connect-2 /connect-2/ /en/connect-2 /en/connect-2/
+	redir @connect2 /es/dispositivos/connect-2 permanent
+
+	@connect1 path /connect-1 /connect-1/ /en/connect-1 /en/connect-1/
+	redir @connect1 /es/dispositivos/connect-1 permanent
+
+	@cevo path /c-evo-interruptor-de-persiana-con-wifi /c-evo-interruptor-de-persiana-con-wifi/
+	redir @cevo /es/dispositivos/connect-evo permanent
+
+	@cpulsar path /c-pulsar-para-aluminio /c-pulsar-para-aluminio/
+	redir @cpulsar /es/dispositivos/c-pulsar permanent
+
+	@cwall path /c-wall /c-wall/
+	redir @cwall /es/dispositivos/c-wall permanent
+
+	@cwallsky path /c-wall-sky /c-wall-sky/
+	redir @cwallsky /es/dispositivos/c-wall-sky permanent
+
+	@cwallshutter path /c-wall-shutter /c-wall-shutter/
+	redir @cwallshutter /es/dispositivos/c-wall-shutter permanent
+
+	# El sensor RC-33 ya no esta en el catalogo: al escaparate, que es lo mas
+	# util que le podemos ofrecer a quien buscaba ese producto.
+	@sensor path /sensor-magnetico-rc-33 /sensor-magnetico-rc-33/
+	redir @sensor /es/dispositivos permanent
+
+	# Los dos servicios del Connect-2 se cuentan ahora en su propia ficha
+	@servicios path /servicio-de-alertas-de-connect-2 /servicio-de-alertas-de-connect-2/ /servicio-offline-del-connect-2 /servicio-offline-del-connect-2/
+	redir @servicios /es/dispositivos/connect-2 permanent
+
+	# Paginas de empresa
+	@equipo path /equipo /equipo/
+	redir @equipo /es/ingenieria/equipo permanent
+
+	@consultoria path /consultoria-de-innovacion-en-iot /consultoria-de-innovacion-en-iot/
+	redir @consultoria /es/ingenieria/consultoria permanent
+
+	@domotica path /domotica-para-cerramientos /domotica-para-cerramientos/
+	redir @domotica /es/domotica-para-cerramientos permanent
+
+	# Resto del sitio anterior
+	@manuales path /app-mysmartwindow /app-mysmartwindow/
+	redir @manuales /es/recursos permanent
+
+	@blog path /blog /blog/
+	redir @blog /es/noticias permanent
+
+	# El area de cliente vivia en el WordPress y no tiene equivalente: a
+	# soporte, que es donde se resuelve lo que la gente venia a buscar.
+	@areacliente path /area-cliente /area-cliente/
+	redir @areacliente /es/soporte permanent
+
+	@contacto path /contacto /contacto/
+	redir @contacto /es/contacto permanent
+
+	@avisolegal path /aviso-legal /aviso-legal/
+	redir @avisolegal /es/legal/aviso-legal permanent
+
+	@privacidad path /politica-de-privacidad /politica-de-privacidad/
+	redir @privacidad /es/legal/politica-de-privacidad permanent
+
+	# ---------------------------------------------------------------------
+	# Italiano
+	#
+	# No era una traduccion del plugin, sino paginas aparte con nombres
+	# propios. Por eso van una a una y no siguen el patron de las espanolas.
+	# ---------------------------------------------------------------------
+	@itConsulting path /it/consulting /it/consulting/
+	redir @itConsulting /it/ingenieria/consultoria permanent
+
+	@itDomotica path /it/domotica-per-serramenti /it/domotica-per-serramenti/
+	redir @itDomotica /it/domotica-para-cerramientos permanent
+
+	@itConnect1 path /it/connect1 /it/connect1/
+	redir @itConnect1 /it/dispositivos/connect-1 permanent
+
+	@itConnect2 path /it/connect2 /it/connect2/
+	redir @itConnect2 /it/dispositivos/connect-2 permanent
+
+	@itCwall path /it/cwall /it/cwall/
+	redir @itCwall /it/dispositivos/c-wall permanent
+
+	@itManuali path /it/manuali /it/manuali/
+	redir @itManuali /it/recursos permanent
+
+	@itContatto path /it/contatto /it/contatto/
+	redir @itContatto /it/contacto permanent
+
+	# Todo lo demas, al sitio
+	reverse_proxy web:3000
+}

@@ -53,9 +53,34 @@ services:
       STRAPI_URL: http://cms:1337
     depends_on:
       - cms
+    # Sigue publicado mientras se prueba el sitio entrando por la IP. Cuando
+    # el dominio ya responda por HTTPS, cambiar a '127.0.0.1:3000:3000' para
+    # que solo se pueda llegar por Caddy: asi nadie entra por una puerta
+    # lateral saltandose el HTTPS y las redirecciones.
     ports:
       - '3000:3000'
 
+  # Recibe en el 80 y el 443, sirve el HTTPS y pasa al contenedor `web`.
+  # El certificado se lo pide solo a Let's Encrypt en cuanto el dominio
+  # apunte a esta maquina, y lo renueva sin que haya que programar nada.
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on:
+      - web
+    ports:
+      - '80:80'
+      - '443:443'
+      - '443:443/udp'
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      # Aqui viven los certificados: sin este volumen se volverian a pedir en
+      # cada despliegue, y Let's Encrypt limita cuantas veces se puede hacer.
+      - caddy-data:/data
+      - caddy-config:/config
+
 volumes:
+  caddy-data:
+  caddy-config:
   strapi-data:
   strapi-uploads:
