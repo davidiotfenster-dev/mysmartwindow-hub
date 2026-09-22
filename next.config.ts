@@ -48,6 +48,12 @@ const nextConfig: NextConfig = {
           { key: 'X-Content-Type-Options', value: 'nosniff' },
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
           { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
+          // El sitio no pide camara, microfono ni ubicacion. Declararlo cierra
+          // la puerta a que lo haga nada incrustado en la pagina.
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), geolocation=(), interest-cohort=()',
+          },
         ],
       },
     ]

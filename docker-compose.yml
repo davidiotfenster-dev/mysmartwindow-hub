@@ -19,8 +19,17 @@ services:
     volumes:
       - strapi-data:/opt/cms/.tmp
       - strapi-uploads:/opt/cms/public/uploads
+    # Solo escucha en la propia maquina. El panel de Strapi es la llave de todo
+    # el contenido del sitio: publicado en internet, cualquiera llega a su
+    # pantalla de acceso y puede ponerse a probar contrasenas.
+    #
+    # La web no lo necesita publicado: le habla por la red interna de Docker
+    # (STRAPI_URL: http://cms:1337). Para entrar al panel desde fuera se abre
+    # un tunel, que ademas va cifrado:
+    #   ssh -N -L 1338:localhost:1337 deploy@<servidor>
+    # y luego http://localhost:1338/admin
     ports:
-      - '1337:1337'
+      - '127.0.0.1:1337:1337'
 
   web:
     build:
