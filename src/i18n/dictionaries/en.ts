@@ -396,6 +396,114 @@ const en: Dictionary = {
     },
   },
 
+  /** Paginas rescatadas del WordPress corporativo que se retira. */
+  team: {
+    eyebrow: 'Who builds it',
+    title: 'The team',
+    subtitle: 'The people who design, build and maintain the MySmartWindow ecosystem.',
+    linkedinLabel: '{name} on LinkedIn',
+    ctaTitle: 'Want to work with us?',
+    ctaText: 'Tell us about your project and we will tell you straight whether we can help.',
+  },
+
+  consulting: {
+    eyebrow: 'Services',
+    title: 'IoT innovation consulting',
+    subtitle: 'We work with manufacturers who want to connect their products and do not know where to start.',
+    ctaTitle: 'Tell us your idea',
+    ctaText: 'We will assess whether it has legs and what it would take to bring it to market.',
+  },
+
+  homeAutomation: {
+    eyebrow: 'Home automation',
+    title: 'Home automation for window and door systems',
+    subtitle: 'What it is, what it is for and what can be automated in windows, doors, blinds and awnings.',
+    ctaTitle: 'Do you manufacture window systems?',
+    ctaText: 'We will show you how to build our automation into what you already produce.',
+  },
+
+  consultingPage: {
+    lead: 'IoT Fenster Consulting',
+    leadTitle: 'We believe in your ideas',
+    leadText:
+      'We set up IoT Fenster Consulting to work alongside companies that want to connect their products. We know what your ideas are worth, and we want to be part of them.',
+    servicesTitle: 'Where we come in',
+    services: {
+      needs: {
+        title: 'Needs analysis',
+        description:
+          'We look at what your company actually needs and explore the real potential of your ideas and products.',
+      },
+      goals: {
+        title: 'Goals and targets',
+        description:
+          'We help you set reachable targets so your IoT project starts on solid ground.',
+      },
+      compliance: {
+        title: 'Regulatory compliance',
+        description:
+          'We make sure the project meets the standards and regulations that apply to it.',
+      },
+      materials: {
+        title: 'Material selection',
+        description:
+          'We guide you through choosing materials, weighing durability, performance and specifications.',
+      },
+      network: {
+        title: 'Network events',
+        description:
+          'We detect and respond to what happens on the network, with answers for security, reliability and privacy.',
+      },
+      design: {
+        title: 'Design guidance',
+        description:
+          'We bring design judgement: strength, efficiency and the look of the product and everything in it.',
+      },
+    },
+    aboutTitle: 'Build success',
+    aboutText:
+      'The Internet of Things connects devices through software and built-in sensors that let them communicate, gather data and share it. It brings together connectivity, sensors, devices and people, so humans and machines understand each other. That connection opens up new ground at home, at work and at play.',
+    precisionTitle: 'Precision and efficiency from the start',
+    precisionText:
+      'However complex your project, we guide you through the whole process. A tailored approach and a deep understanding of how each piece behaves.',
+    closingTitle: 'Why good guidance pays off',
+    closingText:
+      'With the right consulting you develop your ideas within a legal and safety framework, and you avoid the mistakes that hold a project back. What you get is a business model that fits how people live today.',
+  },
+
+  homeAutomationPage: {
+    pillarsTitle: 'Automate your products',
+    pillars: {
+      vision: {
+        title: 'Vision and future',
+        description:
+          'Home automation adapts to the world and to what society needs. This is the new era of window and door systems.',
+      },
+      design: {
+        title: 'Innovative design',
+        description:
+          'Simplicity, elegance and better manufacturing: that is why automation matters more every year.',
+      },
+      connectivity: {
+        title: 'Connectivity',
+        description:
+          'It lets you control window systems from different devices and applications.',
+      },
+    },
+    whatTitle: 'What exactly is it?',
+    whatText:
+      'Home automation for window systems means applying automated systems to whatever closes a home or a building: doors, windows, blinds, curtains or awnings. It lets you control and manage them intelligently.',
+    whatText2:
+      'It brings comfort, security and energy efficiency, because you can operate them remotely or let them operate themselves. With sensors, actuators and control systems you can program movement, opening and closing, and the position of blinds and curtains, all together or one by one.',
+    controlTitle: 'You are in control',
+    remoteTitle: 'Remote control',
+    remoteText:
+      'We design automation you can control from anywhere in the world. Our mobile apps are there to operate, automate and keep an eye on your window systems.',
+    remoteText2:
+      'It can also take sensors that detect light, temperature, humidity or presence, and trigger whatever is needed according to what each person wants.',
+    devicesCta: 'See the devices',
+  },
+
   /** Plantillas de metadatos que antes estaban escritas a mano en castellano. */
   seoMeta: {
     resourceDescription: '{type} on {category} for {device}.',

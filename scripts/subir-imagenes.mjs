@@ -11,6 +11,7 @@
  * Ejemplos:
  *   STRAPI_API_TOKEN=xxxx node scripts/subir-imagenes.mjs ./imagenes/dispositivos dispositivo
  *   STRAPI_API_TOKEN=xxxx node scripts/subir-imagenes.mjs ./imagenes/distribuidores distribuidor
+ *   STRAPI_API_TOKEN=xxxx node scripts/subir-imagenes.mjs ./imagenes/equipo equipo
  *
  * Cada imagen tiene que llamarse igual que la ficha a la que pertenece
  * (`connect-2.png`, `c-wall.png`). Las que no correspondan a ninguna se
@@ -36,6 +37,7 @@ const [carpeta, tipo] = args.filter((a) => !a.startsWith('--'))
 const TIPOS = {
   dispositivo: { plural: 'devices', campo: 'photo' },
   distribuidor: { plural: 'partners', campo: 'logo' },
+  equipo: { plural: 'team-members', campo: 'photo' },
 }
 
 const MEDIOS = {

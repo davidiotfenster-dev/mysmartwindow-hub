@@ -207,7 +207,7 @@ empezar de cero a propósito.
 Si quieres ahorrarte recordar los comandos, créate un atajo en el servidor:
 
 ```bash
-printf '#!/bin/sh\ncd /opt/iotfenster-web && git pull && docker compose up -d --build\n' > /opt/iotfenster-web/actualizar.sh
+printf '#!/bin/sh\ncd /opt/iotfenster-web && git pull && docker compose up -d --build && sleep 5 && curl -s -X POST http://127.0.0.1:3000/api/youtube > /dev/null\n' > /opt/iotfenster-web/actualizar.sh
 chmod +x /opt/iotfenster-web/actualizar.sh
 ```
 

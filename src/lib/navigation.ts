@@ -18,6 +18,12 @@ export const routes = {
   dispositivos: (l: Locale) => `/${l}/dispositivos`,
   dispositivo: (l: Locale, id: string) => `/${l}/dispositivos/${id}`,
   ingenieria: (l: Locale) => `/${l}/ingenieria`,
+  equipo: (l: Locale) => `/${l}/ingenieria/equipo`,
+  consultoria: (l: Locale) => `/${l}/ingenieria/consultoria`,
+  // Direccion propia y sin prefijo: es la puerta de entrada desde el
+  // buscador -«domótica para cerramientos» es la búsqueda del negocio- y
+  // heredaba esa misma ruta del sitio anterior.
+  domotica: (l: Locale) => `/${l}/domotica-para-cerramientos`,
   ecosistemas: (l: Locale) => `/${l}/ecosistemas`,
   noticias: (l: Locale) => `/${l}/noticias`,
   noticia: (l: Locale, slug: string) => `/${l}/noticias/${slug}`,

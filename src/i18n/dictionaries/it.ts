@@ -396,6 +396,114 @@ const it: Dictionary = {
     },
   },
 
+  /** Paginas rescatadas del WordPress corporativo que se retira. */
+  team: {
+    eyebrow: 'Chi lo realizza',
+    title: 'Il team',
+    subtitle: 'Le persone che progettano, costruiscono e mantengono l’ecosistema MySmartWindow.',
+    linkedinLabel: '{name} su LinkedIn',
+    ctaTitle: 'Vuoi lavorare con noi?',
+    ctaText: 'Raccontaci il tuo progetto e ti diremo con franchezza se possiamo aiutarti.',
+  },
+
+  consulting: {
+    eyebrow: 'Servizi',
+    title: 'Consulenza di innovazione IoT',
+    subtitle: 'Affianchiamo i produttori che vogliono connettere i propri prodotti e non sanno da dove cominciare.',
+    ctaTitle: 'Raccontaci la tua idea',
+    ctaText: 'Valutiamo se ha prospettive e cosa servirebbe per portarla sul mercato.',
+  },
+
+  homeAutomation: {
+    eyebrow: 'Domotica',
+    title: 'Domotica per serramenti',
+    subtitle: 'Che cos’è, a cosa serve e cosa si può automatizzare in finestre, porte, tapparelle e tende da sole.',
+    ctaTitle: 'Produci serramenti?',
+    ctaText: 'Ti spieghiamo come integrare la nostra domotica in ciò che già produci.',
+  },
+
+  consultingPage: {
+    lead: 'IoT Fenster Consulting',
+    leadTitle: 'Crediamo nelle tue idee',
+    leadText:
+      'Abbiamo creato IoT Fenster Consulting per affiancare le aziende che vogliono connettere i propri prodotti. Sappiamo quanto valgono le tue idee e vogliamo farne parte.',
+    servicesTitle: 'Dove ti affianchiamo',
+    services: {
+      needs: {
+        title: 'Analisi delle esigenze',
+        description:
+          'Analizziamo le necessità della tua azienda ed esploriamo il potenziale reale delle tue idee e dei tuoi prodotti.',
+      },
+      goals: {
+        title: 'Obiettivi e traguardi',
+        description:
+          'Ti aiutiamo a fissare obiettivi raggiungibili per avviare il tuo progetto IoT su basi solide.',
+      },
+      compliance: {
+        title: 'Conformità normativa',
+        description:
+          'Ci occupiamo di far sì che il progetto rispetti le normative e i regolamenti che lo riguardano.',
+      },
+      materials: {
+        title: 'Selezione dei materiali',
+        description:
+          'Ti guidiamo nella scelta dei materiali, valutando durabilità, prestazioni e specifiche tecniche.',
+      },
+      network: {
+        title: 'Eventi di rete',
+        description:
+          'Individuiamo e rispondiamo a ciò che accade in rete, con soluzioni di sicurezza, affidabilità e privacy.',
+      },
+      design: {
+        title: 'Consulenza nel design',
+        description:
+          'Portiamo criterio progettuale: resistenza, efficienza ed estetica del prodotto e di ciò che lo compone.',
+      },
+    },
+    aboutTitle: 'Costruisci il successo',
+    aboutText:
+      'L’Internet delle cose collega i dispositivi tramite software e sensori integrati che permettono di comunicare, raccogliere dati e scambiarli. Unisce connettività, sensori, apparecchi e persone, e fa sì che uomini e macchine si capiscano. Da quella connessione nascono possibilità nuove in casa, al lavoro e nel tempo libero.',
+    precisionTitle: 'Precisione ed efficienza fin dall’inizio',
+    precisionText:
+      'Qualunque sia la complessità del tuo progetto, ti guidiamo lungo tutto il processo. Un approccio su misura e una conoscenza profonda di come si comporta ogni pezzo.',
+    closingTitle: 'Perché conviene farsi affiancare',
+    closingText:
+      'Con una buona consulenza sviluppi le tue idee dentro un quadro legale e di sicurezza, e ti risparmi gli errori che rallentano un progetto. Il risultato è un modello di business adatto a come vive la gente oggi.',
+  },
+
+  homeAutomationPage: {
+    pillarsTitle: 'Domotizza i tuoi prodotti',
+    pillars: {
+      vision: {
+        title: 'Visione e futuro',
+        description:
+          'La domotica si adatta al mondo e a ciò di cui la società ha bisogno. È la nuova era dei serramenti.',
+      },
+      design: {
+        title: 'Design innovativo',
+        description:
+          'Semplicità, eleganza e produzione migliore: per questo la domotica è sempre più indispensabile.',
+      },
+      connectivity: {
+        title: 'Connettività',
+        description:
+          'Permette di controllare i serramenti da dispositivi e applicazioni diversi.',
+      },
+    },
+    whatTitle: 'Che cos’è esattamente?',
+    whatText:
+      'La domotica per serramenti significa applicare sistemi automatizzati a ciò che chiude un’abitazione o un edificio: porte, finestre, tapparelle, tende o tende da sole. Permette di controllarli e gestirli in modo intelligente.',
+    whatText2:
+      'Offre comfort, sicurezza ed efficienza energetica, perché puoi comandarli a distanza o lasciare che si comandino da soli. Con sensori, attuatori e sistemi di controllo si programmano il movimento, l’apertura e la chiusura, e la regolazione di tapparelle e tende, tutti insieme o uno per uno.',
+    controlTitle: 'Il controllo è tuo',
+    remoteTitle: 'Controllo a distanza',
+    remoteText:
+      'Progettiamo domotica che si controlla da qualsiasi parte del mondo. Le nostre applicazioni mobili servono a comandare, automatizzare e tenere d’occhio i serramenti.',
+    remoteText2:
+      'Può inoltre integrare sensori che rilevano luce, temperatura, umidità o presenza, e attivano ciò che serve in base a quello di cui ciascuno ha bisogno.',
+    devicesCta: 'Vedi i dispositivi',
+  },
+
   /** Plantillas de metadatos que antes estaban escritas a mano en castellano. */
   seoMeta: {
     resourceDescription: '{type} su {category} per {device}.',

@@ -15,6 +15,7 @@ import { ecosystems } from '../src/data/ecosystems.ts'
 import { faqs } from '../src/data/faq.ts'
 import { news } from '../src/data/news.ts'
 import { partners } from '../src/data/partners.ts'
+import { team } from '../src/data/team.ts'
 import { legalDocuments } from '../src/data/legal.ts'
 
 const STRAPI_URL = (process.env.STRAPI_URL ?? 'http://localhost:1337').replace(/\/$/, '')
@@ -160,6 +161,24 @@ async function seedPartners() {
   console.log(`distribuidores: ${count}`)
 }
 
+async function seedTeam() {
+  let count = 0
+  for (const m of team) {
+    await upsert(
+      'team-members',
+      m.id,
+      {
+        es: { role: m.role.es, bio: m.bio.es },
+        en: { role: m.role.en, bio: m.bio.en },
+        it: { role: m.role.it, bio: m.bio.it },
+      },
+      { name: m.name, order: m.order, linkedin: m.linkedin }
+    )
+    count++
+  }
+  console.log(`equipo: ${count}`)
+}
+
 async function seedResources(categoryIds, deviceIds) {
   let count = 0
   for (const r of resources) {
@@ -276,6 +295,7 @@ async function main() {
   const deviceIds = await seedDevices()
   await seedEcosystems()
   await seedPartners()
+  await seedTeam()
   await seedResources(categoryIds, deviceIds)
 
   // El FAQ enlaza a recursos por slug: necesita que ya existan.

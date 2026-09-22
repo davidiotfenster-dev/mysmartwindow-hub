@@ -395,6 +395,114 @@ const es = {
     },
   },
 
+  /** Paginas rescatadas del WordPress corporativo que se retira. */
+  team: {
+    eyebrow: 'Quienes lo hacemos',
+    title: 'El equipo',
+    subtitle: 'Las personas que diseñan, fabrican y sostienen el ecosistema MySmartWindow.',
+    linkedinLabel: 'Perfil de {name} en LinkedIn',
+    ctaTitle: '¿Quieres trabajar con nosotros?',
+    ctaText: 'Cuéntanos tu proyecto y te decimos con franqueza si podemos ayudarte.',
+  },
+
+  consulting: {
+    eyebrow: 'Servicios',
+    title: 'Consultoría de innovación en IoT',
+    subtitle: 'Acompañamos a fabricantes que quieren conectar sus productos y no saben por dónde empezar.',
+    ctaTitle: 'Cuéntanos tu idea',
+    ctaText: 'Analizamos si tiene recorrido y qué haría falta para llevarla al mercado.',
+  },
+
+  homeAutomation: {
+    eyebrow: 'Domótica',
+    title: 'Domótica para cerramientos',
+    subtitle: 'Qué es, para qué sirve y qué se puede automatizar en ventanas, puertas, persianas y toldos.',
+    ctaTitle: '¿Fabricas cerramientos?',
+    ctaText: 'Te contamos cómo integrar nuestra domótica en lo que ya produces.',
+  },
+
+  consultingPage: {
+    lead: 'IoT Fenster Consulting',
+    leadTitle: 'Creemos en tus ideas',
+    leadText:
+      'Hemos creado IoT Fenster Consulting para acompañar a las empresas que quieren conectar sus productos. Sabemos lo que valen tus ideas, y queremos formar parte de ellas.',
+    servicesTitle: 'En qué te acompañamos',
+    services: {
+      needs: {
+        title: 'Análisis de necesidades',
+        description:
+          'Analizamos las necesidades de tu empresa y exploramos el potencial real de tus ideas y de tus productos.',
+      },
+      goals: {
+        title: 'Objetivos y metas',
+        description:
+          'Te ayudamos a fijar objetivos alcanzables para empezar tu proyecto de IoT sobre una base sólida.',
+      },
+      compliance: {
+        title: 'Cumplimiento normativo',
+        description:
+          'Nos ocupamos de que el proyecto cumpla la normativa y las regulaciones que le apliquen.',
+      },
+      materials: {
+        title: 'Selección de materiales',
+        description:
+          'Te guiamos en la elección de materiales, valorando durabilidad, rendimiento y especificaciones.',
+      },
+      network: {
+        title: 'Eventos de red',
+        description:
+          'Detectamos y respondemos a lo que pasa en la red, con soluciones de seguridad, fiabilidad y privacidad.',
+      },
+      design: {
+        title: 'Asesoramiento en diseño',
+        description:
+          'Aportamos criterio de diseño: resistencia, eficiencia y estética del producto y de lo que lo compone.',
+      },
+    },
+    aboutTitle: 'Construye el éxito',
+    aboutText:
+      'El Internet de las cosas conecta dispositivos a través de software y sensores integrados que permiten comunicarse, recoger datos e intercambiarlos. Combina la conectividad con los sensores, los aparatos y las personas, y facilita que humanos y máquinas se entiendan. Con esa conexión se abren posibilidades nuevas en casa, en el trabajo y en el ocio.',
+    precisionTitle: 'Precisión y eficiencia desde el principio',
+    precisionText:
+      'Sea cual sea la complejidad de tu proyecto, te guiamos durante todo el proceso. Un enfoque a medida y un conocimiento profundo de cómo se comporta cada pieza.',
+    closingTitle: 'Por qué conviene acompañarse bien',
+    closingText:
+      'Con una buena consultoría desarrollas tus ideas siguiendo un protocolo legal y de seguridad, y te ahorras los errores que retrasan un proyecto. El resultado es un modelo de negocio que se adapta a cómo vive la gente hoy.',
+  },
+
+  homeAutomationPage: {
+    pillarsTitle: 'Domotiza tus productos',
+    pillars: {
+      vision: {
+        title: 'Visión y futuro',
+        description:
+          'La domótica se adapta al mundo y a lo que la sociedad necesita. Es la nueva era de los cerramientos.',
+      },
+      design: {
+        title: 'Diseño innovador',
+        description:
+          'Sencillez, elegancia y mejora en la fabricación: por eso la domótica es cada vez más indispensable.',
+      },
+      connectivity: {
+        title: 'Conectividad',
+        description:
+          'Permite controlar los cerramientos desde distintos dispositivos y aplicaciones.',
+      },
+    },
+    whatTitle: '¿Qué es exactamente?',
+    whatText:
+      'La domótica para cerramientos es aplicar sistemas automatizados a los elementos que cierran una vivienda o un edificio: puertas, ventanas, persianas, cortinas o toldos. Permite controlarlos y gestionarlos de forma inteligente.',
+    whatText2:
+      'Aporta comodidad, seguridad y eficiencia energética, porque puedes manejarlos a distancia o dejar que se manejen solos. Con sensores, actuadores y sistemas de control se programa el movimiento, la apertura y el cierre, y el ajuste de persianas y cortinas, de forma conjunta o uno a uno.',
+    controlTitle: 'Tú tienes el control',
+    remoteTitle: 'Control a distancia',
+    remoteText:
+      'Diseñamos domótica que se controla desde cualquier parte del mundo. Nuestras aplicaciones móviles sirven para manejar, automatizar y vigilar los cerramientos.',
+    remoteText2:
+      'Además puede incorporar sensores que detectan luz, temperatura, humedad o presencia, y activan lo que haga falta según lo que cada persona necesite.',
+    devicesCta: 'Ver los dispositivos',
+  },
+
   /** Plantillas de metadatos que antes estaban escritas a mano en castellano. */
   seoMeta: {
     resourceDescription: '{type} de {category} para {device}.',

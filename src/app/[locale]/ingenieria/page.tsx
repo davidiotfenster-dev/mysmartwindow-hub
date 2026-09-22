@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { ArrowRight, Check } from 'lucide-react'
 
 import { PageHeader } from '@/components/layout/PageHeader'
@@ -83,6 +84,45 @@ export default async function EngineeringPage({
             </StaggerItem>
           ))}
         </Stagger>
+      </Section>
+
+      {/* Las dos paginas que colgaban del WordPress corporativo: viven aqui
+          dentro para no meter dos entradas mas en un menu que ya va lleno. */}
+      <Section className="border-t border-line">
+        <div className="grid gap-5 md:grid-cols-2">
+          {[
+            {
+              href: routes.equipo(locale),
+              eyebrow: dict.team.eyebrow,
+              title: dict.team.title,
+              text: dict.team.subtitle,
+            },
+            {
+              href: routes.consultoria(locale),
+              eyebrow: dict.consulting.eyebrow,
+              title: dict.consulting.title,
+              text: dict.consulting.subtitle,
+            },
+          ].map((card) => (
+            <Link
+              key={card.href}
+              href={card.href}
+              className="group flex flex-col rounded-3xl border border-line bg-bg-elevated/60 p-8 transition-all hover:-translate-y-1 hover:border-brand-500/40"
+            >
+              <p className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-fg-subtle">
+                {card.eyebrow}
+              </p>
+              <h3 className="mt-2 font-display text-xl font-bold transition-colors group-hover:text-brand-500">
+                {card.title}
+              </h3>
+              <p className="mt-3 text-[0.88rem] leading-relaxed text-fg-muted">{card.text}</p>
+              <span className="mt-5 inline-flex items-center gap-1.5 text-[0.84rem] font-semibold text-brand-500">
+                {dict.common.viewAll}
+                <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+              </span>
+            </Link>
+          ))}
+        </div>
       </Section>
 
       <Section>
