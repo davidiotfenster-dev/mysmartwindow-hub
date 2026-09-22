@@ -180,9 +180,25 @@ export function pickLocalized(
   }
 }
 
-/** Primera entrada disponible de un grupo, para leer los campos no localizados. */
+/**
+ * De donde se leen los campos que el CMS marca como comunes a los tres idiomas
+ * (el nombre de un aparato, su foto, la galeria): la entrada publicada mas
+ * recientemente, sea del idioma que sea.
+ *
+ * Antes se cogia siempre la espanola, y eso rompia el campo compartido: Strapi
+ * los comparte mientras son borrador, pero al publicar cada idioma va por su
+ * cuenta. Quien editaba el nombre desde la ficha inglesa y publicaba no veia el
+ * cambio en ninguna parte -tampoco en ingles-, sin ningun aviso.
+ */
 export function anyEntry(bucket: Partial<Record<Locale, StrapiEntry>>): StrapiEntry | undefined {
-  return bucket.es ?? bucket.en ?? bucket.it
+  const entries = locales.map((l) => bucket[l]).filter((e): e is StrapiEntry => Boolean(e))
+  if (entries.length < 2) return entries[0]
+
+  return entries.reduce((masReciente, entrada) => {
+    const a = (entrada.updatedAt as string) ?? ''
+    const b = (masReciente.updatedAt as string) ?? ''
+    return a > b ? entrada : masReciente
+  })
 }
 
 /**
