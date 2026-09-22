@@ -30,16 +30,15 @@ services:
         # arrancar: de aqui salen las URL canonicas, el sitemap, el hreflang y
         # las vistas previas al compartir enlaces.
         #
-        # Ahora mismo la IP, porque www.iotfenster.com todavia lo sirve el
-        # WordPress. EL DIA QUE SE MIGRE EL DNS: cambiar esta linea a
-        # https://www.iotfenster.com y volver a construir
-        # (docker compose up -d --build). Hasta entonces no des de alta el
-        # sitemap en Google, porque lleva la IP.
+        # Mientras el dominio siga sirviendo el WordPress, el sitio se prueba
+        # entrando por la IP del servidor: eso funciona igual. Lo que no hay
+        # que hacer todavia es dar de alta el sitemap en Google, porque ya
+        # anuncia el dominio y ahi aun no esta este sitio.
         #
         # Poner localhost aqui hace fallar la compilacion a proposito: es un
-        # fallo que de otro modo pasaria inadvertido hasta que el sitio ya
-        # estuviera indexado mal.
-        NEXT_PUBLIC_SITE_URL: http://52.209.147.26:3000
+        # fallo que de otro modo pasaria inadvertido hasta tener el sitio ya
+        # indexado con direcciones que no llevan a ninguna parte.
+        NEXT_PUBLIC_SITE_URL: https://www.iotfenster.com
     restart: unless-stopped
     environment:
       STRAPI_URL: http://cms:1337
