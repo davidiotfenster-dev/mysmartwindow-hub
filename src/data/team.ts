@@ -23,6 +23,7 @@ export interface TeamMember {
 export const team: TeamMember[] = [
   {
     id: 'julio-fuertes',
+    photo: '/equipo/julio-fuertes.png',
     name: 'Julio Fuertes',
     order: 10,
     role: {
@@ -38,6 +39,7 @@ export const team: TeamMember[] = [
   },
   {
     id: 'fran-perez',
+    photo: '/equipo/fran-perez.png',
     name: 'Fran Pérez',
     order: 20,
     role: {
@@ -53,6 +55,7 @@ export const team: TeamMember[] = [
   },
   {
     id: 'jorge-martinez',
+    photo: '/equipo/jorge-martinez.png',
     name: 'Jorge Martínez',
     order: 30,
     role: {
@@ -68,6 +71,7 @@ export const team: TeamMember[] = [
   },
   {
     id: 'dennis-martinez',
+    photo: '/equipo/dennis-martinez.png',
     name: 'Dennis Martínez',
     order: 40,
     role: {
@@ -83,6 +87,7 @@ export const team: TeamMember[] = [
   },
   {
     id: 'boryana-angelakieva',
+    photo: '/equipo/boryana-angelakieva.png',
     name: 'Boryana Angelakieva',
     order: 50,
     role: {
@@ -98,6 +103,7 @@ export const team: TeamMember[] = [
   },
   {
     id: 'enrique-pagan',
+    photo: '/equipo/enrique-pagan.png',
     name: 'Enrique Pagán',
     order: 60,
     role: {
