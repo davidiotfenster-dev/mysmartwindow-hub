@@ -28,8 +28,13 @@ export const getResources = cache(async (): Promise<Resource[]> => {
     if (!base?.slug || !base.type) continue
 
     const category = relationSlug(base, 'category') as CategoryId | undefined
-    const device = relationSlug(base, 'device') as DeviceId | undefined
-    if (!category || !device) continue
+    if (!category) continue
+
+    // Un recurso sin dispositivo no se tira a la basura: se queda en `general`,
+    // que existe justo para el material que no es de un aparato concreto.
+    // Antes se descartaba, asi que borrar un dispositivo del CMS se llevaba por
+    // delante sus manuales, en silencio y sin avisar a nadie.
+    const device = (relationSlug(base, 'device') as DeviceId | undefined) ?? 'general'
 
     merged.push({
       id: base.slug as string,

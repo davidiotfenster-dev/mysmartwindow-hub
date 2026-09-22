@@ -48,8 +48,14 @@ export async function generateMetadata({
     getCategoryMap(),
     getDeviceMap(),
   ])
-  const category = categoryMap[resource.category].name[locale]
-  const device = deviceMap[resource.device]
+  // Red de seguridad por si la ficha quedo apuntando a algo que ya no esta:
+  // sin esto, un dispositivo borrado en el CMS no rompe una pagina, tumba la
+  // construccion del sitio entero.
+  const categoryEntry = categoryMap[resource.category]
+  const device = deviceMap[resource.device] ?? deviceMap.general
+  if (!categoryEntry || !device) return {}
+
+  const category = categoryEntry.name[locale]
   const typeLabel = resourceTypeMeta[resource.type].short[locale]
 
   // La plantilla del layout ya añade " · MySmartWindow": no lo repetimos aquí.
@@ -117,8 +123,11 @@ export default async function ResourcePage({
 
   const view = toResourceView(resource, locale, videoMap, categoryMap, deviceMap)
 
+  // Ver la nota de generateMetadata.
   const category = categoryMap[resource.category]
-  const device = deviceMap[resource.device]
+  const device = deviceMap[resource.device] ?? deviceMap.general
+  if (!category || !device) notFound()
+
   const isVideo = view.type === 'video'
   const typeLabel = resourceTypeMeta[view.type].label[locale]
 
