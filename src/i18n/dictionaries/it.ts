@@ -395,6 +395,17 @@ const it: Dictionary = {
       whatsappCta: 'Scrivi su WhatsApp',
     },
   },
+
+  /** Plantillas de metadatos que antes estaban escritas a mano en castellano. */
+  seoMeta: {
+    resourceDescription: '{type} su {category} per {device}.',
+    allDevices: 'dispositivi MySmartWindow',
+    deviceResources: '{count} risorse: manuali, videotutorial e schede passo passo.',
+    deviceResource: '{count} risorsa: manuali, videotutorial e schede passo passo.',
+    keywords: ['domotica', 'serramenti'],
+    productCategory: 'Domotica per serramenti',
+  },
+
 }
 
 export default it

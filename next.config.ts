@@ -23,6 +23,11 @@ const nextConfig: NextConfig = {
   ...(basePath ? { basePath } : {}),
 
   images: {
+    // Las fotos que suben al CMS vienen del móvil o de la cámara, a varios
+    // megas. Next las reescala al tamaño que pide cada hueco y las reparte en
+    // estos formatos, que pesan la mitad que un JPEG: quien sube no tiene que
+    // acordarse de optimizar nada.
+    formats: ['image/avif', 'image/webp'],
     remotePatterns: [
       { protocol: 'https', hostname: 'i.ytimg.com' },
       { protocol: 'https', hostname: 'i1.ytimg.com' },

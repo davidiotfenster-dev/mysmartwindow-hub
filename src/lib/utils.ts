@@ -42,3 +42,8 @@ export function fileNameFromUrl(url: string): string {
 export function isExternal(href: string): boolean {
   return /^https?:\/\//i.test(href)
 }
+
+/** Rellena los {marcadores} de una plantilla del diccionario. */
+export function fill(template: string, values: Record<string, string | number>): string {
+  return template.replace(/\{(\w+)\}/g, (_, key) => String(values[key] ?? ''))
+}

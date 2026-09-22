@@ -1,9 +1,9 @@
 import { cache } from 'react'
 
 import type { Locale } from '@/i18n/config'
-import { fetchSingleAllLocales, pickLocalized, seoOverride, type SeoOverrideRaw } from './strapi-client'
+import { fetchSingleAllLocales, pickLocalized, seoOverrideLocalized, type SeoOverrideRaw } from './strapi-client'
 
-export type SiteSeo = SeoOverrideRaw
+export type SiteSeo = Partial<Record<Locale, SeoOverrideRaw>>
 
 export interface SiteSettings {
   siteName: string
@@ -84,6 +84,6 @@ export const getSiteSettings = cache(async (): Promise<SiteSettings> => {
     socialLinks: Array.isArray(base.socialLinks)
       ? (base.socialLinks as { label: string; url: string }[])
       : [],
-    seo: seoOverride(base) ?? {},
+    seo: seoOverrideLocalized(byLocale),
   }
 })

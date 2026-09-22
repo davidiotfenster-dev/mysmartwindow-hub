@@ -45,8 +45,9 @@ export async function generateMetadata({
   const { locale } = await params
   const dict = getDictionary(locale)
   const settings = await getSiteSettings()
-  const title = settings.seo.metaTitle || dict.meta.title
-  const description = settings.seo.metaDescription || dict.meta.description
+  const seo = settings.seo[isLocale(locale) ? locale : 'es']
+  const title = seo?.metaTitle || dict.meta.title
+  const description = seo?.metaDescription || dict.meta.description
   return {
     metadataBase: new URL(SITE_URL),
     title: { default: title, template: `%s · MySmartWindow` },
@@ -62,7 +63,7 @@ export async function generateMetadata({
       title,
       description,
       locale: localeMeta[isLocale(locale) ? locale : 'es'].htmlLang,
-      ...(settings.seo.ogImage ? { images: [{ url: settings.seo.ogImage }] } : {}),
+      ...(seo?.ogImage ? { images: [{ url: seo.ogImage }] } : {}),
     },
     twitter: { card: 'summary_large_image', title, description },
     icons: { icon: '/icon.svg' },

@@ -25,7 +25,10 @@ function withAlternates(path: string) {
   return {
     languages: {
       ...Object.fromEntries(
-        locales.map((l) => [localeMeta[l].htmlLang, `${SITE_URL}/${l}${path}`])
+        locales.flatMap((l) => [
+          [localeMeta[l].htmlLang, `${SITE_URL}/${l}${path}`],
+          [l, `${SITE_URL}/${l}${path}`],
+        ])
       ),
       'x-default': `${SITE_URL}/es${path}`,
     },
@@ -37,11 +40,13 @@ function entry(
   path: string,
   priority: number,
   changeFrequency: 'weekly' | 'monthly' | 'yearly',
-  lastModified: Date = new Date()
+  // Sin fecha conocida no se declara ninguna: poner `new Date()` marcaba todo
+  // el sitio como modificado hoy en cada regeneracion, que es una senal falsa.
+  lastModified?: Date
 ) {
   return {
     url: `${SITE_URL}/${locale}${path}`,
-    lastModified,
+    ...(lastModified ? { lastModified } : {}),
     changeFrequency,
     priority,
     alternates: withAlternates(path),
@@ -62,7 +67,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         locale,
         path,
         path === '' ? 1 : path === '/recursos' ? 0.9 : 0.7,
-        path === '' ? 'weekly' : 'monthly'
+        path === '' || path === '/recursos' || path === '/videos' ? 'weekly' : 'monthly'
       )
     )
   )
@@ -75,7 +80,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         `/recursos/${r.id}`,
         r.featured ? 0.8 : 0.6,
         'monthly',
-        r.updated ? new Date(r.updated) : new Date()
+        r.updated ? new Date(r.updated) : undefined
       )
     )
   )

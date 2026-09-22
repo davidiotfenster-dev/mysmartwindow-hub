@@ -535,6 +535,12 @@ export interface ApiDeviceDevice extends Struct.CollectionTypeSchema {
           localized: true;
         };
       }>;
+    gallery: Schema.Attribute.Media<'images', true> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
     hidden: Schema.Attribute.Boolean &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
@@ -583,6 +589,12 @@ export interface ApiDeviceDevice extends Struct.CollectionTypeSchema {
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     url: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    videos: Schema.Attribute.Media<'videos', true> &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
           localized: false;

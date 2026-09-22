@@ -77,12 +77,37 @@ Los 9 aparatos del ecosistema (CONNECT-2, C-WALL...).
 | `description` | el párrafo de descripción | **Sí** |
 | `features` | lista de características (cada línea es traducible) | **Sí** |
 | `url` | enlace a la ficha de producto externa, si existe | No |
-| `photo` | foto del dispositivo (Media Library) | No |
+| `photo` | foto de portada, la que abre el carrete | No |
+| `gallery` | más fotos del dispositivo, en el orden que quieras | No |
+| `videos` | vídeos propios del dispositivo (no los de YouTube) | No |
 | `seo` | ver *SEO* | Sí |
 
 Para añadir o quitar una característica de la lista `features`, usa los
 botones `+` / la papelera junto a cada línea — pero hazlo **en cada idioma**,
 uno por uno (ver *Cómo funciona la traducción*, más abajo).
+
+### El carrete de fotos y vídeos
+
+`photo`, `gallery` y `videos` forman un mismo carrete en la ficha del
+dispositivo: la portada primero, después las fotos y al final los vídeos, con
+una tira de miniaturas para pasar de una a otra. Con una sola foto y ningún
+vídeo la ficha se ve igual que siempre, sin miniaturas.
+
+Ni las fotos ni los vídeos se traducen: la misma imagen vale para los tres
+idiomas.
+
+**Fotos**: súbelas como salgan de la cámara. El sitio las reescala al tamaño
+que necesita cada hueco y las convierte a formatos modernos, así que no hay
+que prepararlas ni comprimirlas a mano.
+
+**Vídeos**: aquí sí importa lo que subas. El sitio no puede recomprimir un
+vídeo, sólo evita descargarlo hasta que alguien le da al play — quien no lo
+mira no lo paga. Sube MP4 de 1080p como mucho; un vídeo de producto de un par
+de minutos debería quedarse por debajo de 50 MB. Si sale mucho más pesado,
+compensa reducirlo antes de subirlo.
+
+> Los vídeos del canal de YouTube no van aquí: ésos se gestionan como recursos
+> de tipo *Vídeo* y salen en su propia sección, más abajo en la misma ficha.
 
 ---
 

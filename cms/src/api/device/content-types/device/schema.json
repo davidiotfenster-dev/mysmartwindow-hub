@@ -50,6 +50,18 @@
       "allowedTypes": ["images"],
       "pluginOptions": { "i18n": { "localized": false } }
     },
+    "gallery": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": ["images"],
+      "pluginOptions": { "i18n": { "localized": false } }
+    },
+    "videos": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": ["videos"],
+      "pluginOptions": { "i18n": { "localized": false } }
+    },
     "seo": {
       "type": "component",
       "repeatable": false,

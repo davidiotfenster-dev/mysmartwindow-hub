@@ -199,6 +199,12 @@ export function mediaUrl(field: unknown): string | undefined {
   return url.startsWith('http') ? url : `/api/media${url}`
 }
 
+/** Igual que `mediaUrl`, para los campos que admiten varios ficheros. */
+export function mediaUrls(field: unknown): string[] {
+  if (!Array.isArray(field)) return []
+  return field.map(mediaUrl).filter((url): url is string => Boolean(url))
+}
+
 /**
  * El fichero de cada idioma, para los documentos que existen traducidos.
  *
@@ -223,6 +229,24 @@ export interface SeoOverrideRaw {
   metaDescription?: string
   keywords?: string
   ogImage?: string
+}
+
+/**
+ * El bloque SEO de cada idioma por separado.
+ *
+ * `seo` está localizado en Strapi, pero leerlo de `anyEntry()` devolvía
+ * siempre el de la entrada española: en cuanto un editor rellenaba el bloque,
+ * las versiones inglesa e italiana servían título y descripción en castellano.
+ */
+export function seoOverrideLocalized(
+  bucket: Partial<Record<Locale, StrapiEntry>>
+): Partial<Record<Locale, SeoOverrideRaw>> {
+  const out: Partial<Record<Locale, SeoOverrideRaw>> = {}
+  for (const locale of locales) {
+    const own = seoOverride(bucket[locale])
+    if (own) out[locale] = own
+  }
+  return out
 }
 
 /** Lee el componente `shared.seo` de una entrada; undefined si el editor no lo ha rellenado. */

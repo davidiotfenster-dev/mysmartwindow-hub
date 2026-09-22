@@ -6,9 +6,20 @@ import { ArrowLeft, ArrowUpRight, Clock } from 'lucide-react'
 import { Badge } from '@/components/ui/primitives'
 import { getNews, getNewsPost } from '@/lib/content'
 import { getDictionary } from '@/i18n'
-import { locales, type Locale } from '@/i18n/config'
+import { locales, localeMeta, type Locale } from '@/i18n/config'
 import { routes } from '@/lib/navigation'
-import { resolveDescription, resolveTitle } from '@/lib/seo'
+import {
+  absolute,
+  alternates,
+  breadcrumbSchema,
+  jsonLd,
+  resolveDescription,
+  resolveTitle,
+  ORG_NAME,
+  ORG_URL,
+  SITE_URL,
+} from '@/lib/seo'
+import { JsonLd } from '@/components/seo/JsonLd'
 import { formatDate } from '@/lib/utils'
 
 /**
@@ -32,12 +43,13 @@ export async function generateMetadata({
   const post = await getNewsPost(slug)
   if (!post) return {}
   return {
-    title: resolveTitle(post.seo, post.title[locale]),
-    description: resolveDescription(post.seo, post.excerpt[locale]),
+    title: resolveTitle(post.seo?.[locale], post.title[locale]),
+    description: resolveDescription(post.seo?.[locale], post.excerpt[locale]),
+    alternates: alternates(`/noticias/${slug}`, locale),
     openGraph: {
       type: 'article',
       publishedTime: post.publishedAt,
-      ...(post.seo?.ogImage ? { images: [{ url: post.seo.ogImage }] } : post.cover ? { images: [{ url: post.cover }] } : {}),
+      ...(post.seo?.[locale]?.ogImage ? { images: [{ url: post.seo[locale]!.ogImage! }] } : post.cover ? { images: [{ url: post.cover }] } : {}),
     },
   }
 }
@@ -53,8 +65,29 @@ export default async function NewsPostPage({
 
   const related = allNews.filter((p) => p.slug !== post.slug).slice(0, 2)
 
+  const articleSchema = {
+    '@type': 'NewsArticle',
+    '@id': absolute(`/${locale}/noticias/${slug}#article`),
+    headline: post.title[locale],
+    description: post.excerpt[locale],
+    url: absolute(`/${locale}/noticias/${slug}`),
+    datePublished: post.publishedAt,
+    dateModified: post.publishedAt,
+    inLanguage: localeMeta[locale].htmlLang,
+    author: { '@type': 'Organization', name: ORG_NAME, url: ORG_URL },
+    publisher: { '@id': `${SITE_URL}/#organization` },
+    ...(post.cover ? { image: absolute(post.cover) } : {}),
+  }
+
+  const crumbs = [
+    { name: dict.nav.home, path: `/${locale}` },
+    { name: dict.news.title, path: `/${locale}/noticias` },
+    { name: post.title[locale], path: `/${locale}/noticias/${slug}` },
+  ]
+
   return (
     <article>
+      <JsonLd data={jsonLd(articleSchema, breadcrumbSchema(crumbs))} />
       <header className={`relative overflow-hidden border-b border-line bg-gradient-to-br ${post.gradient} pb-14 pt-28 sm:pb-20 sm:pt-36`}>
         <div className="grid-tech pointer-events-none absolute inset-0 opacity-50" aria-hidden="true" />
         <div className="slats pointer-events-none absolute inset-x-0 bottom-0 h-28 opacity-70" aria-hidden="true" />

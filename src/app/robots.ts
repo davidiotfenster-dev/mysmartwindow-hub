@@ -4,7 +4,17 @@ const base = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: [{ userAgent: '*', allow: '/', disallow: '/api/' }],
+    rules: [
+      {
+        userAgent: '*',
+        // Los manuales del CMS se sirven por /api/media y los PDF de fuera por
+        // /api/pdf: cerrar /api/ entero dejaba fuera de los buscadores todo el
+        // contenido del centro de recursos. Lo que se cierra son los extremos
+        // que no publican nada: formularios y consultas.
+        allow: ['/', '/api/media/', '/api/pdf'],
+        disallow: ['/api/contacto', '/api/newsletter', '/api/youtube'],
+      },
+    ],
     sitemap: `${base}/sitemap.xml`,
   }
 }

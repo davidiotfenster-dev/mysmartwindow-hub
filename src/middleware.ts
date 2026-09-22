@@ -35,7 +35,13 @@ export function middleware(request: NextRequest) {
   const hasLocale = locales.some(
     (locale) => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`)
   )
-  if (hasLocale) return NextResponse.next()
+  if (hasLocale) {
+    // El 404 de Next no recibe params, asi que sin esto no hay forma de saber
+    // en que idioma estaba navegando quien se ha perdido.
+    const headers = new Headers(request.headers)
+    headers.set('x-pathname', pathname)
+    return NextResponse.next({ request: { headers } })
+  }
 
   const locale = detectLocale(request)
   const url = request.nextUrl.clone()

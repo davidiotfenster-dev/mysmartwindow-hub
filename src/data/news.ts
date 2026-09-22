@@ -1,5 +1,5 @@
 import type { Localized } from '@/i18n/config'
-import type { SeoOverride } from '@/lib/seo'
+import type { LocalizedSeo } from '@/lib/seo'
 
 /**
  * Noticias.
@@ -21,7 +21,7 @@ export interface NewsPost {
   /** Imagen de portada subida en el CMS, si existe. */
   cover?: string
   /** SEO editable desde el CMS; si no existe se genera a partir del contenido. */
-  seo?: SeoOverride
+  seo?: LocalizedSeo
 }
 
 export const news: NewsPost[] = [

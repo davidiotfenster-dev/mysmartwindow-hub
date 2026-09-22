@@ -394,6 +394,17 @@ const es = {
       whatsappCta: 'Escribir por WhatsApp',
     },
   },
+
+  /** Plantillas de metadatos que antes estaban escritas a mano en castellano. */
+  seoMeta: {
+    resourceDescription: '{type} de {category} para {device}.',
+    allDevices: 'dispositivos MySmartWindow',
+    deviceResources: '{count} recursos: manuales, videotutoriales y tarjetas paso a paso.',
+    deviceResource: '{count} recurso: manuales, videotutoriales y tarjetas paso a paso.',
+    keywords: ['domótica', 'cerramientos'],
+    productCategory: 'Domótica para cerramientos',
+  },
+
 }
 
 export default es

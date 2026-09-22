@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ArrowUpRight, Check } from 'lucide-react'
@@ -7,10 +6,12 @@ import { ArrowUpRight, Check } from 'lucide-react'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { LogoMark } from '@/components/brand/Logo'
 import { Badge, ButtonLink, Section, SectionHeading } from '@/components/ui/primitives'
+import { DeviceGallery } from '@/components/devices/DeviceGallery'
 import { ResourceRail } from '@/components/resources/ResourceRail'
 import { resourceTypeMeta } from '@/data/taxonomy'
 import { getCategoryMap, getResources, getVisibleDevices } from '@/lib/content'
 import { getDictionary } from '@/i18n'
+import { fill } from '@/lib/utils'
 import { locales, localeMeta, type Locale } from '@/i18n/config'
 import { routes } from '@/lib/navigation'
 import { toResourceViews } from '@/lib/resource-view'
@@ -42,14 +43,18 @@ export async function generateMetadata({
   const [devices, resources] = await Promise.all([getVisibleDevices(), getResources()])
   const device = devices.find((d) => d.id === id)
   if (!device) return {}
+  const dict = getDictionary(locale)
 
   const count = resources.filter((r) => r.device === device.id).length
   // La plantilla del layout ya añade " · MySmartWindow"
   const generatedTitle = `${device.name} — ${device.tagline[locale]}`
-  const generatedDescription = `${device.description[locale]} ${count} ${count === 1 ? 'recurso' : 'recursos'}: manuales, videotutoriales y tarjetas paso a paso.`
+  const generatedDescription = `${device.description[locale]} ${fill(
+    count === 1 ? dict.seoMeta.deviceResource : dict.seoMeta.deviceResources,
+    { count }
+  )}`
 
-  const title = resolveTitle(device.seo, generatedTitle)
-  const description = resolveDescription(device.seo, generatedDescription)
+  const title = resolveTitle(device.seo?.[locale], generatedTitle)
+  const description = resolveDescription(device.seo?.[locale], generatedDescription)
 
   return {
     title,
@@ -57,12 +62,12 @@ export async function generateMetadata({
     alternates: alternates(`/dispositivos/${id}`, locale),
     openGraph: {
       type: 'website',
-      title: resolveTitle(device.seo, `${device.name} — ${device.tagline[locale]}`),
+      title: resolveTitle(device.seo?.[locale], `${device.name} — ${device.tagline[locale]}`),
       description,
       url: absolute(`/${locale}/dispositivos/${id}`),
-      ...(device.seo?.ogImage ? { images: [{ url: device.seo.ogImage }] } : device.photo ? { images: [{ url: device.photo }] } : {}),
+      ...(device.seo?.[locale]?.ogImage ? { images: [{ url: device.seo[locale]!.ogImage! }] } : device.photo ? { images: [{ url: device.photo }] } : {}),
     },
-    keywords: [device.name, 'MySmartWindow', 'IoT Fenster', 'domótica', 'cerramientos'],
+    keywords: [device.name, 'MySmartWindow', 'IoT Fenster', ...dict.seoMeta.keywords],
   }
 }
 
@@ -96,6 +101,11 @@ export default async function DevicePage({
     (c) => categoryMap[c]
   )
 
+  // La portada abre el carrete y las fotos del CMS van detrás, sin repetirla.
+  const photos = [device.photo, ...(device.gallery ?? [])].filter(
+    (src, i, all): src is string => Boolean(src) && all.indexOf(src) === i
+  )
+
   const others = devices.filter((d) => d.id !== device.id).slice(0, 4)
 
   const crumbs = [
@@ -109,7 +119,7 @@ export default async function DevicePage({
     '@id': absolute(`/${locale}/dispositivos/${id}#product`),
     name: device.name,
     description: device.description[locale],
-    category: 'Domótica para cerramientos',
+    category: dict.seoMeta.productCategory,
     brand: { '@type': 'Brand', name: ORG_NAME },
     manufacturer: { '@type': 'Organization', name: ORG_NAME, url: ORG_URL },
     inLanguage: localeMeta[locale].htmlLang,
@@ -185,19 +195,12 @@ export default async function DevicePage({
             </div>
 
             <div className="space-y-5">
-              {device.photo && (
-                <div className="relative flex h-56 items-center justify-center overflow-hidden rounded-3xl border border-line bg-[radial-gradient(circle_at_50%_20%,rgb(0_151_178/0.16),transparent_70%)]">
-                  <div className="grid-tech absolute inset-0 opacity-40" aria-hidden="true" />
-                  <Image
-                    src={device.photo}
-                    alt={device.name}
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 26rem"
-                    priority
-                    className="object-contain p-8"
-                  />
-                </div>
-              )}
+              <DeviceGallery
+                name={device.name}
+                photos={photos}
+                videos={device.videos ?? []}
+                playLabel={dict.common.watch}
+              />
 
               {/* Resumen de material disponible */}
               <div className="relative overflow-hidden rounded-3xl border border-line bg-bg-elevated/60 p-7">

@@ -6,10 +6,11 @@ import { Suspense } from 'react'
 import { PageHeader } from '@/components/layout/PageHeader'
 import { GradientTitle } from '@/components/ui/GradientTitle'
 import { ResourceExplorer } from '@/components/resources/ResourceExplorer'
+import { ResourceCard } from '@/components/resources/ResourceCard'
 import { getCategories, getResources, getVisibleDevices } from '@/lib/content'
-import { getDictionary } from '@/i18n'
+import { getDictionary, type Dictionary } from '@/i18n'
 import type { Locale } from '@/i18n/config'
-import { toResourceViews } from '@/lib/resource-view'
+import { toResourceViews, type ResourceView } from '@/lib/resource-view'
 import { getVideoMap } from '@/lib/youtube'
 
 export const revalidate = 3600
@@ -75,7 +76,7 @@ export default async function ResourcesPage({ params }: { params: Promise<{ loca
       />
 
       <div className="container-page py-10 sm:py-14">
-        <Suspense fallback={<ExplorerSkeleton />}>
+        <Suspense fallback={<ExplorerFallback resources={views} locale={locale} dict={dict} />}>
           <ResourceExplorer
             resources={views}
             categories={categories}
@@ -89,13 +90,29 @@ export default async function ResourcesPage({ params }: { params: Promise<{ loca
   )
 }
 
-function ExplorerSkeleton() {
+/**
+ * Lo unico que queda en el HTML generado: `ResourceExplorer` lee los
+ * parametros de la URL, asi que al construir la pagina Next solo puede dejar
+ * escrito este respaldo. Cuando era un esqueleto gris, las 65 fichas no
+ * existian para quien no ejecuta JavaScript -entre otros, los rastreadores de
+ * los buscadores con IA-. Ahora lleva las tarjetas de verdad, con su enlace y
+ * su texto; el buscador y los filtros aparecen al hidratar.
+ */
+function ExplorerFallback({
+  resources,
+  locale,
+  dict,
+}: {
+  resources: ResourceView[]
+  locale: Locale
+  dict: Dictionary
+}) {
   return (
     <div>
       <div className="mb-8 h-14 w-full rounded-full bg-fg/6 shimmer" />
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-        {Array.from({ length: 6 }).map((_, i) => (
-          <div key={i} className="h-64 rounded-3xl border border-line bg-fg/4 shimmer" />
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        {resources.map((resource) => (
+          <ResourceCard key={resource.id} resource={resource} locale={locale} dict={dict} />
         ))}
       </div>
     </div>

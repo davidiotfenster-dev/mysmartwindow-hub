@@ -1,17 +1,18 @@
 import { cache } from 'react'
 
 import { legalDocuments as staticLegal, type LegalDocument } from '@/data/legal'
+import type { LocalizedSeo } from '@/lib/seo'
 import {
   anyEntry,
   fetchCollectionAllLocales,
   pickLocalized,
-  seoOverride,
+  seoOverrideLocalized,
   zipByDocumentId,
   type SeoOverrideRaw,
 } from './strapi-client'
 
 export interface LegalPage extends LegalDocument {
-  seo?: SeoOverrideRaw
+  seo?: LocalizedSeo
 }
 
 /**
@@ -41,7 +42,7 @@ export const getLegalPages = cache(async (): Promise<LegalPage[]> => {
         intro: pickLocalized(bucket, 'intro'),
         body,
         lastUpdated: (base.lastUpdated as string) || new Date().toISOString().slice(0, 10),
-        seo: seoOverride(base),
+        seo: seoOverrideLocalized(bucket),
       })
     }
   }

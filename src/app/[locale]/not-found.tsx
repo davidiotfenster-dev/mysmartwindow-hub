@@ -1,12 +1,21 @@
 import Link from 'next/link'
+import { headers } from 'next/headers'
+
 import { LogoMark } from '@/components/brand/Logo'
+import { getDictionary } from '@/i18n'
+import { defaultLocale, isLocale } from '@/i18n/config'
 
 /**
- * El 404 no recibe params, así que se muestra en español con los enlaces
- * relativos al idioma por defecto. El middleware ya encamina a /es cualquier
- * ruta sin prefijo de idioma.
+ * El 404 no recibe params, asi que el idioma sale de la cabecera que pone el
+ * middleware: antes se mostraba siempre en castellano aunque el visitante
+ * viniera navegando por /it.
  */
-export default function NotFound() {
+export default async function NotFound() {
+  const pathname = (await headers()).get('x-pathname') ?? ''
+  const candidate = pathname.split('/')[1]
+  const locale = isLocale(candidate) ? candidate : defaultLocale
+  const dict = getDictionary(locale)
+
   return (
     <section className="relative flex min-h-[80vh] items-center overflow-hidden py-24">
       <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
@@ -17,22 +26,22 @@ export default function NotFound() {
       <div className="container-page text-center">
         <LogoMark className="mx-auto h-16 w-16 text-brand-500/40" />
         <p className="mt-8 font-display text-7xl font-bold text-brand-500 sm:text-8xl">404</p>
-        <h1 className="mt-4 text-3xl sm:text-4xl">Aquí no hay nada</h1>
+        <h1 className="mt-4 text-3xl sm:text-4xl">{dict.notFound.title}</h1>
         <p className="mx-auto mt-4 max-w-md text-[0.95rem] leading-relaxed text-fg-muted">
-          La página que buscas se ha mudado o nunca existió.
+          {dict.notFound.subtitle}
         </p>
         <div className="mt-9 flex flex-col items-center justify-center gap-3 xs:flex-row">
           <Link
-            href="/es/recursos"
+            href={`/${locale}/recursos`}
             className="inline-flex h-12 w-full items-center justify-center rounded-full bg-brand-500 px-8 font-semibold text-white transition-colors hover:bg-brand-400 xs:w-auto"
           >
-            Ir al centro de recursos
+            {dict.notFound.cta}
           </Link>
           <Link
-            href="/es"
+            href={`/${locale}`}
             className="glass inline-flex h-12 w-full items-center justify-center rounded-full px-8 font-semibold transition-colors hover:text-brand-500 xs:w-auto"
           >
-            Volver al inicio
+            {dict.notFound.home}
           </Link>
         </div>
       </div>

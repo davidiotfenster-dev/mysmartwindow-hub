@@ -1,5 +1,5 @@
 import type { Localized } from '@/i18n/config'
-import type { SeoOverride } from '@/lib/seo'
+import type { LocalizedSeo } from '@/lib/seo'
 
 /* ==========================================================================
    Tipos de recurso
@@ -180,8 +180,12 @@ export interface Device {
   url?: string
   /** Foto subida en el CMS, si existe. */
   photo?: string
+  /** Fotos adicionales del dispositivo, para la galería de la ficha. */
+  gallery?: string[]
+  /** Vídeos propios subidos al CMS, no los del canal de YouTube. */
+  videos?: string[]
   /** SEO editable desde el CMS; si no existe se genera a partir del contenido. */
-  seo?: SeoOverride
+  seo?: LocalizedSeo
 }
 
 export const devices: Device[] = [

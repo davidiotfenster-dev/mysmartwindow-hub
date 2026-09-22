@@ -52,7 +52,8 @@ export function ResourceCard({
   resource: ResourceView
   locale: Locale
   dict: Dictionary
-  onOpen: (resource: ResourceView) => void
+  /** Sin manejador la tarjeta es un enlace normal: asi se puede pintar desde el servidor. */
+  onOpen?: (resource: ResourceView) => void
   view?: 'grid' | 'list'
 }) {
   const TypeIcon = typeIcon[resource.type]
@@ -71,7 +72,7 @@ export function ResourceCard({
       <MotionLink
         href={href}
         layout
-        onClick={(event) => interceptPlainClick(event, () => onOpen(resource))}
+        onClick={onOpen ? (event) => interceptPlainClick(event, () => onOpen(resource)) : undefined}
         className="group flex w-full items-center gap-4 rounded-2xl border border-line bg-bg-elevated/60 p-3 text-left transition-all hover:border-brand-500/40 hover:bg-bg-elevated"
       >
         <span
@@ -126,7 +127,7 @@ export function ResourceCard({
     <MotionLink
       href={href}
       layout
-      onClick={(event) => interceptPlainClick(event, () => onOpen(resource))}
+      onClick={onOpen ? (event) => interceptPlainClick(event, () => onOpen(resource)) : undefined}
       className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-line bg-bg-elevated/60 text-left transition-all duration-400 hover:-translate-y-1 hover:border-brand-500/40 hover:shadow-[0_26px_60px_-30px_rgb(0_151_178/0.6)]"
     >
       {/* Miniatura o cabecera gráfica */}

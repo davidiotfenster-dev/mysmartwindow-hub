@@ -395,6 +395,17 @@ const en: Dictionary = {
       whatsappCta: 'Chat on WhatsApp',
     },
   },
+
+  /** Plantillas de metadatos que antes estaban escritas a mano en castellano. */
+  seoMeta: {
+    resourceDescription: '{type} on {category} for {device}.',
+    allDevices: 'MySmartWindow devices',
+    deviceResources: '{count} resources: manuals, video tutorials and step-by-step cards.',
+    deviceResource: '{count} resource: manuals, video tutorials and step-by-step cards.',
+    keywords: ['home automation', 'window systems'],
+    productCategory: 'Home automation for window systems',
+  },
+
 }
 
 export default en

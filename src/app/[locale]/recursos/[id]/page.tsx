@@ -23,7 +23,7 @@ import {
   resolveTitle,
 } from '@/lib/seo'
 import { embedUrl, getVideoMap, toIsoDuration, watchUrl } from '@/lib/youtube'
-import { formatDate, formatViews } from '@/lib/utils'
+import { fill, formatDate, formatViews } from '@/lib/utils'
 import { pdfProxyUrl } from '@/lib/base-path'
 
 export const revalidate = 3600
@@ -64,10 +64,15 @@ export async function generateMetadata({
   // meta description.
   const generatedDescription =
     resource.summary?.[locale] ||
-    `${typeLabel} de ${category} para ${device.id === 'general' ? 'dispositivos MySmartWindow' : device.name}. ${dict.explorer.subtitle}`
+    `${fill(dict.seoMeta.resourceDescription, {
+      type: typeLabel,
+      category,
+      device: device.id === 'general' ? dict.seoMeta.allDevices : device.name,
+    })} ${dict.explorer.subtitle}`
 
-  const title = resolveTitle(resource.seo, generatedTitle)
-  const description = resolveDescription(resource.seo, generatedDescription)
+  const seo = resource.seo?.[locale]
+  const title = resolveTitle(seo, generatedTitle)
+  const description = resolveDescription(seo, generatedDescription)
 
   return {
     title,
@@ -75,11 +80,11 @@ export async function generateMetadata({
     alternates: alternates(`/recursos/${id}`, locale),
     openGraph: {
       type: resource.type === 'video' ? 'video.other' : 'article',
-      title: resolveTitle(resource.seo, resource.title[locale]),
+      title: resolveTitle(seo, resource.title[locale]),
       description,
       url: absolute(`/${locale}/recursos/${id}`),
-      ...(resource.seo?.ogImage
-        ? { images: [{ url: resource.seo.ogImage }] }
+      ...(seo?.ogImage
+        ? { images: [{ url: seo.ogImage }] }
         : resource.youtubeId
           ? { images: [{ url: `https://i.ytimg.com/vi/${resource.youtubeId}/maxresdefault.jpg` }] }
           : {}),
@@ -89,7 +94,7 @@ export async function generateMetadata({
       category,
       device.id === 'general' ? 'MySmartWindow' : device.name,
       ...(resource.tags ?? []),
-      ...(resource.seo?.keywords ? resource.seo.keywords.split(',').map((k) => k.trim()) : []),
+      ...(seo?.keywords ? seo.keywords.split(',').map((k) => k.trim()) : []),
     ],
   }
 }
@@ -144,7 +149,7 @@ export default async function ResourcePage({
         name: view.title,
         description: view.summary || view.title,
         thumbnailUrl: [`https://i.ytimg.com/vi/${view.youtubeId}/maxresdefault.jpg`],
-        uploadDate: view.updated,
+        uploadDate: view.updated || new Date().toISOString().slice(0, 10),
         duration: toIsoDuration(videoMap[view.youtubeId!]?.durationSeconds),
         embedUrl: embedUrl(view.youtubeId!, false),
         contentUrl: watchUrl(view.youtubeId!),
@@ -171,8 +176,19 @@ export default async function ResourcePage({
         author: { '@type': 'Organization', name: ORG_NAME, url: ORG_URL },
         publisher: { '@type': 'Organization', name: ORG_NAME, url: ORG_URL },
         about: category.name[locale],
+        url: absolute(`/${locale}/recursos/${id}`),
+        ...(device.photo ? { image: absolute(device.photo) } : {}),
         ...(device.id !== 'general' ? { keywords: device.name } : {}),
-        ...(view.url ? { associatedMedia: { '@type': 'MediaObject', contentUrl: view.url } } : {}),
+        // Absoluta: en los datos estructurados la lee el buscador, no el navegador.
+        ...(view.url
+          ? {
+              associatedMedia: {
+                '@type': 'MediaObject',
+                contentUrl: view.url.startsWith('http') ? view.url : absolute(view.url),
+                encodingFormat: 'application/pdf',
+              },
+            }
+          : {}),
       }
 
   return (

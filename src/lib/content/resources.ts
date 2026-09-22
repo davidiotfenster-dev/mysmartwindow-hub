@@ -8,7 +8,7 @@ import {
   mediaUrl,
   pickLocalized,
   pickLocalizedMedia,
-  seoOverride,
+  seoOverrideLocalized,
   zipByDocumentId,
   type StrapiEntry,
 } from './strapi-client'
@@ -48,7 +48,7 @@ export const getResources = cache(async (): Promise<Resource[]> => {
       broken: Boolean(base.broken),
       featured: Boolean(base.featured),
       tags: Array.isArray(base.tags) ? (base.tags as string[]) : [],
-      seo: seoOverride(base),
+      seo: seoOverrideLocalized(bucket),
     })
   }
 

@@ -1,6 +1,6 @@
 'use client'
 
-import { AnimatePresence, motion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { ArrowUpRight, Plus } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
@@ -77,32 +77,33 @@ export function Faq({
                   </button>
                 </h3>
 
-                <AnimatePresence initial={false}>
-                  {isOpen && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                      className="overflow-hidden"
-                    >
-                      <div className="pb-6 pr-12">
-                        <p className="text-[0.92rem] leading-relaxed text-fg-muted">
-                          {item.answer[locale]}
-                        </p>
-                        {item.resourceId && (
-                          <Link
-                            href={`${routes.recursos(locale)}/${item.resourceId}`}
-                            className="mt-3.5 inline-flex items-center gap-1.5 text-[0.82rem] font-semibold text-brand-500 hover:text-brand-400"
-                          >
-                            {dict.common.open}
-                            <ArrowUpRight className="h-3.5 w-3.5" />
-                          </Link>
-                        )}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                {/* Montada siempre, plegada con altura cero: desmontar las
+                    cerradas dejaba fuera del HTML todas las respuestas menos
+                    una, y los rastreadores que no ejecutan JavaScript -los de
+                    los buscadores con IA- no veian ninguna. */}
+                <motion.div
+                  initial={false}
+                  animate={{ height: isOpen ? 'auto' : 0, opacity: isOpen ? 1 : 0 }}
+                  transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                  className="overflow-hidden"
+                  aria-hidden={!isOpen}
+                >
+                  <div className="pb-6 pr-12">
+                    <p className="text-[0.92rem] leading-relaxed text-fg-muted">
+                      {item.answer[locale]}
+                    </p>
+                    {item.resourceId && (
+                      <Link
+                        href={`${routes.recursos(locale)}/${item.resourceId}`}
+                        tabIndex={isOpen ? undefined : -1}
+                        className="mt-3.5 inline-flex items-center gap-1.5 text-[0.82rem] font-semibold text-brand-500 hover:text-brand-400"
+                      >
+                        {dict.common.open}
+                        <ArrowUpRight className="h-3.5 w-3.5" />
+                      </Link>
+                    )}
+                  </div>
+                </motion.div>
               </li>
             )
           })}

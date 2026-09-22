@@ -1,5 +1,5 @@
 import type { Locale, Localized } from '@/i18n/config'
-import type { SeoOverride } from '@/lib/seo'
+import type { LocalizedSeo } from '@/lib/seo'
 import type { CategoryId, DeviceId, ResourceType } from './taxonomy'
 
 /**
@@ -34,7 +34,7 @@ export interface Resource {
   /** Terminos extra para el buscador. */
   tags?: string[]
   /** SEO editable desde el CMS; si no existe se genera a partir del contenido. */
-  seo?: SeoOverride
+  seo?: LocalizedSeo
 }
 
 const CDN = 'https://www.iotfenster.com/wp-content/uploads'

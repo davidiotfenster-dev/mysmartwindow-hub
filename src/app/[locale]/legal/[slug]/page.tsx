@@ -44,8 +44,8 @@ export async function generateMetadata({
   if (!page) return {}
 
   return {
-    title: resolveTitle(page.seo, page.title[locale]),
-    description: resolveDescription(page.seo, page.intro[locale]),
+    title: resolveTitle(page.seo?.[locale], page.title[locale]),
+    description: resolveDescription(page.seo?.[locale], page.intro[locale]),
     alternates: alternates(`/legal/${slug}`, locale),
     openGraph: { type: 'article', title: page.title[locale], description: page.intro[locale] },
   }

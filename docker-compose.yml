@@ -26,7 +26,20 @@ services:
     build:
       context: .
       args:
-        NEXT_PUBLIC_SITE_URL: http://localhost:3000
+        # La direccion publica del sitio. Se incrusta al compilar, no se lee al
+        # arrancar: de aqui salen las URL canonicas, el sitemap, el hreflang y
+        # las vistas previas al compartir enlaces.
+        #
+        # Ahora mismo la IP, porque www.iotfenster.com todavia lo sirve el
+        # WordPress. EL DIA QUE SE MIGRE EL DNS: cambiar esta linea a
+        # https://www.iotfenster.com y volver a construir
+        # (docker compose up -d --build). Hasta entonces no des de alta el
+        # sitemap en Google, porque lleva la IP.
+        #
+        # Poner localhost aqui hace fallar la compilacion a proposito: es un
+        # fallo que de otro modo pasaria inadvertido hasta que el sitio ya
+        # estuviera indexado mal.
+        NEXT_PUBLIC_SITE_URL: http://52.209.147.26:3000
     restart: unless-stopped
     environment:
       STRAPI_URL: http://cms:1337

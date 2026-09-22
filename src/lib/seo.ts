@@ -15,6 +15,21 @@ import { locales, localeMeta, type Locale } from '@/i18n/config'
  * salen las URLs canónicas, el sitemap y las alternativas de idioma. Si se
  * queda en localhost, los buscadores reciben URLs inservibles.
  */
+const siteUrlEnv = process.env.NEXT_PUBLIC_SITE_URL
+if (
+  process.env.NODE_ENV === 'production' &&
+  (!siteUrlEnv || /localhost|127\.0\.0\.1/.test(siteUrlEnv))
+) {
+  // Sin esto el fallo es mudo: el sitio despliega y funciona, pero publica un
+  // sitemap y unas canonicas que no llevan a ninguna parte. Se comprueba que
+  // este puesta Y que no sea localhost, porque el valor de ejemplo del
+  // docker-compose lo es y pasaria desapercibido.
+  throw new Error(
+    `NEXT_PUBLIC_SITE_URL tiene que ser la direccion publica del sitio, y vale ${siteUrlEnv ?? '(nada)'}. ` +
+      'Se incrusta al construir la imagen: corrigela en el build arg del servicio web de docker-compose.yml y vuelve a construir.'
+  )
+}
+
 const ORIGIN = (process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000').replace(/\/$/, '')
 const BASE = (process.env.NEXT_PUBLIC_BASE_PATH ?? '').replace(/\/$/, '')
 
@@ -68,6 +83,9 @@ export interface SeoOverride {
   ogImage?: string
 }
 
+/** El bloque SEO es distinto en cada idioma: se guarda uno por locale. */
+export type LocalizedSeo = Partial<Record<Locale, SeoOverride>>
+
 /** El override del CMS manda; si no existe o esta vacio, se usa el generado. */
 export function resolveTitle(override: SeoOverride | undefined, generated: string, max = 70): string {
   return clamp(override?.metaTitle || generated, max)
@@ -98,6 +116,21 @@ export function organizationSchema(description?: string) {
       'https://www.linkedin.com/company/iotfenster/',
       'https://www.youtube.com/@MySmartWindow',
     ],
+    logo: absolute('/icon.svg'),
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'Avda. Isaac Peral s/n, Parque Tecnológico Fuente Álamo',
+      addressLocality: 'Fuente Álamo de Murcia',
+      addressRegion: 'Murcia',
+      postalCode: '30320',
+      addressCountry: 'ES',
+    },
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: 'customer support',
+      email: 'info@iotfenster.com',
+      availableLanguage: ['es', 'en', 'it'],
+    },
   }
 }
 

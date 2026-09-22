@@ -6,8 +6,9 @@ import {
   anyEntry,
   fetchCollectionAllLocales,
   mediaUrl,
+  mediaUrls,
   pickLocalized,
-  seoOverride,
+  seoOverrideLocalized,
   zipByDocumentId,
   type StrapiEntry,
 } from './strapi-client'
@@ -44,7 +45,9 @@ export const getDevices = cache(async (): Promise<Device[]> => {
       description: pickLocalized(bucket, 'description'),
       features: toFeatures(bucket),
       photo: mediaUrl(base.photo),
-      seo: seoOverride(base),
+      gallery: mediaUrls(base.gallery),
+      videos: mediaUrls(base.videos),
+      seo: seoOverrideLocalized(bucket),
     })
   }
 

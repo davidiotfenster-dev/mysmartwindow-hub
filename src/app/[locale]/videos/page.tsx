@@ -77,16 +77,18 @@ export default async function VideosPage({ params }: { params: Promise<{ locale:
             <Youtube className="h-4.5 w-4.5" />
             {dict.videos.visitChannel}
           </ButtonLink>
-          <Badge tone={source === 'none' ? 'amber' : 'brand'}>
-            {source === 'api'
-              ? dict.videos.sourceApi
-              : source === 'rss'
-                ? dict.videos.sourceRss
-                : dict.videos.sourceNone}
-          </Badge>
-          <span className="text-[0.72rem] text-fg-subtle">
-            {dict.videos.syncedAt}: {formatDate(fetchedAt, locale)}
-          </span>
+          {/* Sin conexión con YouTube no hay nada que anunciar: el visitante ve
+              el catálogo de siempre y el aviso sólo sembraba dudas. */}
+          {source !== 'none' && (
+            <>
+              <Badge tone="brand">
+                {source === 'api' ? dict.videos.sourceApi : dict.videos.sourceRss}
+              </Badge>
+              <span className="text-[0.72rem] text-fg-subtle">
+                {dict.videos.syncedAt}: {formatDate(fetchedAt, locale)}
+              </span>
+            </>
+          )}
         </div>
       </PageHeader>
 

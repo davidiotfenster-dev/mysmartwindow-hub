@@ -6,7 +6,7 @@ import {
   fetchCollectionAllLocales,
   mediaUrl,
   pickLocalized,
-  seoOverride,
+  seoOverrideLocalized,
   zipByDocumentId,
 } from './strapi-client'
 
@@ -29,7 +29,7 @@ export const getNews = cache(async (): Promise<NewsPost[]> => {
         gradient: (base.gradient as string) || 'from-brand-500/25 via-transparent to-signal-500/15',
         featured: Boolean(base.featured),
         cover: mediaUrl(base.cover),
-        seo: seoOverride(base),
+        seo: seoOverrideLocalized(bucket),
       })
     }
   }
