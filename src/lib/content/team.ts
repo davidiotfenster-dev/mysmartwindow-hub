@@ -22,7 +22,10 @@ export const getTeam = cache(async (): Promise<TeamMember[]> => {
       name: (base.name as string) ?? '',
       order: typeof base.order === 'number' ? base.order : 100,
       linkedin: (base.linkedin as string) || undefined,
-      photo: mediaUrl(base.photo),
+      // Si en el CMS no han subido foto, se usa la del codigo en vez de dejar
+      // el hueco: dar de alta a alguien en el panel no deberia hacer
+      // desaparecer la foto que ya se veia.
+      photo: mediaUrl(base.photo) ?? staticTeam.find((m) => m.id === base.slug)?.photo,
       role: pickLocalized(bucket, 'role'),
       bio: pickLocalized(bucket, 'bio'),
     })

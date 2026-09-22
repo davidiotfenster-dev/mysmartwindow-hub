@@ -191,6 +191,7 @@ export interface Device {
 export const devices: Device[] = [
   {
     id: 'connect-2',
+    photo: '/dispositivos/connect-2.png',
     name: 'CONNECT-2',
     url: 'https://www.iotfenster.com/connect-2/',
     tagline: {
@@ -211,6 +212,7 @@ export const devices: Device[] = [
   },
   {
     id: 'connect-1',
+    photo: '/dispositivos/connect-1.png',
     name: 'CONNECT-1',
     url: 'http://iotfenster.com/connect-1',
     tagline: {
@@ -249,6 +251,7 @@ export const devices: Device[] = [
   },
   {
     id: 'c-pulsar',
+    photo: '/dispositivos/c-pulsar.png',
     name: 'C-PULSAR',
     url: 'https://www.iotfenster.com/c-pulsar-para-aluminio/',
     tagline: {
@@ -268,6 +271,7 @@ export const devices: Device[] = [
   },
   {
     id: 'c-wall',
+    photo: '/dispositivos/c-wall.png',
     name: 'C-WALL',
     url: 'https://www.iotfenster.com/c-wall/',
     tagline: {
@@ -319,6 +323,7 @@ export const devices: Device[] = [
   },
   {
     id: 'remote-witooth',
+    photo: '/dispositivos/remote-witooth.png',
     name: 'RemoteWiTooth',
     tagline: {
       es: 'Puente entre radio y app',
@@ -335,7 +340,10 @@ export const devices: Device[] = [
   {
     id: 'sensor-rc33',
     name: 'Sensor RC-33',
-    url: 'https://www.iotfenster.com/sensor-magnetico-rc-33/',
+    // Fuera del escaparate: el producto ya no se ofrece. Sigue en el catalogo
+    // porque sus manuales existen y necesitan un dispositivo al que colgarse;
+    // borrarlo de aqui los dejaria huerfanos.
+    hidden: true,
     tagline: {
       es: 'Sabe si está abierto',
       en: 'Knows when it is open',

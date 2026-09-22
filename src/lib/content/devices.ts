@@ -44,7 +44,7 @@ export const getDevices = cache(async (): Promise<Device[]> => {
       tagline: pickLocalized(bucket, 'tagline'),
       description: pickLocalized(bucket, 'description'),
       features: toFeatures(bucket),
-      photo: mediaUrl(base.photo),
+      photo: mediaUrl(base.photo) ?? staticDevices.find((d) => d.id === base.slug)?.photo,
       gallery: mediaUrls(base.gallery),
       videos: mediaUrls(base.videos),
       seo: seoOverrideLocalized(bucket),
