@@ -16,6 +16,9 @@ services:
     env_file: ./cms/.env
     environment:
       NODE_ENV: production
+      # Detras de Caddy, Strapi ve peticiones que llegan a un contenedor
+      # interno: sin esto compone mal las URL de su propio panel.
+      PUBLIC_URL: https://cms.iotfenster.com
     volumes:
       - strapi-data:/opt/cms/.tmp
       - strapi-uploads:/opt/cms/public/uploads

@@ -111,3 +111,27 @@ www.iotfenster.com, iotfenster.com {
 	# Todo lo demas, al sitio
 	reverse_proxy web:3000
 }
+
+# ---------------------------------------------------------------------------
+# Panel de contenidos
+#
+# El contenedor del CMS no esta publicado hacia fuera: Caddy le habla por la
+# red interna de Docker. Lo unico que queda expuesto es lo que pasa por aqui,
+# y siempre cifrado.
+#
+# Ojo con lo que esto significa: la pantalla de acceso al panel es visible
+# desde internet, y detras de ella esta todo el contenido del sitio. Conviene
+# contrasena larga y activar el doble factor, que Strapi trae de serie en
+# Ajustes -> Perfil.
+# ---------------------------------------------------------------------------
+cms.iotfenster.com {
+	encode zstd gzip
+
+	# Los manuales y las fotos pesan: sin subir el limite, Strapi rechaza los
+	# ficheros grandes con un error que no dice por que.
+	request_body {
+		max_size 200MB
+	}
+
+	reverse_proxy cms:1337
+}
