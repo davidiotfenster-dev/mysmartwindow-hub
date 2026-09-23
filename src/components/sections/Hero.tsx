@@ -8,8 +8,9 @@ import {
   useReducedMotion,
   useTransform,
   type AnimationPlaybackControls,
+  AnimatePresence,
 } from 'framer-motion'
-import { ArrowRight, PlayCircle } from 'lucide-react'
+import { ArrowRight, PlayCircle, AlertTriangle } from 'lucide-react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { ButtonLink } from '@/components/ui/primitives'
@@ -192,8 +193,41 @@ function WindowMockup({ reduced, dict }: { reduced: boolean; dict: Dictionary })
   const travel = useRef<AnimationPlaybackControls | null>(null)
   const [moving, setMoving] = useState(false)
 
+  // Easter Egg State
+  const clickCount = useRef(0)
+  const [overheated, setOverheated] = useState(false)
+  const [countdown, setCountdown] = useState(3)
+
+  const checkEasterEgg = useCallback(() => {
+    if (overheated) return true
+    clickCount.current += 1
+    if (clickCount.current >= 8) {
+      setOverheated(true)
+      return true
+    }
+    return false
+  }, [overheated])
+
+  useEffect(() => {
+    if (!overheated) return
+    let count = 3
+    setCountdown(count)
+    const interval = setInterval(() => {
+      count -= 1
+      if (count <= 0) {
+        clearInterval(interval)
+        setOverheated(false)
+        clickCount.current = 0
+      } else {
+        setCountdown(count)
+      }
+    }, 1000)
+    return () => clearInterval(interval)
+  }, [overheated])
+
   const move = useCallback(
     (to: number) => {
+      if (checkEasterEgg()) return
       travel.current?.stop()
       if (reduced) {
         cover.set(to)
@@ -210,9 +244,10 @@ function WindowMockup({ reduced, dict }: { reduced: boolean; dict: Dictionary })
   )
 
   const halt = useCallback(() => {
+    if (checkEasterEgg()) return
     travel.current?.stop()
     setMoving(false)
-  }, [])
+  }, [checkEasterEgg])
 
   /** Al entrar, la persiana sube sola: enseña de qué va el mockup sin tocar nada. */
   useEffect(() => {
@@ -227,8 +262,9 @@ function WindowMockup({ reduced, dict }: { reduced: boolean; dict: Dictionary })
     move(cover.get() > (BLIND_CLOSED + BLIND_OPEN) / 2 ? BLIND_OPEN : BLIND_CLOSED)
 
   return (
-    <div className="relative aspect-[4/5] w-full sm:aspect-[5/5]">
-      {/* Ventana */}
+    <>
+      <div className="relative aspect-[4/5] w-full sm:aspect-[5/5]">
+        {/* Ventana */}
       <div className="absolute inset-x-4 top-0 bottom-16 overflow-hidden rounded-[2rem] border border-line bg-gradient-to-b from-signal-500/18 via-brand-500/8 to-transparent shadow-[0_40px_90px_-40px_rgb(0_151_178/0.6)] sm:inset-x-8">
         {/* Cielo */}
         <div className="absolute inset-0 bg-gradient-to-b from-signal-400/30 via-brand-400/12 to-brand-900/25" />
@@ -385,7 +421,32 @@ function WindowMockup({ reduced, dict }: { reduced: boolean; dict: Dictionary })
             />
           ))}
         </div>
-      )}
-    </div>
+        )}
+      </div>
+
+      <AnimatePresence>
+        {overheated && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-red-700/95 p-4 text-center backdrop-blur-xl"
+          >
+            <motion.div
+              animate={{ scale: [1, 1.2, 1], rotate: [0, -10, 10, -10, 10, 0] }}
+              transition={{ repeat: Infinity, duration: 0.5 }}
+            >
+              <AlertTriangle className="mb-6 h-32 w-32 text-yellow-300 drop-shadow-[0_0_25px_rgba(253,224,71,0.6)]" />
+            </motion.div>
+            <h2 className="font-display text-4xl font-black uppercase tracking-widest text-white drop-shadow-md sm:text-6xl lg:text-8xl">
+              ¡Motor<br/>Sobrecalentado!
+            </h2>
+            <p className="mt-8 text-xl font-bold text-red-100 drop-shadow-md sm:text-3xl">
+              La página explotará en <span className="text-5xl font-black text-white">{countdown}</span> segundos...
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   )
 }
