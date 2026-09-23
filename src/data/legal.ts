@@ -46,7 +46,7 @@ export const COMPANY = {
 } as const
 
 /** Fecha de la última revisión de los tres documentos. */
-export const LAST_UPDATED = '2026-09-21'
+export const LAST_UPDATED = '2026-09-23'
 
 /* ==========================================================================
    Slugs
