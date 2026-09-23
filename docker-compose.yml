@@ -51,6 +51,10 @@ services:
         # fallo que de otro modo pasaria inadvertido hasta tener el sitio ya
         # indexado con direcciones que no llevan a ninguna parte.
         NEXT_PUBLIC_SITE_URL: https://www.iotfenster.com
+        # A diferencia del dominio, este si sale de un .env en la raiz (junto
+        # a este fichero): vacio por defecto, para que un despliegue sin GA4
+        # configurado siga compilando en vez de romperse.
+        NEXT_PUBLIC_GA_ID: ${NEXT_PUBLIC_GA_ID:-}
     restart: unless-stopped
     environment:
       STRAPI_URL: http://cms:1337
