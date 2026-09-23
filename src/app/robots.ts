@@ -12,7 +12,9 @@ export default function robots(): MetadataRoute.Robots {
         // contenido del centro de recursos. Lo que se cierra son los extremos
         // que no publican nada: formularios y consultas.
         allow: ['/', '/api/media/', '/api/pdf'],
-        disallow: ['/api/contacto', '/api/newsletter', '/api/youtube'],
+        // /app es el enlace fijo de la app movil a soporte, no una pagina del
+        // sitio: ya lleva noindex, esto es solo un cinturon mas.
+        disallow: ['/api/contacto', '/api/newsletter', '/api/youtube', '/app'],
       },
     ],
     sitemap: `${base}/sitemap.xml`,

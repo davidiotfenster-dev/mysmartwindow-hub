@@ -4,12 +4,16 @@ import { defaultLocale, locales } from '@/i18n/config'
 const PUBLIC_FILE = /\.(.*)$/
 
 /**
- * Rutas heredadas sin prefijo de idioma, hoy hardcodeadas en sitios que no
- * controlamos (la app movil apunta a `/app` a secas). No podemos pedirles que
- * cambien la URL, asi que la desviamos aqui antes de que la deteccion de
- * idioma la mande a una pagina que no existe.
+ * Direcciones ajenas al sitio -hoy solo la app movil, que llama a `/app` a
+ * secas y esta grabado a fuego en su codigo, no se puede pedir que lo
+ * cambien- que tienen que servir contenido nuestro sin aparecer como pagina
+ * propia: nada de menu, nada de sitemap, la barra de direcciones se queda tal
+ * cual la escribio quien entra.
+ *
+ * Por eso es una reescritura y no una redireccion: el navegador nunca se
+ * entera de que por debajo se sirve /soporte.
  */
-const LEGACY_REDIRECTS: Record<string, string> = {
+const HIDDEN_ALIASES: Record<string, string> = {
   '/app': '/soporte',
 }
 
@@ -42,15 +46,17 @@ export function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
-  const legacyTarget = LEGACY_REDIRECTS[pathname.replace(/\/$/, '')]
-  if (legacyTarget) {
+  const aliasTarget = HIDDEN_ALIASES[pathname.replace(/\/$/, '')]
+  if (aliasTarget) {
     const locale = detectLocale(request)
     const url = request.nextUrl.clone()
-    url.pathname = `/${locale}${legacyTarget}`
-    // Temporal, no permanente: el destino de esta URL heredada puede volver a
-    // cambiar y no queremos que un cliente embebido (el webview de la app) lo
-    // guarde para siempre.
-    return NextResponse.redirect(url, 307)
+    url.pathname = `/${locale}${aliasTarget}`
+    const response = NextResponse.rewrite(url)
+    // Aunque no este enlazada desde ningun sitio del propio sitio, esta
+    // cabecera es la garantia de que ni un rastreador que la encuentre por
+    // libre la va a indexar como pagina duplicada de /soporte.
+    response.headers.set('X-Robots-Tag', 'noindex')
+    return response
   }
 
   const hasLocale = locales.some(

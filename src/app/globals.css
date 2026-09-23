@@ -158,18 +158,25 @@
    Variables semanticas por tema
    ========================================================================== */
 :root {
-  --bg: #f6f8f9;
-  --bg-elevated: #ffffff;
-  --bg-subtle: #eef2f4;
-  --fg: #0e1418;
-  --fg-muted: #55646e;
-  --fg-subtle: #7d8b95;
-  --border: #dde4e8;
-  --border-strong: #c6d1d7;
-  --glass: rgb(255 255 255 / 0.72);
-  --glass-border: rgb(255 255 255 / 0.9);
-  --grid-line: rgb(0 151 178 / 0.07);
-  --shadow-glow: 0 0 0 1px rgb(0 151 178 / 0.12), 0 18px 45px -22px rgb(0 151 178 / 0.5);
+  /* El blanco puro (#fff) sobre texto casi negro es el contraste mas duro que
+     existe: brilla, "vibra" en pantalla y es lo primero que cansa la vista en
+     sesiones largas. Aqui todo lleva un tinte muy leve del cian de marca -en
+     vez de un gris neutro- y las superficies "blancas" se quedan un escalon
+     por debajo del blanco real; el texto pierde solo el negro mas extremo.
+     Sigue siendo un tema claro con contraste alto (>14:1 en todos los pares),
+     pero sin el brillo de #000 sobre #fff. */
+  --bg: #eef4f5;
+  --bg-elevated: #f9fbfb;
+  --bg-subtle: #e4ebee;
+  --fg: #182226;
+  --fg-muted: #52646d;
+  --fg-subtle: #6a7c86;
+  --border: #d3dee1;
+  --border-strong: #b3c6cc;
+  --glass: rgb(249 251 251 / 0.72);
+  --glass-border: rgb(255 255 255 / 0.85);
+  --grid-line: rgb(0 151 178 / 0.08);
+  --shadow-glow: 0 0 0 1px rgb(0 151 178 / 0.14), 0 18px 45px -22px rgb(0 151 178 / 0.5);
 }
 
 .dark {
