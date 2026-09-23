@@ -20,8 +20,17 @@ const PUBLIC_FILE = /\.(.*)$/
  */
 const HIDDEN_ALIASES: Record<string, string> = {
   '/app': '/soporte',
-  '/app/supportpage.html': '/soporte',
+  '/app/supportpage.html': '/app-quick-help',
 }
+
+/**
+ * Rutas que existen fuera de [locale] -sin idioma, sin el menu ni el pie del
+ * resto del sitio- para servir de destino a un alias de arriba. Sin esto, la
+ * regla de mas abajo que le añade el idioma a cualquier ruta sin prefijo se
+ * las llevaria por delante a una direccion que no existe (`/es/app-quick-help`
+ * no es una pagina real).
+ */
+const STANDALONE_ROUTES = new Set(['/app-quick-help'])
 
 /** Elige idioma a partir de Accept-Language, con español por defecto. */
 function detectLocale(request: NextRequest): string {
@@ -45,9 +54,13 @@ export function middleware(request: NextRequest) {
 
   const aliasTarget = HIDDEN_ALIASES[pathname.replace(/\/$/, '')]
   if (aliasTarget) {
-    const locale = detectLocale(request)
     const url = request.nextUrl.clone()
-    url.pathname = `/${locale}${aliasTarget}`
+    // Los destinos dentro de [locale] (p.ej. /soporte) necesitan el idioma
+    // delante; los que viven fuera (p.ej. /app-quick-help) no lo llevan, y
+    // añadirselo mandaria la reescritura a una pagina que no existe.
+    url.pathname = STANDALONE_ROUTES.has(aliasTarget)
+      ? aliasTarget
+      : `/${detectLocale(request)}${aliasTarget}`
     const response = NextResponse.rewrite(url)
     // Aunque no este enlazada desde ningun sitio del propio sitio, esta
     // cabecera es la garantia de que ni un rastreador que la encuentre por
@@ -60,6 +73,7 @@ export function middleware(request: NextRequest) {
     pathname.startsWith('/api') ||
     pathname.startsWith('/_next') ||
     pathname === '/favicon.ico' ||
+    STANDALONE_ROUTES.has(pathname) ||
     PUBLIC_FILE.test(pathname)
   ) {
     return NextResponse.next()
