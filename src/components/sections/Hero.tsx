@@ -111,7 +111,7 @@ export function Hero({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="mt-12 grid grid-cols-2 gap-x-6 gap-y-7 border-t border-line pt-8 sm:grid-cols-4"
+              className="mt-6 grid grid-cols-2 gap-x-6 gap-y-4 border-t border-line pt-5 sm:mt-12 sm:gap-y-7 sm:pt-8 sm:grid-cols-4"
             >
               {statItems.map((stat) => (
                 <div key={stat.label}>

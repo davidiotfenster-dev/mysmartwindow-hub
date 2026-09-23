@@ -52,6 +52,20 @@ export function SupportAssistant({
   const [typing, setTyping] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
 
+  /**
+   * El lanzador es fijo en la esquina, así que en un movil bajo de altura
+   * (SE y similares) cae encima de lo que haya justo ahi al cargar -en la
+   * portada, las dos ultimas metricas del hero-. Aparecer con un respiro en
+   * vez de en el primer fotograma le da tiempo a quien entra a ver el
+   * contenido debajo antes de que se tape; no hace falta en pantallas mas
+   * altas, pero tampoco molesta.
+   */
+  const [visible, setVisible] = useState(false)
+  useEffect(() => {
+    const timer = setTimeout(() => setVisible(true), 1200)
+    return () => clearTimeout(timer)
+  }, [])
+
   const a = dict.assistant
   const current = path[path.length - 1]
 
@@ -148,7 +162,11 @@ export function SupportAssistant({
   }, [open])
 
   return (
-    <div className="fixed bottom-24 right-6 z-80 flex flex-col items-end gap-3">
+    <div
+      className={`fixed bottom-16 right-4 z-80 flex flex-col items-end gap-3 transition-opacity duration-500 sm:bottom-24 sm:right-6 ${
+        visible ? 'opacity-100' : 'pointer-events-none opacity-0'
+      }`}
+    >
       <AnimatePresence>
         {open && (
           <motion.div
