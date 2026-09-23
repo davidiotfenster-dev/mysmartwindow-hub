@@ -54,7 +54,13 @@ export function Faq({
                     type="button"
                     onClick={() => setOpen(isOpen ? null : item.id)}
                     aria-expanded={isOpen}
-                    className="group flex w-full items-start justify-between gap-5 py-5 text-left"
+                    // El asistente flotante vive fijo en la esquina inferior
+                    // derecha de la ventana, a la misma distancia del borde en
+                    // cualquier tamaño de pantalla. Sin este hueco, al pasar el
+                    // dedo por ahi -literal, en varias preguntas- el toque no
+                    // llegaba al "+": lo capturaba el boton de chat, que esta
+                    // por encima en la pila.
+                    className="group flex w-full items-start justify-between gap-5 py-5 pr-16 text-left"
                   >
                     <span
                       className={cn(
