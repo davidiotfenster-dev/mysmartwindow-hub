@@ -6,6 +6,14 @@ export interface FaqItem {
   answer: Localized
   /** Recurso del catálogo al que lleva la respuesta, si lo hay. */
   resourceId?: string
+  /**
+   * Enlace directo, para cuando la respuesta no señala UN recurso concreto
+   * sino un listado (p.ej. "consulta el manual de tu dispositivo": cada
+   * modelo tiene el suyo, así que se enlaza a todos los manuales filtrados,
+   * no a uno). Sin el idioma delante -se añade al construir la pagina-. Si
+   * hay `href`, manda sobre `resourceId`.
+   */
+  href?: string
 }
 
 export const faqs: FaqItem[] = [
@@ -24,31 +32,21 @@ export const faqs: FaqItem[] = [
     },
   },
   {
+    // Cada dispositivo tiene su propio procedimiento de hard reset -el del
+    // CONNECT-1 es Reset + Subir/Bajar 5 s, pero no hay una guia equivalente
+    // para todos los demas-, asi que se enlaza al listado de manuales en vez
+    // de a uno solo que no le sirve a quien tenga otro modelo.
     id: 'hard-reset',
-    resourceId: 'hard-reset-botones-del-dispositivo-manual',
+    href: '/recursos?tipo=manual',
     question: {
       es: '¿Cómo devuelvo el dispositivo a su estado de fábrica?',
       en: 'How do I restore the device to factory settings?',
       it: 'Come riporto il dispositivo alle impostazioni di fabbrica?',
     },
     answer: {
-      es: 'Con el Hard Reset por botones. El manual de dispositivo detalla la combinación exacta y cuánto hay que mantenerla pulsada; también tienes el vídeo y la tarjeta resumen.',
-      en: 'Through the button-based Hard Reset. The device manual details the exact combination and how long to hold it; there is also a video and a summary card.',
-      it: 'Con l’Hard Reset tramite pulsanti. Il manuale del dispositivo indica la combinazione esatta e per quanto tenerla premuta; ci sono anche il video e la scheda riassuntiva.',
-    },
-  },
-  {
-    id: 'varios-cerramientos',
-    resourceId: 'multivinculacion-manual',
-    question: {
-      es: '¿Puedo mover varias persianas a la vez?',
-      en: 'Can I move several blinds at once?',
-      it: 'Posso muovere più tapparelle contemporaneamente?',
-    },
-    answer: {
-      es: 'Sí, con la multivinculación. Asocias varios cerramientos a un mismo mando o botón y responden en bloque. El manual explica el proceso y el C-WALL tiene su propia guía.',
-      en: 'Yes, with multi-pairing. You associate several enclosures to one control or button and they respond together. The manual covers the process and the C-WALL has its own guide.',
-      it: 'Sì, con l’associazione multipla. Associ più chiusure a un solo comando e rispondono insieme. Il manuale spiega la procedura e il C-WALL ha la sua guida dedicata.',
+      es: 'Con el Hard Reset por botones. Cada dispositivo tiene su propio procedimiento: consulta el manual del tuyo para ver la combinación exacta y cuánto hay que mantenerla pulsada.',
+      en: 'Through the button-based Hard Reset. Each device has its own procedure: check your model’s manual for the exact combination and how long to hold it.',
+      it: 'Con l’Hard Reset tramite pulsanti. Ogni dispositivo ha la propria procedura: consulta il manuale del tuo modello per la combinazione esatta e per quanto tenerla premuta.',
     },
   },
   {
@@ -81,6 +79,9 @@ export const faqs: FaqItem[] = [
   },
   {
     id: 'sin-internet',
+    // Solo la parte del wifi complementario tiene manual propio y verificado;
+    // del "servicio offline" del CONNECT-2 no hay ninguno en el catalogo.
+    resourceId: 'multiwifi-wifi-complementario-manual',
     question: {
       es: '¿Qué pasa si se cae internet?',
       en: 'What happens if the internet goes down?',

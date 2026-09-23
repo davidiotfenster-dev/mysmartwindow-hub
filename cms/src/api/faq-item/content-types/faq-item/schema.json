@@ -30,6 +30,10 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::resource.resource"
+    },
+    "resourceHref": {
+      "type": "string",
+      "pluginOptions": { "i18n": { "localized": false } }
     }
   }
 }

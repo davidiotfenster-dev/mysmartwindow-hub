@@ -98,9 +98,9 @@ export function Faq({
                     <p className="text-[0.92rem] leading-relaxed text-fg-muted">
                       {item.answer[locale]}
                     </p>
-                    {item.resourceId && (
+                    {(item.href || item.resourceId) && (
                       <Link
-                        href={`${routes.recursos(locale)}/${item.resourceId}`}
+                        href={item.href ? `/${locale}${item.href}` : `${routes.recursos(locale)}/${item.resourceId}`}
                         tabIndex={isOpen ? undefined : -1}
                         className="mt-3.5 inline-flex items-center gap-1.5 text-[0.82rem] font-semibold text-brand-500 hover:text-brand-400"
                       >

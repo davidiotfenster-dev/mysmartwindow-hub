@@ -17,6 +17,7 @@ export const getFaqs = cache(async (): Promise<FaqItem[]> => {
       question: pickLocalized(bucket, 'question'),
       answer: pickLocalized(bucket, 'answer'),
       resourceId: resource?.slug,
+      href: (base.resourceHref as string) || undefined,
     })
   }
 

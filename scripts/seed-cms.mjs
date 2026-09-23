@@ -220,7 +220,10 @@ async function seedFaqs(resourceIds) {
         en: { question: f.question.en, answer: f.answer.en },
         it: { question: f.question.it, answer: f.answer.it },
       },
-      { resource: f.resourceId ? resourceIds[f.resourceId] : undefined }
+      {
+        resource: f.resourceId ? resourceIds[f.resourceId] : undefined,
+        resourceHref: f.href,
+      }
     )
     count++
   }
