@@ -9,7 +9,7 @@ import { Badge, ButtonLink, Section, SectionHeading } from '@/components/ui/prim
 import { DeviceGallery } from '@/components/devices/DeviceGallery'
 import { ResourceRail } from '@/components/resources/ResourceRail'
 import { resourceTypeMeta } from '@/data/taxonomy'
-import { getCategoryMap, getResources, getVisibleDevices } from '@/lib/content'
+import { getCategoryMap, getDeviceMap, getDevices, getResources } from '@/lib/content'
 import { getDictionary } from '@/i18n'
 import { fill } from '@/lib/utils'
 import { locales, localeMeta, type Locale } from '@/i18n/config'
@@ -30,7 +30,7 @@ import { getVideoMap } from '@/lib/youtube'
 export const revalidate = 3600
 
 export async function generateStaticParams() {
-  const devices = await getVisibleDevices()
+  const devices = await getDevices()
   return locales.flatMap((locale) => devices.map((d) => ({ locale, id: d.id })))
 }
 
@@ -40,7 +40,7 @@ export async function generateMetadata({
   params: Promise<{ locale: Locale; id: string }>
 }): Promise<Metadata> {
   const { locale, id } = await params
-  const [devices, resources] = await Promise.all([getVisibleDevices(), getResources()])
+  const [devices, resources] = await Promise.all([getDevices(), getResources()])
   const device = devices.find((d) => d.id === id)
   if (!device) return {}
   const dict = getDictionary(locale)
@@ -77,8 +77,9 @@ export default async function DevicePage({
   params: Promise<{ locale: Locale; id: string }>
 }) {
   const { locale, id } = await params
-  const [devices, resources, dict, videoMap, categoryMap] = await Promise.all([
-    getVisibleDevices(),
+  const [devices, deviceMap, resources, dict, videoMap, categoryMap] = await Promise.all([
+    getDevices(),
+    getDeviceMap(),
     getResources(),
     getDictionary(locale),
     getVideoMap(),
@@ -247,6 +248,35 @@ export default async function DevicePage({
           </div>
         </div>
       </header>
+
+      {/* ---------- Variantes del dispositivo ---------- */}
+      {device.variants && device.variants.length > 0 && (
+        <Section className="border-b border-line bg-bg-subtle !py-10">
+          <SectionHeading eyebrow={device.name} title={{ es: 'Modelos disponibles', en: 'Available models', it: 'Modelli disponibili' }[locale] || 'Modelos disponibles'} />
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {device.variants.map((vId) => {
+              const variant = deviceMap[vId]
+              if (!variant) return null
+              return (
+                <Link
+                  key={variant.id}
+                  href={routes.dispositivo(locale, variant.id)}
+                  className="group rounded-2xl border border-line bg-bg-elevated/60 p-5 transition-all hover:-translate-y-1 hover:border-brand-500/40"
+                >
+                  <p className="font-display text-lg font-bold transition-colors group-hover:text-brand-500">
+                    {variant.name}
+                  </p>
+                  <p className="mt-1.5 text-[0.8rem] text-fg-muted">{variant.tagline[locale]}</p>
+                  <span className="mt-4 inline-flex items-center gap-1.5 text-[0.78rem] font-semibold text-brand-500 transition-transform group-hover:translate-x-1">
+                    {dict.common.open}
+                    <ArrowUpRight className="h-3.5 w-3.5" />
+                  </span>
+                </Link>
+              )
+            })}
+          </div>
+        </Section>
+      )}
 
       {/* ---------- Recursos del dispositivo ---------- */}
       {views.length === 0 ? (

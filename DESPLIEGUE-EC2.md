@@ -179,7 +179,7 @@ tocar el servidor.
 Textos, resúmenes, fotos, recursos nuevos, traducciones, subir los PDF
 italianos… todo eso se edita en `http://52.209.147.26:1337/admin` y **aparece
 solo**. El sitio relee el CMS cada hora, así que como mucho tardas ese rato en
-verlo. Si tienes prisa, `docker compose restart web` y sale al momento.
+verlo. Si tienes prisa, ejecuta `curl -X POST http://127.0.0.1:3000/api/youtube` en el servidor para vaciar la caché y sale al momento.
 
 ### Cambios de código → tres líneas
 

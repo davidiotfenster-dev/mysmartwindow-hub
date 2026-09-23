@@ -285,7 +285,7 @@ const it: Dictionary = {
 
   cookies: {
     title: 'Cookie',
-    text: 'Nel tuo browser salviamo solo l’essenziale: la tua scelta qui e se preferisci il tema chiaro o scuro. Nessuna analisi, nessuna pubblicità. I video di YouTube attivano i loro cookie solo se premi play.',
+    text: 'Salviamo le tue preferenze e utilizziamo cookie analitici opzionali per misurare le visite e migliorare il sito. Puoi accettarli o rifiutarli. I video di YouTube attivano i loro cookie solo se premi play.',
     accept: 'Accetta',
     reject: 'Rifiuta',
     more: 'Maggiori informazioni',

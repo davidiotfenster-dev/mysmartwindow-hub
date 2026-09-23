@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next'
+import { GoogleAnalytics } from '@next/third-parties/google'
 import { League_Spartan, Montserrat } from 'next/font/google'
 import { notFound } from 'next/navigation'
 import '../globals.css'
@@ -121,6 +122,25 @@ export default async function LocaleLayout({
       suppressHydrationWarning
       className={`${leagueSpartan.variable} ${montserrat.variable}`}
     >
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              var choice = null;
+              try { choice = localStorage.getItem('msw-cookie-choice'); } catch(e) {}
+              gtag('consent', 'default', {
+                'analytics_storage': choice === 'accepted' ? 'granted' : 'denied',
+                'ad_storage': choice === 'accepted' ? 'granted' : 'denied',
+                'ad_user_data': choice === 'accepted' ? 'granted' : 'denied',
+                'ad_personalization': choice === 'accepted' ? 'granted' : 'denied',
+                'wait_for_update': 500
+              });
+            `,
+          }}
+        />
+      </head>
       <body className="min-h-dvh antialiased">
         {/* Identidad del sitio y de la empresa, una sola vez para todo el dominio */}
         <JsonLd
@@ -160,6 +180,9 @@ export default async function LocaleLayout({
           <CookieBanner dict={dict} locale={typedLocale} />
           <CommandPalette locale={typedLocale} dict={dict} index={searchIndex} categories={categories} />
         </Providers>
+        {process.env.NEXT_PUBLIC_GA_ID && (
+          <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
+        )}
       </body>
     </html>
   )

@@ -285,7 +285,7 @@ const en: Dictionary = {
 
   cookies: {
     title: 'Cookies',
-    text: 'We only store the essentials in your browser: your choice here and whether you prefer the light or dark theme. No analytics, no advertising. YouTube videos only set their cookies if you press play.',
+    text: 'We save your preferences and use optional analytics cookies to measure visits and improve the site. You can accept or reject them. YouTube videos only set their cookies if you press play.',
     accept: 'Accept',
     reject: 'Reject',
     more: 'More information',

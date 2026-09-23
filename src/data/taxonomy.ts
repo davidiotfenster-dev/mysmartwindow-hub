@@ -186,6 +186,8 @@ export interface Device {
   videos?: string[]
   /** SEO editable desde el CMS; si no existe se genera a partir del contenido. */
   seo?: LocalizedSeo
+  /** Variantes o modelos derivados de este dispositivo. */
+  variants?: DeviceId[]
 }
 
 export const devices: Device[] = [
@@ -288,38 +290,41 @@ export const devices: Device[] = [
       { es: 'Multivinculación', en: 'Multi-pairing', it: 'Associazione multipla' },
       { es: 'Instalación empotrada', en: 'Flush installation', it: 'Installazione a incasso' },
     ],
+    variants: ['c-wall-sky', 'c-wall-shutter'],
   },
   {
     id: 'c-wall-sky',
     name: 'C-WALL Sky',
+    hidden: true,
     url: 'https://www.iotfenster.com/c-wall-sky/',
     tagline: {
-      es: 'Control para techos y claraboyas',
-      en: 'Control for roofs and skylights',
-      it: 'Controllo per tetti e lucernari',
+      es: 'Para ventanas abatibles',
+      en: 'For casement windows',
+      it: 'Per finestre a battente',
     },
     description: {
-      es: 'Variante del C-WALL orientada a cerramientos cenitales y ventanas de techo.',
-      en: 'C-WALL variant aimed at overhead enclosures and roof windows.',
-      it: 'Variante del C-WALL per chiusure zenitali e finestre da tetto.',
+      es: 'Variante del C-WALL orientada a ventanas abatibles.',
+      en: 'C-WALL variant aimed at casement windows.',
+      it: 'Variante del C-WALL per finestre a battente.',
     },
-    features: [{ es: 'Cerramientos cenitales', en: 'Overhead enclosures', it: 'Chiusure zenitali' }],
+    features: [{ es: 'Ventanas abatibles', en: 'Casement windows', it: 'Finestre a battente' }],
   },
   {
     id: 'c-wall-shutter',
     name: 'C-WALL Shutter',
+    hidden: true,
     url: 'https://www.iotfenster.com/c-wall-shutter/',
     tagline: {
-      es: 'Especialista en persianas',
-      en: 'Roller shutter specialist',
-      it: 'Specialista delle tapparelle',
+      es: 'Para estores y persianas',
+      en: 'For blinds and shutters',
+      it: 'Per tende e tapparelle',
     },
     description: {
-      es: 'Versión del C-WALL dedicada al control de persianas enrollables.',
-      en: 'C-WALL version dedicated to roller shutter control.',
-      it: 'Versione del C-WALL dedicata al controllo delle tapparelle.',
+      es: 'Versión del C-WALL dedicada al control de estores, persianas y motores tubulares.',
+      en: 'C-WALL version dedicated to blinds, roller shutters and tubular motors.',
+      it: 'Versione del C-WALL dedicata al controllo di tende, tapparelle e motori tubolari.',
     },
-    features: [{ es: 'Control de persiana', en: 'Shutter control', it: 'Controllo tapparella' }],
+    features: [{ es: 'Motores tubulares', en: 'Tubular motors', it: 'Motori tubolari' }],
   },
   {
     id: 'remote-witooth',

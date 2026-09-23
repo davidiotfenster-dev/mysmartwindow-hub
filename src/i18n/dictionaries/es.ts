@@ -284,7 +284,7 @@ const es = {
 
   cookies: {
     title: 'Cookies',
-    text: 'Solo guardamos en tu navegador lo imprescindible: tu elección aquí y si prefieres el tema claro u oscuro. Sin analítica ni publicidad. Los vídeos de YouTube solo activan sus cookies si les das al play.',
+    text: 'Guardamos tus preferencias y usamos cookies analíticas opcionales para medir visitas y mejorar la web. Puedes aceptarlas o rechazarlas. Los vídeos de YouTube solo activan sus cookies si les das al play.',
     accept: 'Aceptar',
     reject: 'Rechazar',
     more: 'Más información',

@@ -37,6 +37,15 @@ export function CookieBanner({ dict, locale }: { dict: Dictionary; locale: Local
   const choose = (choice: CookieChoice) => {
     storeCookieChoice(choice)
     setVisible(false)
+    if (choice === 'accepted' && typeof window !== 'undefined' && 'gtag' in window) {
+      // @ts-ignore
+      window.gtag('consent', 'update', {
+        analytics_storage: 'granted',
+        ad_storage: 'granted',
+        ad_user_data: 'granted',
+        ad_personalization: 'granted',
+      })
+    }
   }
 
   return (

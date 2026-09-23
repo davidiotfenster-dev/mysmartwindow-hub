@@ -96,7 +96,7 @@ Solo tratamos los datos que nos facilitas voluntariamente a través de los formu
 
 **Navegación**
 
-Este sitio **no utiliza cookies de analítica ni de publicidad** y no elabora perfiles de navegación. El detalle del almacenamiento técnico que sí se usa está en la [Política de cookies](/es/legal/${LEGAL_SLUGS.cookies}).
+Este sitio **utiliza cookies analíticas opcionales** mediante Google Tag Manager y Google Analytics. El detalle del almacenamiento se explica en la [Política de cookies](/es/legal/${LEGAL_SLUGS.cookies}).
 
 ## 3. Para qué los usamos y con qué base legal
 
@@ -194,7 +194,7 @@ We only process the data you give us voluntarily through the forms on this site.
 
 **Browsing**
 
-This site **uses no analytics or advertising cookies** and builds no browsing profiles. The technical storage it does use is detailed in the [Cookie policy](/en/legal/${LEGAL_SLUGS.cookies}).
+This site **uses optional analytics cookies** through Google Tag Manager and Google Analytics. The storage used is detailed in the [Cookie policy](/en/legal/${LEGAL_SLUGS.cookies}).
 
 ## 3. What we use it for, and on what legal basis
 
@@ -292,7 +292,7 @@ Trattiamo solo i dati che ci fornisci volontariamente tramite i moduli di questo
 
 **Navigazione**
 
-Questo sito **non utilizza cookie di analisi né pubblicitari** e non elabora profili di navigazione. Il dettaglio dell’archiviazione tecnica effettivamente usata si trova nella [Politica sui cookie](/it/legal/${LEGAL_SLUGS.cookies}).
+Questo sito **utilizza cookie analitici opzionali** tramite Google Tag Manager e Google Analytics. Il dettaglio dell’archiviazione è nella [Politica sui cookie](/it/legal/${LEGAL_SLUGS.cookies}).
 
 ## 3. Per quali finalità e su quale base giuridica
 
@@ -667,16 +667,17 @@ Una cookie es un pequeño fichero que un sitio web guarda en tu navegador cuando
 
 ## 2. Resumen: qué usa este sitio
 
-**Este sitio no usa cookies de analítica, de publicidad ni de seguimiento.** No medimos tu navegación, no elaboramos perfiles y no compartimos nada con redes publicitarias ni con proveedores de estadísticas.
+Este sitio utiliza **Google Tag Manager** y **Google Analytics** de forma opcional. Si nos das tu consentimiento en el aviso inicial, Google instalará cookies en tu navegador para ayudarnos a medir de forma estadística y anónima cómo se usa la web (páginas visitadas, tipo de dispositivo, país). No usamos esta información para publicidad ni para crear perfiles individuales.
 
-Lo único que se guarda en tu navegador son dos datos técnicos, del propio sitio, que no se envían a nuestros servidores:
+Aparte de eso, guardamos por defecto en tu navegador dos datos técnicos del propio sitio que no se envían a nuestros servidores:
 
 | Nombre | Tipo | Finalidad | Duración |
 | --- | --- | --- | --- |
-| **msw-cookie-choice** | localStorage, propia, técnica | Recordar si has aceptado o rechazado este aviso, para no volver a mostrártelo en cada visita | Hasta que borres los datos del navegador |
-| **theme** | localStorage, propia, de preferencia | Recordar si prefieres ver el sitio en modo claro u oscuro | Hasta que borres los datos del navegador |
+| **_ga, _ga_*** | cookie, terceros, analítica | Medir estadísticas de visitas de forma anónima (solo si las aceptas) | Hasta 2 años |
+| **msw-cookie-choice** | localStorage, propia, técnica | Recordar si has aceptado o rechazado este aviso, para no volver a mostrártelo | Hasta que borres los datos |
+| **theme** | localStorage, propia, preferencia | Recordar si prefieres ver el sitio en modo claro u oscuro | Hasta que borres los datos |
 
-Ambas están **exentas del deber de obtener consentimiento** conforme al artículo 22.2 de la LSSI y a la *Guía sobre el uso de las cookies* de la Agencia Española de Protección de Datos, por ser estrictamente necesarias para prestar un servicio que tú has solicitado: recordar tu elección y tu preferencia de visualización. Aun así te las contamos aquí, porque creemos que debes saber qué hay en tu navegador.
+Los dos datos propios están **exentos del deber de obtener consentimiento** conforme al artículo 22.2 de la LSSI y a la *Guía sobre el uso de las cookies* de la AEPD, por ser estrictamente necesarios para prestar un servicio que tú has solicitado. Aun así te los detallamos aquí.
 
 ## 3. Contenido incrustado de terceros: los vídeos
 
@@ -717,16 +718,17 @@ A cookie is a small file that a website stores in your browser when you visit it
 
 ## 2. Summary: what this site uses
 
-**This site uses no analytics, advertising or tracking cookies.** We do not measure your browsing, we build no profiles and we share nothing with ad networks or analytics providers.
+This site uses **Google Tag Manager** and **Google Analytics** optionally. If you give your consent in the initial notice, Google will install cookies in your browser to help us measure statistically and anonymously how the site is used (pages visited, device type, country). We do not use this information for advertising or individual profiling.
 
-The only things stored in your browser are two technical items, belonging to the site itself, which are never sent to our servers:
+Besides that, we store by default two technical items belonging to the site itself, which are never sent to our servers:
 
 | Name | Type | Purpose | Duration |
 | --- | --- | --- | --- |
-| **msw-cookie-choice** | localStorage, first-party, technical | Remember whether you accepted or rejected this notice, so it is not shown on every visit | Until you clear your browser data |
-| **theme** | localStorage, first-party, preference | Remember whether you prefer the site in light or dark mode | Until you clear your browser data |
+| **_ga, _ga_*** | cookie, third-party, analytics | Anonymous visit statistics (only if accepted) | Up to 2 years |
+| **msw-cookie-choice** | localStorage, first-party, technical | Remember whether you accepted or rejected this notice | Until cleared |
+| **theme** | localStorage, first-party, preference | Remember your light/dark mode preference | Until cleared |
 
-Both are **exempt from the consent requirement** under article 22.2 of the Spanish LSSI and the Spanish Data Protection Agency's *Guide on the use of cookies*, being strictly necessary to provide a service you have requested: remembering your choice and your display preference. We list them here anyway, because you should know what is in your browser.
+The two first-party items are **exempt from the consent requirement** under Spanish law, being strictly necessary to provide a service you requested. We list them here anyway for transparency.
 
 ## 3. Third-party embedded content: the videos
 
@@ -767,16 +769,17 @@ Un cookie è un piccolo file che un sito web salva nel tuo browser quando lo vis
 
 ## 2. In sintesi: cosa usa questo sito
 
-**Questo sito non usa cookie di analisi, pubblicitari o di tracciamento.** Non misuriamo la tua navigazione, non elaboriamo profili e non condividiamo nulla con reti pubblicitarie o fornitori di statistiche.
+Questo sito utilizza **Google Tag Manager** e **Google Analytics** in modo facoltativo. Se ci dai il tuo consenso nell’avviso iniziale, Google installerà cookie nel tuo browser per aiutarci a misurare statisticamente e in modo anonimo come viene utilizzato il sito (pagine visitate, tipo di dispositivo, paese). Non utilizziamo queste informazioni per scopi pubblicitari o di profilazione individuale.
 
-Nel tuo browser vengono salvati soltanto due dati tecnici, del sito stesso, che non vengono inviati ai nostri server:
+Inoltre, salviamo per impostazione predefinita due dati tecnici del sito stesso, che non vengono mai inviati ai nostri server:
 
 | Nome | Tipo | Finalità | Durata |
 | --- | --- | --- | --- |
-| **msw-cookie-choice** | localStorage, propria, tecnica | Ricordare se hai accettato o rifiutato questo avviso, per non mostrartelo a ogni visita | Fino alla cancellazione dei dati del browser |
-| **theme** | localStorage, propria, di preferenza | Ricordare se preferisci il sito in modalità chiara o scura | Fino alla cancellazione dei dati del browser |
+| **_ga, _ga_*** | cookie, terze parti, analitici | Statistiche anonime delle visite (solo se accettati) | Fino a 2 anni |
+| **msw-cookie-choice** | localStorage, propria, tecnica | Ricordare se hai accettato o rifiutato questo avviso | Fino alla cancellazione |
+| **theme** | localStorage, propria, preferenza | Ricordare la preferenza per il tema chiaro o scuro | Fino alla cancellazione |
 
-Entrambi sono **esenti dall’obbligo di consenso** ai sensi dell’articolo 22.2 della LSSI spagnola e della *Guida sull’uso dei cookie* dell’Agenzia spagnola per la protezione dei dati, essendo strettamente necessari per erogare un servizio da te richiesto: ricordare la tua scelta e la tua preferenza di visualizzazione. Te li elenchiamo comunque, perché riteniamo che tu debba sapere cosa c’è nel tuo browser.
+I due dati propri sono **esenti dall’obbligo di consenso** secondo la legge spagnola, in quanto strettamente necessari per erogare un servizio richiesto. Li elenchiamo comunque per trasparenza.
 
 ## 3. Contenuti incorporati di terzi: i video
 
