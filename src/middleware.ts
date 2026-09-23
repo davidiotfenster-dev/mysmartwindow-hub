@@ -4,17 +4,23 @@ import { defaultLocale, locales } from '@/i18n/config'
 const PUBLIC_FILE = /\.(.*)$/
 
 /**
- * Direcciones ajenas al sitio -hoy solo la app movil, que llama a `/app` a
- * secas y esta grabado a fuego en su codigo, no se puede pedir que lo
- * cambien- que tienen que servir contenido nuestro sin aparecer como pagina
- * propia: nada de menu, nada de sitemap, la barra de direcciones se queda tal
- * cual la escribio quien entra.
+ * Direcciones ajenas al sitio -hoy solo la app movil, grabadas a fuego en su
+ * codigo, no se puede pedir que las cambien- que tienen que servir contenido
+ * nuestro sin aparecer como pagina propia: nada de menu, nada de sitemap, la
+ * barra de direcciones se queda tal cual la escribio quien entra.
  *
  * Por eso es una reescritura y no una redireccion: el navegador nunca se
  * entera de que por debajo se sirve /soporte.
+ *
+ * `/app/supportpage.html` es la de verdad -la primera, `/app`, salio de un
+ * malentendido sobre cual era la URL real y se deja porque no molesta a
+ * nadie-. Termina en ".html", asi que esta comprobacion tiene que ir antes
+ * del filtro de "esto es un fichero estatico, dejalo pasar": si no, ese
+ * filtro se la lleva por delante sin llegar nunca aqui.
  */
 const HIDDEN_ALIASES: Record<string, string> = {
   '/app': '/soporte',
+  '/app/supportpage.html': '/soporte',
 }
 
 /** Elige idioma a partir de Accept-Language, con español por defecto. */
@@ -37,15 +43,6 @@ function detectLocale(request: NextRequest): string {
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  if (
-    pathname.startsWith('/api') ||
-    pathname.startsWith('/_next') ||
-    pathname === '/favicon.ico' ||
-    PUBLIC_FILE.test(pathname)
-  ) {
-    return NextResponse.next()
-  }
-
   const aliasTarget = HIDDEN_ALIASES[pathname.replace(/\/$/, '')]
   if (aliasTarget) {
     const locale = detectLocale(request)
@@ -57,6 +54,15 @@ export function middleware(request: NextRequest) {
     // libre la va a indexar como pagina duplicada de /soporte.
     response.headers.set('X-Robots-Tag', 'noindex')
     return response
+  }
+
+  if (
+    pathname.startsWith('/api') ||
+    pathname.startsWith('/_next') ||
+    pathname === '/favicon.ico' ||
+    PUBLIC_FILE.test(pathname)
+  ) {
+    return NextResponse.next()
   }
 
   const hasLocale = locales.some(
