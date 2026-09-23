@@ -37,8 +37,28 @@ export function Hero({
     { value: stats.categories, label: dict.hero.statCategories },
   ]
 
+  const [exploded, setExploded] = useState(false)
+
   return (
-    <section className="relative overflow-hidden pb-16 pt-28 sm:pb-24 sm:pt-36 lg:pb-32 lg:pt-44">
+    <motion.section 
+      animate={
+        exploded 
+          ? { 
+              rotate: [0, 2, -3, 4, -2, 1, -4, 0],
+              x: [0, 10, -10, 15, -15, 5, -5, 0],
+              y: [0, -10, 10, -15, 15, -5, 5, 0],
+              filter: ['blur(0px) invert(0%)', 'blur(4px) invert(100%)', 'blur(0px) invert(0%)', 'blur(8px) hue-rotate(90deg)', 'blur(0px) invert(0%)'],
+              scale: [1, 1.05, 0.95, 1.1, 0.9, 1]
+            } 
+          : {}
+      }
+      transition={{ 
+        duration: 0.5, 
+        repeat: exploded ? Infinity : 0,
+        repeatType: 'mirror'
+      }}
+      className="relative overflow-hidden pb-16 pt-28 sm:pb-24 sm:pt-36 lg:pb-32 lg:pt-44"
+    >
       {/* ---------- Fondo ---------- */}
       <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
         <div className="grid-tech absolute inset-0 mask-fade-b opacity-70" />
@@ -137,7 +157,7 @@ export function Hero({
             transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             className="relative mx-auto w-full max-w-sm lg:max-w-none"
           >
-            <WindowMockup reduced={Boolean(reduced)} dict={dict} />
+            <WindowMockup reduced={Boolean(reduced)} dict={dict} onExplode={(isExploding) => setExploded(isExploding)} />
           </motion.div>
         </div>
       </div>
@@ -151,7 +171,7 @@ export function Hero({
           <span className="block h-4 w-px bg-brand-500 animate-[scan_2.6s_ease-in-out_infinite]" />
         </span>
       </div>
-    </section>
+    </motion.section>
   )
 }
 
@@ -185,7 +205,7 @@ const APP_CONTROL_TOP = { up: '35.5%', stop: '46.3%', down: '57.3%' }
    -desde las flechas de la app o desde el Pulsar del marco-. Todo es CSS
    salvo dos fotos reales: la captura de la app y el propio Pulsar.
    ========================================================================== */
-function WindowMockup({ reduced, dict }: { reduced: boolean; dict: Dictionary }) {
+function WindowMockup({ reduced, dict, onExplode }: { reduced: boolean; dict: Dictionary; onExplode?: (exploding: boolean) => void }) {
   const cover = useMotionValue(BLIND_CLOSED)
   const coverHeight = useMotionTemplate`${cover}%`
   /** La persiana dibujada en la app se descubre por arriba en la misma proporción. */
@@ -197,16 +217,17 @@ function WindowMockup({ reduced, dict }: { reduced: boolean; dict: Dictionary })
   const clickCount = useRef(0)
   const [overheated, setOverheated] = useState(false)
   const [countdown, setCountdown] = useState(3)
+  const [exploding, setExploding] = useState(false)
 
   const checkEasterEgg = useCallback(() => {
-    if (overheated) return true
+    if (overheated || exploding) return true
     clickCount.current += 1
     if (clickCount.current >= 8) {
       setOverheated(true)
       return true
     }
     return false
-  }, [overheated])
+  }, [overheated, exploding])
 
   useEffect(() => {
     if (!overheated) return
@@ -216,14 +237,21 @@ function WindowMockup({ reduced, dict }: { reduced: boolean; dict: Dictionary })
       count -= 1
       if (count <= 0) {
         clearInterval(interval)
-        setOverheated(false)
-        clickCount.current = 0
+        setExploding(true)
+        onExplode?.(true)
+        
+        setTimeout(() => {
+          setExploding(false)
+          setOverheated(false)
+          onExplode?.(false)
+          clickCount.current = 0
+        }, 5000)
       } else {
         setCountdown(count)
       }
     }, 1000)
     return () => clearInterval(interval)
-  }, [overheated])
+  }, [overheated, onExplode])
 
   const move = useCallback(
     (to: number) => {
@@ -425,7 +453,7 @@ function WindowMockup({ reduced, dict }: { reduced: boolean; dict: Dictionary })
       </div>
 
       <AnimatePresence>
-        {overheated && (
+        {overheated && !exploding && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -445,6 +473,18 @@ function WindowMockup({ reduced, dict }: { reduced: boolean; dict: Dictionary })
               La página explotará en <span className="text-5xl font-black text-white">{countdown}</span> segundos...
             </p>
           </motion.div>
+        )}
+      </AnimatePresence>
+      
+      {/* Explosión visual superpuesta (opcional para dar más caos) */}
+      <AnimatePresence>
+        {exploding && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: [0, 1, 0.5, 1, 0, 0.8, 0] }}
+            transition={{ duration: 0.8, repeat: Infinity }}
+            className="pointer-events-none fixed inset-0 z-[9999] bg-white mix-blend-difference"
+          />
         )}
       </AnimatePresence>
     </>
