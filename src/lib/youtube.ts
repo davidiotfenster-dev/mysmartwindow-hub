@@ -110,6 +110,10 @@ async function fetchFromRss(): Promise<YouTubeVideo[]> {
   const res = await fetch(url, {
     next: { revalidate: REVALIDATE_SECONDS, tags: ['youtube'] },
     headers: { 'User-Agent': 'MySmartWindowHub/1.0' },
+    // Sin esto, un YouTube que no responde (red, limite de peticiones...) deja
+    // la peticion colgada indefinidamente -y con ella cualquier pagina que
+    // necesite estos datos, atascada en su esqueleto de carga para siempre.
+    signal: AbortSignal.timeout(8000),
   })
   if (!res.ok) throw new Error(`RSS de YouTube respondio ${res.status}`)
 
@@ -146,6 +150,7 @@ async function api<T>(path: string, params: Record<string, string>, key: string)
   const qs = new URLSearchParams({ ...params, key })
   const res = await fetch(`${API}/${path}?${qs}`, {
     next: { revalidate: REVALIDATE_SECONDS, tags: ['youtube'] },
+    signal: AbortSignal.timeout(8000),
   })
   if (!res.ok) {
     const body = await res.text().catch(() => '')
