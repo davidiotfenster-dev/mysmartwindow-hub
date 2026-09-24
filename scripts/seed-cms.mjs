@@ -56,6 +56,15 @@ function qs(params) {
 }
 
 /** Crea o actualiza una ficha en los tres idiomas y devuelve su documentId. */
+/**
+ * `shared` son los campos no traducidos (categoria, tipo, oculto...). Van en
+ * las TRES llamadas, no solo en la espanola: Strapi no los sincroniza solo
+ * porque el schema los marque como no localizados, eso solo afecta a como se
+ * ve en el panel de administracion. Sin esto, la entrada inglesa e italiana
+ * se quedan sin esos campos, y el dia que una de las dos pase a ser "la mas
+ * reciente" el recurso entero desaparece del sitio sin ningun aviso -es
+ * justo lo que le paso al catalogo completo el 24 de septiembre.
+ */
 async function upsert(plural, slug, byLocale, shared = {}) {
   const existing = await api(
     `/api/${plural}?${qs({ 'filters[slug][$eq]': slug, locale: 'es' })}`
@@ -79,7 +88,7 @@ async function upsert(plural, slug, byLocale, shared = {}) {
   for (const locale of ['en', 'it']) {
     await api(`/api/${plural}/${documentId}?locale=${locale}`, {
       method: 'PUT',
-      body: JSON.stringify({ data: byLocale[locale] }),
+      body: JSON.stringify({ data: { ...shared, ...byLocale[locale] } }),
     })
   }
 
