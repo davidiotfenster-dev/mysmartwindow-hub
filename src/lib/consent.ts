@@ -1,10 +1,10 @@
 /**
  * Elección del usuario sobre el aviso de cookies.
  *
- * Este sitio no instala analítica ni publicidad: lo único que se guarda en el
- * navegador es esta elección y la preferencia de tema (esa la gestiona
- * `next-themes` con la clave `theme`). Ambas están exentas del deber de
- * consentimiento, pero la normativa sí exige que retirar la elección sea tan
+ * Google Analytics solo se carga si el visitante acepta (`lib/analytics.ts`).
+ * Aparte de eso, lo único que se guarda en el navegador es esta elección y la
+ * preferencia de tema (esa la gestiona `next-themes` con la clave `theme`),
+ * ambas exentas del deber de consentimiento. La normativa exige que retirar la elección sea tan
  * fácil como darla, así que el pie de página puede volver a abrir el aviso
  * en cualquier momento mediante `openCookiePreferences()`.
  *

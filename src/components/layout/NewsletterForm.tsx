@@ -7,6 +7,7 @@ import { useState } from 'react'
 import { cn } from '@/lib/utils'
 import type { Dictionary } from '@/i18n'
 import { withBasePath } from '@/lib/base-path'
+import { trackEvent } from '@/lib/analytics'
 
 type Status = 'idle' | 'loading' | 'ok' | 'error'
 
@@ -25,6 +26,7 @@ export function NewsletterForm({ dict }: { dict: Dictionary }) {
       })
       if (!res.ok) throw new Error('bad response')
       setStatus('ok')
+      trackEvent('sign_up', { method: 'newsletter' })
       setEmail('')
     } catch {
       setStatus('error')

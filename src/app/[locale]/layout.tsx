@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from 'next'
-import { GoogleAnalytics } from '@next/third-parties/google'
 import { League_Spartan, Montserrat } from 'next/font/google'
 import { notFound } from 'next/navigation'
 import '../globals.css'
@@ -14,6 +13,7 @@ import { JsonLd } from '@/components/seo/JsonLd'
 import { alternates, jsonLd, organizationSchema, websiteSchema, SITE_URL } from '@/lib/seo'
 import { BackToTop } from '@/components/layout/BackToTop'
 import { CookieBanner } from '@/components/layout/CookieBanner'
+import { Analytics } from '@/components/layout/Analytics'
 import { CommandPalette } from '@/components/layout/CommandPalette'
 import { SupportAssistant } from '@/components/layout/SupportAssistant'
 import { getDictionary } from '@/i18n'
@@ -137,6 +137,7 @@ export default async function LocaleLayout({
                 'ad_personalization': choice === 'accepted' ? 'granted' : 'denied',
                 'wait_for_update': 500
               });
+              window.__mswLanding = { page_location: location.href, page_referrer: document.referrer };
             `,
           }}
         />
@@ -181,7 +182,7 @@ export default async function LocaleLayout({
           <CommandPalette locale={typedLocale} dict={dict} index={searchIndex} categories={categories} />
         </Providers>
         {process.env.NEXT_PUBLIC_GA_ID && (
-          <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
+          <Analytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
         )}
       </body>
     </html>

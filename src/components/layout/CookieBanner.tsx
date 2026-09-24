@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 
 import { Button } from '@/components/ui/primitives'
+import { CONSENT_ACCEPTED_EVENT, setAnalyticsConsent } from '@/lib/analytics'
 import {
   COOKIE_PREFERENCES_EVENT,
   readCookieChoice,
@@ -37,15 +38,9 @@ export function CookieBanner({ dict, locale }: { dict: Dictionary; locale: Local
   const choose = (choice: CookieChoice) => {
     storeCookieChoice(choice)
     setVisible(false)
-    if (choice === 'accepted' && typeof window !== 'undefined' && 'gtag' in window) {
-      // @ts-ignore
-      window.gtag('consent', 'update', {
-        analytics_storage: 'granted',
-        ad_storage: 'granted',
-        ad_user_data: 'granted',
-        ad_personalization: 'granted',
-      })
-    }
+    // Retirar el consentimiento desde el pie también tiene que frenar a GA si ya estaba cargado.
+    setAnalyticsConsent(choice === 'accepted')
+    if (choice === 'accepted') window.dispatchEvent(new CustomEvent(CONSENT_ACCEPTED_EVENT))
   }
 
   return (

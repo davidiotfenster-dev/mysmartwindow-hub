@@ -11,6 +11,7 @@ import { cn } from '@/lib/utils'
 import type { Dictionary } from '@/i18n'
 import type { Locale } from '@/i18n/config'
 import { withBasePath } from '@/lib/base-path'
+import { trackEvent } from '@/lib/analytics'
 
 type Field = 'name' | 'email' | 'profile' | 'subject' | 'message' | 'consent'
 type Status = 'idle' | 'loading' | 'ok' | 'error'
@@ -69,6 +70,8 @@ export function ContactForm({ dict, locale }: { dict: Dictionary; locale: Locale
       })
       if (!res.ok) throw new Error('bad response')
       setStatus('ok')
+      // Nombre recomendado por GA para leads; perfil y asunto permiten ver quién escribe y para qué.
+      trackEvent('generate_lead', { form: 'contacto', profile: values.profile, subject: values.subject })
       setValues({
         name: '',
         email: '',
