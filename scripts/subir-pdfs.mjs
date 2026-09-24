@@ -22,7 +22,11 @@
  * correspondan a ningun recurso se avisan y se saltan, no se sube nada a
  * ciegas.
  *
- * Es repetible: si un recurso ya tenia fichero en ese idioma, se sustituye.
+ * Es repetible: si un recurso ya tenia fichero en ese idioma, se sustituye de
+ * verdad -el PDF anterior se borra de la biblioteca de medios, no se queda
+ * huerfano-. El propio `/api/upload` de Strapi no tiene forma de "actualizar"
+ * un fichero existente, solo de crear uno nuevo, asi que sin este borrado
+ * explicito cada ejecucion iria dejando copias sueltas sin enganchar a nada.
  * Con `--solo-nuevos` se salta los que ya lo tienen, que es lo comodo para
  * anadir dos o tres documentos sin volver a subirlo todo.
  *
@@ -124,11 +128,19 @@ async function main() {
       continue
     }
 
+    const anterior = recurso.file?.id
     const { id, kb } = await subir(join(dir, fichero))
     await api(`/api/resources/${recurso.documentId}?locale=${locale}`, {
       method: 'PUT',
       body: JSON.stringify({ data: { file: id } }),
     })
+
+    // Sustituye de verdad: sin esto, el PDF anterior se queda huerfano en la
+    // biblioteca de medios cada vez que se repite la subida.
+    if (anterior && anterior !== id) {
+      await api(`/api/upload/files/${anterior}`, { method: 'DELETE' })
+    }
+
     subidos++
     console.log(`  ${String(subidos).padStart(2)}/${ficheros.length}  ${slug}  (${kb} KB)`)
   }

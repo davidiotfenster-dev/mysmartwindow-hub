@@ -22,6 +22,12 @@
  *
  * Con `--simular` no sube nada: solo dice que encajaria con que, y no
  * necesita token.
+ *
+ * Es repetible: si la ficha ya tenia una imagen, se sustituye de verdad -la
+ * anterior se borra de la biblioteca de medios, no se queda huerfana-. El
+ * propio `/api/upload` de Strapi no tiene forma de "actualizar" un fichero
+ * existente, solo de crear uno nuevo, asi que sin este borrado explicito
+ * cada ejecucion iria dejando copias sueltas sin enganchar a nada.
  */
 import { readFile, readdir } from 'node:fs/promises'
 import { basename, extname, join, resolve } from 'node:path'
@@ -111,6 +117,8 @@ async function main() {
       continue
     }
 
+    const anterior = ficha[campo]?.id
+
     const cuerpo = new FormData()
     const medio = MEDIOS[extname(fichero).toLowerCase()]
     cuerpo.append('files', new Blob([contenido], { type: medio }), fichero)
@@ -120,6 +128,13 @@ async function main() {
       method: 'PUT',
       body: JSON.stringify({ data: { [campo]: subida.id } }),
     })
+
+    // Sustituye de verdad: sin esto, la imagen anterior se queda huerfana en
+    // la biblioteca de medios cada vez que se repite la subida.
+    if (anterior && anterior !== subida.id) {
+      await api(`/api/upload/files/${anterior}`, { method: 'DELETE' })
+    }
+
     hechos++
     console.log(`  ${String(hechos).padStart(2)}/${ficheros.length}  ${slug}  (${kb} KB)`)
   }
