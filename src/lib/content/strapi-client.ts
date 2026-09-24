@@ -189,16 +189,38 @@ export function pickLocalized(
  * los comparte mientras son borrador, pero al publicar cada idioma va por su
  * cuenta. Quien editaba el nombre desde la ficha inglesa y publicaba no veia el
  * cambio en ninguna parte -tampoco en ingles-, sin ningun aviso.
+ *
+ * Coger sin mas "la mas reciente" tiene su propio fallo, y de los gordos: los
+ * scripts de carga escriben el campo compartido solo en la entrada espanola
+ * -es un detalle de como esta hecho `upsert()` en seed-cms.mjs, no de Strapi-,
+ * asi que la entrada inglesa o italiana casi siempre lo tiene vacio. En cuanto
+ * alguna de esas dos se toca por lo que sea (subir un fichero, por ejemplo) y
+ * queda como "la mas reciente", el campo compartido desaparece del todo: asi
+ * es como una categoria o un dispositivo se esfumaban de golpe para 62 de 63
+ * recursos, con el CMS perfectamente sano por debajo.
+ *
+ * La solucion es fundir las tres entradas en vez de escoger una: cada campo
+ * se coge de la entrada mas reciente ENTRE LAS QUE LO TIENEN, no de la mas
+ * reciente a secas. Sigue resolviendo el problema original -publicar desde
+ * cualquier idioma se refleja en todos- sin el efecto secundario de borrar
+ * lo que esa entrada nunca llego a tener.
  */
 export function anyEntry(bucket: Partial<Record<Locale, StrapiEntry>>): StrapiEntry | undefined {
   const entries = locales.map((l) => bucket[l]).filter((e): e is StrapiEntry => Boolean(e))
-  if (entries.length < 2) return entries[0]
+  if (entries.length === 0) return undefined
+  if (entries.length === 1) return entries[0]
 
-  return entries.reduce((masReciente, entrada) => {
-    const a = (entrada.updatedAt as string) ?? ''
-    const b = (masReciente.updatedAt as string) ?? ''
-    return a > b ? entrada : masReciente
-  })
+  const porFecha = [...entries].sort(
+    (a, b) => ((a.updatedAt as string) ?? '').localeCompare((b.updatedAt as string) ?? '')
+  )
+
+  const fusionada: StrapiEntry = { documentId: porFecha[0].documentId }
+  for (const entrada of porFecha) {
+    for (const [clave, valor] of Object.entries(entrada)) {
+      if (valor !== null && valor !== undefined) fusionada[clave] = valor
+    }
+  }
+  return fusionada
 }
 
 /**
