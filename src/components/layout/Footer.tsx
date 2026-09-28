@@ -165,10 +165,6 @@ export async function Footer({ locale, dict }: { locale: Locale; dict: Dictionar
             <CookiePreferencesLink label={dict.footer.cookieSettings} />
           </div>
         </div>
-
-        <p className="mt-5 text-[0.7rem] leading-relaxed text-fg-subtle/70">
-          {dict.footer.builtWith}
-        </p>
       </div>
     </footer>
   )

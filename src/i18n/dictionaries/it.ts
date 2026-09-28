@@ -274,7 +274,6 @@ const it: Dictionary = {
     warranty: 'Garanzia',
     cookieSettings: 'Impostazioni cookie',
     rights: 'Tutti i diritti riservati.',
-    builtWith: 'Sito dimostrativo costruito a partire dal portale pubblico di IoT Fenster.',
     trustSpain: 'Progettato e fabbricato in Spagna',
     trustEurope: 'Conformità normativa europea',
     trustAws: 'Infrastruttura cloud su AWS',

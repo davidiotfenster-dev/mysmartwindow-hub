@@ -274,7 +274,6 @@ const en: Dictionary = {
     warranty: 'Warranty',
     cookieSettings: 'Cookie settings',
     rights: 'All rights reserved.',
-    builtWith: 'Demo site built from the public IoT Fenster portal.',
     trustSpain: 'Designed and manufactured in Spain',
     trustEurope: 'European regulatory compliance',
     trustAws: 'Cloud infrastructure on AWS',

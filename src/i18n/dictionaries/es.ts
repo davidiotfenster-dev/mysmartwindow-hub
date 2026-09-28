@@ -273,7 +273,6 @@ const es = {
     warranty: 'Garantía',
     cookieSettings: 'Configurar cookies',
     rights: 'Todos los derechos reservados.',
-    builtWith: 'Sitio de demostración construido a partir del portal público de IoT Fenster.',
     trustSpain: 'Diseñado y fabricado en España',
     trustEurope: 'Cumplimiento normativo europeo',
     trustAws: 'Infraestructura en la nube de AWS',
