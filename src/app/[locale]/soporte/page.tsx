@@ -64,7 +64,7 @@ export default async function SupportPage({ params }: { params: Promise<{ locale
       />
       <Faq locale={locale} dict={dict} faqs={faqs} />
       <div className="border-t border-line bg-bg-subtle">
-        <Values dict={dict} />
+        <Values locale={locale} dict={dict} />
       </div>
     </>
   )

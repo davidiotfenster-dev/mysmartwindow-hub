@@ -118,6 +118,24 @@ export async function Footer({ locale, dict }: { locale: Locale; dict: Dictionar
           </div>
         </div>
 
+        {/* Sellos de confianza: origen, cumplimiento y nube. */}
+        <div className="mt-12 flex flex-wrap items-center gap-3">
+          <span className="inline-flex items-center gap-2 rounded-full border border-line bg-bg-elevated/60 px-4 py-2 text-xs font-medium text-fg-muted">
+            <span aria-hidden="true">🇪🇸</span>
+            {dict.footer.trustSpain}
+          </span>
+          <span className="inline-flex items-center gap-2 rounded-full border border-line bg-bg-elevated/60 px-4 py-2 text-xs font-medium text-fg-muted">
+            <span aria-hidden="true">🇪🇺</span>
+            {dict.footer.trustEurope}
+          </span>
+          <span className="inline-flex items-center gap-2 rounded-full border border-line bg-bg-elevated/60 px-4 py-2 text-xs font-medium text-fg-muted">
+            <span aria-hidden="true" className="font-display font-bold tracking-tight text-[#FF9900]">
+              aws
+            </span>
+            {dict.footer.trustAws}
+          </span>
+        </div>
+
         <SlatDivider className="my-10" />
 
         <div className="flex flex-col items-start justify-between gap-4 text-xs text-fg-subtle sm:flex-row sm:items-center">
@@ -140,6 +158,9 @@ export async function Footer({ locale, dict }: { locale: Locale; dict: Dictionar
             </Link>
             <Link href={routes.cookies(locale)} className="transition-colors hover:text-brand-500">
               {dict.footer.cookies}
+            </Link>
+            <Link href={routes.garantia(locale)} className="transition-colors hover:text-brand-500">
+              {dict.footer.warranty}
             </Link>
             <CookiePreferencesLink label={dict.footer.cookieSettings} />
           </div>

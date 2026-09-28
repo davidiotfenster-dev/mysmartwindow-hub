@@ -60,6 +60,7 @@ export const LEGAL_SLUGS = {
   privacy: 'politica-de-privacidad',
   notice: 'aviso-legal',
   cookies: 'politica-de-cookies',
+  warranty: 'garantia-comercial',
 } as const
 
 
@@ -831,9 +832,152 @@ export const cookies: LegalDocument = {
 }
 
 
+/* ==========================================================================
+   Garantía comercial
+   ========================================================================== */
+
+const warrantyEs = `## 1. Alcance de la garantía
+
+${COMPANY.name} ofrece una **garantía comercial de 5 años** para todos sus dispositivos IoT FENSTER frente a defectos de fabricación o de materiales, siempre que hayan sido instalados y utilizados conforme a sus especificaciones técnicas y manuales de instalación.
+
+Esta garantía es aplicable a todos los dispositivos IoT FENSTER, entre otros: **C-PULSAR**, **C-WALL**, **CONNECT SMART**, **CONNECT EVO**, **W-ALARM**, **Könect Élite** y otros sensores y controladores IoT de la marca.
+
+## 2. Qué certifica cada dispositivo
+
+- **100% testeado**: antes de su finalización, cada equipo se somete a un test completo de calidad que verifica la parte electrónica, el funcionamiento y la comunicación.
+- **Marcado CE**: todos nuestros dispositivos disponen de un marcado CE específico, con documentación de conformidad expedida y gestionada en España.
+- **Fabricado en España**: diseño, integración y fabricación realizados en España para garantizar control, trazabilidad y calidad.
+- **Ciberresiliencia**: desarrollo orientado a seguridad, actualizaciones y buenas prácticas, en consonancia con el **CRA** (Reglamento Europeo de Ciberresiliencia).
+
+## 3. Cobertura
+
+La garantía cubre fallos atribuibles a defectos de fabricación, componentes o ensamblaje en condiciones normales de uso.
+
+## 4. Solución en garantía
+
+Tras la validación técnica, ${COMPANY.name} podrá reparar o sustituir el dispositivo por otro equivalente, según corresponda.
+
+## 5. Inicio del periodo
+
+El plazo de 5 años se computa desde la fecha de compra, acreditada mediante factura, albarán o documento equivalente.
+
+## 6. Exclusiones
+
+No cubre daños por instalación incorrecta, sobretensiones externas, golpes, humedad fuera de especificación, manipulación no autorizada o uso inadecuado.
+
+## 7. Conectividad y terceros
+
+Las incidencias derivadas exclusivamente del router, la cobertura wifi, el proveedor de Internet o servicios/plataformas de terceros no constituyen defecto del dispositivo.
+
+## 8. Derechos del cliente
+
+Esta garantía comercial es adicional y no limita los derechos que correspondan al comprador conforme a la legislación aplicable, en particular frente a consumidores y usuarios.
+
+## 9. Cómo reclamarla
+
+Para tramitar una incidencia en garantía, escribe a **${COMPANY.email}** o a **soporte@iotfenster.com** indicando el producto/modelo, el número de serie y la fecha de compra, adjuntando la factura, el albarán o el documento equivalente que la acredite. También puedes llamarnos al **+34 968 124 979**.`
+
+const warrantyEn = `## 1. Scope of the warranty
+
+${COMPANY.name} offers a **5-year commercial warranty** for all its IoT FENSTER devices against manufacturing or material defects, provided they have been installed and used in accordance with their technical specifications and installation manuals.
+
+This warranty applies to all IoT FENSTER devices, including: **C-PULSAR**, **C-WALL**, **CONNECT SMART**, **CONNECT EVO**, **W-ALARM**, **Könect Élite** and other sensors and IoT controllers of the brand.
+
+## 2. What every device is certified for
+
+- **100% tested**: before completion, every unit undergoes a full quality test that checks the electronics, operation and communication.
+- **CE marking**: all our devices carry specific CE marking, with conformity documentation issued and managed in Spain.
+- **Made in Spain**: design, integration and manufacturing carried out in Spain to guarantee control, traceability and quality.
+- **Cyber-resilience**: development focused on security, updates and good practice, in line with the **CRA** (EU Cyber Resilience Act).
+
+## 3. Coverage
+
+The warranty covers failures attributable to manufacturing, component or assembly defects under normal conditions of use.
+
+## 4. Warranty remedy
+
+After technical validation, ${COMPANY.name} may repair or replace the device with an equivalent one, as appropriate.
+
+## 5. Start of the period
+
+The 5-year period runs from the purchase date, evidenced by an invoice, delivery note or equivalent document.
+
+## 6. Exclusions
+
+It does not cover damage caused by incorrect installation, external power surges, impacts, humidity outside specification, unauthorised tampering or misuse.
+
+## 7. Connectivity and third parties
+
+Issues arising exclusively from the router, Wi-Fi coverage, the Internet provider or third-party services/platforms do not constitute a device defect.
+
+## 8. Customer rights
+
+This commercial warranty is additional and does not limit the rights to which the buyer is entitled under applicable law, in particular consumer protection law.
+
+## 9. How to claim it
+
+To file a warranty claim, write to **${COMPANY.email}** or **soporte@iotfenster.com** stating the product/model, serial number and purchase date, and attaching the invoice, delivery note or equivalent document proving it. You can also call us on **+34 968 124 979**.`
+
+const warrantyIt = `## 1. Ambito della garanzia
+
+${COMPANY.name} offre una **garanzia commerciale di 5 anni** per tutti i suoi dispositivi IoT FENSTER contro difetti di fabbricazione o dei materiali, a condizione che siano stati installati e utilizzati conformemente alle specifiche tecniche e ai manuali di installazione.
+
+Questa garanzia si applica a tutti i dispositivi IoT FENSTER, tra cui: **C-PULSAR**, **C-WALL**, **CONNECT SMART**, **CONNECT EVO**, **W-ALARM**, **Könect Élite** e altri sensori e controller IoT del marchio.
+
+## 2. Cosa certifica ogni dispositivo
+
+- **100% testato**: prima del completamento, ogni apparecchio è sottoposto a un test di qualità completo che verifica la parte elettronica, il funzionamento e la comunicazione.
+- **Marcatura CE**: tutti i nostri dispositivi dispongono di una marcatura CE specifica, con documentazione di conformità rilasciata e gestita in Spagna.
+- **Fabbricato in Spagna**: progettazione, integrazione e fabbricazione realizzate in Spagna per garantire controllo, tracciabilità e qualità.
+- **Ciber-resilienza**: sviluppo orientato alla sicurezza, agli aggiornamenti e alle buone pratiche, in linea con il **CRA** (Regolamento europeo sulla ciber-resilienza).
+
+## 3. Copertura
+
+La garanzia copre i guasti imputabili a difetti di fabbricazione, dei componenti o di assemblaggio in condizioni normali di utilizzo.
+
+## 4. Soluzione in garanzia
+
+Dopo la convalida tecnica, ${COMPANY.name} potrà riparare o sostituire il dispositivo con uno equivalente, a seconda dei casi.
+
+## 5. Decorrenza del periodo
+
+Il periodo di 5 anni decorre dalla data di acquisto, comprovata da fattura, bolla di consegna o documento equivalente.
+
+## 6. Esclusioni
+
+Non copre i danni causati da installazione errata, sovratensioni esterne, urti, umidità fuori specifica, manomissione non autorizzata o uso improprio.
+
+## 7. Connettività e terzi
+
+I problemi derivanti esclusivamente dal router, dalla copertura Wi-Fi, dal fornitore Internet o da servizi/piattaforme di terzi non costituiscono un difetto del dispositivo.
+
+## 8. Diritti del cliente
+
+Questa garanzia commerciale è aggiuntiva e non limita i diritti spettanti all'acquirente ai sensi della normativa applicabile, in particolare nei confronti di consumatori e utenti.
+
+## 9. Come richiederla
+
+Per gestire un'incidenza in garanzia, scrivi a **${COMPANY.email}** o a **soporte@iotfenster.com** indicando il prodotto/modello, il numero di serie e la data di acquisto, allegando la fattura, la bolla di consegna o il documento equivalente che la comprova. Puoi anche chiamarci al **+34 968 124 979**.`
+
+export const warranty: LegalDocument = {
+  id: LEGAL_SLUGS.warranty,
+  title: {
+    es: 'Garantía comercial',
+    en: 'Commercial warranty',
+    it: 'Garanzia commerciale',
+  },
+  intro: {
+    es: '5 años de garantía comercial para todos los dispositivos IoT FENSTER: qué cubre, qué no, y cómo reclamarla.',
+    en: '5-year commercial warranty for all IoT FENSTER devices: what it covers, what it does not, and how to claim it.',
+    it: '5 anni di garanzia commerciale per tutti i dispositivi IoT FENSTER: cosa copre, cosa no e come richiederla.',
+  },
+  body: { es: warrantyEs, en: warrantyEn, it: warrantyIt },
+  lastUpdated: LAST_UPDATED,
+}
+
 /**
  * Orden en el que aparecen en el pie de página y en los enlaces cruzados al
  * final de cada documento: privacidad primero, porque es el que más se
  * consulta.
  */
-export const legalDocuments: LegalDocument[] = [privacy, notice, cookies]
+export const legalDocuments: LegalDocument[] = [privacy, notice, cookies, warranty]

@@ -271,9 +271,13 @@ const en: Dictionary = {
     privacy: 'Privacy policy',
     notice: 'Legal notice',
     cookies: 'Cookies',
+    warranty: 'Warranty',
     cookieSettings: 'Cookie settings',
     rights: 'All rights reserved.',
     builtWith: 'Demo site built from the public IoT Fenster portal.',
+    trustSpain: 'Designed and manufactured in Spain',
+    trustEurope: 'European regulatory compliance',
+    trustAws: 'Cloud infrastructure on AWS',
   },
 
   legal: {
@@ -378,6 +382,51 @@ const en: Dictionary = {
     ctaTitle: 'Do you manufacture or distribute enclosures?',
     ctaText: 'Tell us which profile you work with and we will show you how the ecosystem fits.',
     ctaButton: 'Talk to us',
+  },
+
+  app: {
+    eyebrow: 'The app',
+    title: 'MySmartWindow: one control for the whole enclosure',
+    subtitle:
+      'IoT Fenster’s own app to control your shutters, sensors and alarms from anywhere, with every window’s digital twin always at hand.',
+    downloadTitle: 'Download it for free',
+    appStore: 'App Store',
+    googlePlay: 'Google Play',
+    features: {
+      twin: {
+        title: 'Digital twin',
+        description:
+          'Every enclosure has an exact replica inside the app: its real-time status, whether you check it from the living room or from the other side of the world.',
+      },
+      lock: {
+        title: 'Lock mode',
+        description:
+          'Block physical or remote control of a device when you do not want anyone moving it: handy for rentals, hotels or when there are children at home.',
+      },
+      lighting: {
+        title: 'Lighting',
+        description:
+          'Control the lighting connected to your IoT Fenster devices from the same app, alongside the shutter and the rest of the sensors.',
+      },
+      remote: {
+        title: 'Remote control',
+        description:
+          'Open, close and position the motorised shutter from anywhere in the world with an internet connection.',
+      },
+      alerts: {
+        title: 'Real-time alerts',
+        description:
+          'Get notified about your home’s wellbeing, energy efficiency and security as soon as it happens.',
+      },
+      ecosystems: {
+        title: 'Alexa, Google Home and IFTTT',
+        description:
+          'Add your devices to a wider smart-home ecosystem without giving up control from the app itself.',
+      },
+    },
+    ctaTitle: 'Don’t have an IoT Fenster device yet?',
+    ctaText: 'Discover the devices compatible with MySmartWindow.',
+    ctaButton: 'View devices',
   },
 
   contactChannels: {

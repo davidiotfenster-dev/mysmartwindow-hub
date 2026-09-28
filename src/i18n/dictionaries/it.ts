@@ -271,9 +271,13 @@ const it: Dictionary = {
     privacy: 'Informativa sulla privacy',
     notice: 'Note legali',
     cookies: 'Cookie',
+    warranty: 'Garanzia',
     cookieSettings: 'Impostazioni cookie',
     rights: 'Tutti i diritti riservati.',
     builtWith: 'Sito dimostrativo costruito a partire dal portale pubblico di IoT Fenster.',
+    trustSpain: 'Progettato e fabbricato in Spagna',
+    trustEurope: 'Conformità normativa europea',
+    trustAws: 'Infrastruttura cloud su AWS',
   },
 
   legal: {
@@ -378,6 +382,51 @@ const it: Dictionary = {
     ctaTitle: 'Produci o distribuisci serramenti?',
     ctaText: 'Dicci con quale profilo lavori e ti raccontiamo come si incastra l’ecosistema.',
     ctaButton: 'Parliamone',
+  },
+
+  app: {
+    eyebrow: 'L’app',
+    title: 'MySmartWindow: un solo comando per tutto il serramento',
+    subtitle:
+      'L’app proprietaria di IoT Fenster per controllare tapparelle, sensori e allarmi da qualsiasi luogo, con il gemello digitale di ogni finestra sempre a portata di mano.',
+    downloadTitle: 'Scaricala gratis',
+    appStore: 'App Store',
+    googlePlay: 'Google Play',
+    features: {
+      twin: {
+        title: 'Gemello digitale',
+        description:
+          'Ogni serramento ha la sua replica esatta dentro l’app: il suo stato reale, in tempo reale, che tu lo guardi dal salotto o dall’altra parte del mondo.',
+      },
+      lock: {
+        title: 'Modalità lucchetto',
+        description:
+          'Blocca il controllo fisico o remoto di un dispositivo quando non vuoi che nessuno lo muova: utile in affitti, hotel o con bambini in casa.',
+      },
+      lighting: {
+        title: 'Illuminazione',
+        description:
+          'Controlla l’illuminazione collegata ai tuoi dispositivi IoT Fenster dalla stessa app, insieme alla tapparella e agli altri sensori.',
+      },
+      remote: {
+        title: 'Controllo remoto',
+        description:
+          'Apri, chiudi e posiziona la tapparella motorizzata da qualsiasi parte del mondo con una connessione a internet.',
+      },
+      alerts: {
+        title: 'Avvisi in tempo reale',
+        description:
+          'Ricevi notifiche sul benessere, l’efficienza energetica e la sicurezza della tua casa non appena accadono.',
+      },
+      ecosystems: {
+        title: 'Alexa, Google Home e IFTTT',
+        description:
+          'Aggiungi i tuoi dispositivi a un ecosistema domotico più ampio, senza rinunciare al controllo dalla stessa app.',
+      },
+    },
+    ctaTitle: 'Non hai ancora un dispositivo IoT Fenster?',
+    ctaText: 'Scopri i dispositivi compatibili con MySmartWindow.',
+    ctaButton: 'Vedi i dispositivi',
   },
 
   contactChannels: {

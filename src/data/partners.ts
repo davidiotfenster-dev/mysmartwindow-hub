@@ -62,6 +62,44 @@ export const partners: Partner[] = [
     brands: ['GU', 'BKS', 'FERCO'],
     country: { es: 'España', en: 'Spain', it: 'Spagna' },
   },
+  {
+    id: 'windqi',
+    name: 'WindQI',
+    url: 'https://windqi.it/',
+    contactUrl: 'https://windqi.it/contatti',
+    accent: '#1c7ed6',
+    tagline: {
+      es: 'Ventanas inteligentes: seguridad, calidad del aire y eficiencia',
+      en: 'Smart windows: security, air quality and efficiency',
+      it: 'Infissi intelligenti: sicurezza, qualità dell’aria ed efficienza',
+    },
+    description: {
+      es: 'WindQI, de Aedos Tech Systems (Salò, Italia), integra sensores y una plataforma digital en el marco de la ventana para monitorizar seguridad, calidad del aire y eficiencia energética, con compatibilidad Alexa, Home Assistant, IFTTT y Zigbee.',
+      en: 'WindQI, by Aedos Tech Systems (Salò, Italy), integrates sensors and a digital platform into the window frame to monitor security, air quality and energy efficiency, compatible with Alexa, Home Assistant, IFTTT and Zigbee.',
+      it: 'WindQI, di Aedos Tech Systems (Salò, Italia), integra sensori e una piattaforma digitale nel telaio della finestra per monitorare sicurezza, qualità dell’aria ed efficienza energetica, con compatibilità Alexa, Home Assistant, IFTTT e Zigbee.',
+    },
+    brands: ['WindQI'],
+    country: { es: 'Italia', en: 'Italy', it: 'Italia' },
+  },
+  {
+    id: 'darwin-evolution',
+    name: 'Darwin Évolution',
+    url: 'https://darwin-evo.com/',
+    contactUrl: 'https://darwin-evo.com/contact/',
+    accent: '#1a1a2e',
+    tagline: {
+      es: 'Persianas y ventanas conectadas, sin caja domótica ni suscripción',
+      en: 'Connected shutters and windows, no hub or subscription required',
+      it: 'Tapparelle e finestre connesse, senza centralina né abbonamento',
+    },
+    description: {
+      es: 'Darwin Évolution (Burdeos, Francia) distribuye e integra comandos conectados para persianas enrollables y ventanas motorizadas, controlados desde la app MySmartWindow, sin caja domótica propietaria ni suscripción obligatoria.',
+      en: 'Darwin Évolution (Bordeaux, France) distributes and integrates connected controls for roller shutters and motorised windows, controlled from the MySmartWindow app, with no proprietary hub or mandatory subscription.',
+      it: 'Darwin Évolution (Bordeaux, Francia) distribuisce e integra comandi connessi per tapparelle avvolgibili e finestre motorizzate, controllati dall’app MySmartWindow, senza centralina proprietaria né abbonamento obbligatorio.',
+    },
+    brands: ['C-Wall', 'Connect Pulsar', 'DE-2', 'DE-3 Zero'],
+    country: { es: 'Francia', en: 'France', it: 'Francia' },
+  },
 ]
 
 export function getPartners(): Partner[] {

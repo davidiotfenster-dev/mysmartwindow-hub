@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { ArrowUpRight, CircuitBoard, Cloud, Cpu, Smartphone } from 'lucide-react'
 
 import { ButtonLink, Section, SectionHeading } from '@/components/ui/primitives'
@@ -9,14 +10,15 @@ import type { Locale } from '@/i18n/config'
 /**
  * Las cuatro capas que la empresa controla de punta a punta. El orden va de
  * dentro hacia fuera -del cobre a la pantalla del móvil- porque es el que
- * cuenta la historia: todo sale del mismo sitio.
+ * cuenta la historia: todo sale del mismo sitio. Solo la capa de aplicación
+ * enlaza a algún sitio: es la única que tiene página propia.
  */
-function layers(dict: Dictionary) {
+function layers(dict: Dictionary, locale: Locale) {
   return [
-    { Icon: CircuitBoard, data: dict.engineering.layers.hardware },
-    { Icon: Cpu, data: dict.engineering.layers.firmware },
-    { Icon: Cloud, data: dict.engineering.layers.cloud },
-    { Icon: Smartphone, data: dict.engineering.layers.app },
+    { Icon: CircuitBoard, data: dict.engineering.layers.hardware, href: undefined },
+    { Icon: Cpu, data: dict.engineering.layers.firmware, href: undefined },
+    { Icon: Cloud, data: dict.engineering.layers.cloud, href: undefined },
+    { Icon: Smartphone, data: dict.engineering.layers.app, href: routes.app(locale) },
   ]
 }
 
@@ -37,9 +39,11 @@ export function EngineeringTeaser({ locale, dict }: { locale: Locale; dict: Dict
       />
 
       <Stagger className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {layers(dict).map(({ Icon, data }) => (
-          <StaggerItem key={data.title} className="h-full">
-            <div className="group relative flex h-full flex-col rounded-3xl border border-line bg-bg-elevated/60 p-7 transition-all duration-400 hover:-translate-y-1 hover:border-brand-500/45">
+        {layers(dict, locale).map(({ Icon, data, href }) => {
+          const cardClass =
+            'group relative flex h-full flex-col rounded-3xl border border-line bg-bg-elevated/60 p-7 transition-all duration-400 hover:-translate-y-1 hover:border-brand-500/45'
+          const content = (
+            <>
               <span className="grid h-12 w-12 place-items-center rounded-2xl bg-brand-500/10 text-brand-500 transition-all duration-400 group-hover:bg-brand-500 group-hover:text-white">
                 <Icon className="h-5.5 w-5.5" strokeWidth={1.6} />
               </span>
@@ -47,24 +51,38 @@ export function EngineeringTeaser({ locale, dict }: { locale: Locale; dict: Dict
               <p className="mt-2.5 text-[0.86rem] leading-relaxed text-fg-muted">
                 {data.description}
               </p>
-            </div>
-          </StaggerItem>
-        ))}
+            </>
+          )
+
+          return (
+            <StaggerItem key={data.title} className="h-full">
+              {href ? (
+                <Link href={href} className={cardClass}>
+                  {content}
+                </Link>
+              ) : (
+                <div className={cardClass}>{content}</div>
+              )}
+            </StaggerItem>
+          )
+        })}
       </Stagger>
     </Section>
   )
 }
 
 /** Desarrollo completo, para la página de Ingeniería. */
-export function EngineeringStack({ dict }: { dict: Dictionary }) {
-  const all = layers(dict)
+export function EngineeringStack({ locale, dict }: { locale: Locale; dict: Dictionary }) {
+  const all = layers(dict, locale)
 
   return (
     <Section>
       <Stagger className="grid gap-5 lg:grid-cols-2">
-        {all.map(({ Icon, data }, index) => (
-          <StaggerItem key={data.title} className="h-full">
-            <div className="group relative flex h-full gap-5 overflow-hidden rounded-3xl border border-line bg-bg-elevated/60 p-8 transition-all duration-400 hover:border-brand-500/45">
+        {all.map(({ Icon, data, href }, index) => {
+          const cardClass =
+            'group relative flex h-full gap-5 overflow-hidden rounded-3xl border border-line bg-bg-elevated/60 p-8 transition-all duration-400 hover:border-brand-500/45'
+          const content = (
+            <>
               {/* Número de capa, de dentro hacia fuera */}
               <span
                 className="pointer-events-none absolute -right-2 -top-4 font-display text-[5rem] font-bold leading-none text-brand-500/8"
@@ -83,9 +101,21 @@ export function EngineeringStack({ dict }: { dict: Dictionary }) {
                   {data.description}
                 </p>
               </div>
-            </div>
-          </StaggerItem>
-        ))}
+            </>
+          )
+
+          return (
+            <StaggerItem key={data.title} className="h-full">
+              {href ? (
+                <Link href={href} className={cardClass}>
+                  {content}
+                </Link>
+              ) : (
+                <div className={cardClass}>{content}</div>
+              )}
+            </StaggerItem>
+          )
+        })}
       </Stagger>
     </Section>
   )

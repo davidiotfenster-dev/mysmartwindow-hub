@@ -64,7 +64,7 @@ export default async function EngineeringPage({
         subtitle={dict.engineering.subtitle}
       />
 
-      <EngineeringStack dict={dict} />
+      <EngineeringStack locale={locale} dict={dict} />
 
       <Section className="border-t border-line bg-bg-subtle">
         <SectionHeading title={dict.engineering.reasonsTitle} align="center" />
@@ -86,10 +86,12 @@ export default async function EngineeringPage({
         </Stagger>
       </Section>
 
-      {/* Las dos paginas que colgaban del WordPress corporativo: viven aqui
-          dentro para no meter dos entradas mas en un menu que ya va lleno. */}
+      {/* Equipo y consultoria colgaban del WordPress corporativo y viven aqui
+          dentro para no meter mas entradas en un menu que ya va lleno; la app
+          se suma por el mismo motivo, ademas de ser la capa de "Aplicacion"
+          de esta misma pagina. */}
       <Section className="border-t border-line">
-        <div className="grid gap-5 md:grid-cols-2">
+        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {[
             {
               href: routes.equipo(locale),
@@ -102,6 +104,12 @@ export default async function EngineeringPage({
               eyebrow: dict.consulting.eyebrow,
               title: dict.consulting.title,
               text: dict.consulting.subtitle,
+            },
+            {
+              href: routes.app(locale),
+              eyebrow: dict.app.eyebrow,
+              title: dict.app.title,
+              text: dict.app.subtitle,
             },
           ].map((card) => (
             <Link

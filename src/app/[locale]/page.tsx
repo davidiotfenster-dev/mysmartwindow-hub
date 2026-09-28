@@ -52,7 +52,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
       </Suspense>
 
       <Ecosystems locale={locale} dict={dict} />
-      <Values dict={dict} />
+      <Values locale={locale} dict={dict} />
       <NewsTeaser locale={locale} dict={dict} />
       <Faq locale={locale} dict={dict} faqs={faqs} />
 

@@ -30,10 +30,12 @@ export const routes = {
   soporte: (l: Locale) => `/${l}/soporte`,
   contacto: (l: Locale) => `/${l}/contacto`,
   distribuidores: (l: Locale) => `/${l}/distribuidores`,
+  app: (l: Locale) => `/${l}/mysmartwindow`,
   legal: (l: Locale, slug: string) => `/${l}/legal/${slug}`,
   privacidad: (l: Locale) => `/${l}/legal/${LEGAL_SLUGS.privacy}`,
   avisoLegal: (l: Locale) => `/${l}/legal/${LEGAL_SLUGS.notice}`,
   cookies: (l: Locale) => `/${l}/legal/${LEGAL_SLUGS.cookies}`,
+  garantia: (l: Locale) => `/${l}/legal/${LEGAL_SLUGS.warranty}`,
 } as const
 
 /**
@@ -49,6 +51,8 @@ export const EXTERNAL = {
   linkedin: 'https://www.linkedin.com/company/iotfenster/',
   youtube: 'https://www.youtube.com/@MySmartWindow',
   tiktok: 'https://www.tiktok.com/@iotfenster',
+  appStore: 'https://apps.apple.com/us/app/mysmartwindow/id6465209407',
+  googlePlay: 'https://play.google.com/store/apps/details?id=com.alarma.mysmartwindow',
 } as const
 
 export function mainNav(locale: Locale, dict: Dictionary): NavItem[] {

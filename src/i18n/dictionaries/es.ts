@@ -270,9 +270,13 @@ const es = {
     privacy: 'Política de privacidad',
     notice: 'Aviso legal',
     cookies: 'Cookies',
+    warranty: 'Garantía',
     cookieSettings: 'Configurar cookies',
     rights: 'Todos los derechos reservados.',
     builtWith: 'Sitio de demostración construido a partir del portal público de IoT Fenster.',
+    trustSpain: 'Diseñado y fabricado en España',
+    trustEurope: 'Cumplimiento normativo europeo',
+    trustAws: 'Infraestructura en la nube de AWS',
   },
 
   legal: {
@@ -377,6 +381,51 @@ const es = {
     ctaTitle: '¿Fabricas o distribuyes cerramientos?',
     ctaText: 'Cuéntanos con qué perfil trabajas y te contamos cómo encaja el ecosistema.',
     ctaButton: 'Hablar con nosotros',
+  },
+
+  app: {
+    eyebrow: 'La app',
+    title: 'MySmartWindow: un solo mando para todo el cerramiento',
+    subtitle:
+      'La aplicación propia de IoT Fenster para controlar tus persianas, sensores y alarmas desde cualquier lugar, con el gemelo digital de cada ventana siempre a mano.',
+    downloadTitle: 'Descárgala gratis',
+    appStore: 'App Store',
+    googlePlay: 'Google Play',
+    features: {
+      twin: {
+        title: 'Gemelo digital',
+        description:
+          'Cada cerramiento tiene su réplica exacta dentro de la app: su estado real, al momento, se mire desde el salón o desde el otro lado del mundo.',
+      },
+      lock: {
+        title: 'Modo candado',
+        description:
+          'Bloquea el control físico o remoto de un dispositivo cuando no quieras que nadie lo mueva: útil en alquileres, hoteles o con niños en casa.',
+      },
+      lighting: {
+        title: 'Iluminación',
+        description:
+          'Controla la iluminación conectada a tus dispositivos IoT Fenster desde la misma app, junto a la persiana y el resto de sensores.',
+      },
+      remote: {
+        title: 'Control remoto',
+        description:
+          'Abre, cierra y posiciona la persiana motorizada desde cualquier lugar del mundo con conexión a internet.',
+      },
+      alerts: {
+        title: 'Alertas en tiempo real',
+        description:
+          'Recibe avisos sobre el bienestar, la eficiencia energética y la seguridad de tu hogar en cuanto ocurren.',
+      },
+      ecosystems: {
+        title: 'Alexa, Google Home e IFTTT',
+        description:
+          'Suma tus dispositivos a un ecosistema domótico más amplio, sin renunciar al control desde la propia app.',
+      },
+    },
+    ctaTitle: '¿Todavía no tienes un dispositivo IoT Fenster?',
+    ctaText: 'Descubre los dispositivos compatibles con MySmartWindow.',
+    ctaButton: 'Ver dispositivos',
   },
 
   contactChannels: {
