@@ -5,6 +5,8 @@ import { ArrowUpRight, CalendarClock } from 'lucide-react'
 
 import { JsonLd } from '@/components/seo/JsonLd'
 import { LegalContent, legalHeadings } from '@/components/legal/LegalContent'
+import { WarrantyVisuals } from '@/components/legal/WarrantyVisuals'
+import { LEGAL_SLUGS } from '@/data/legal'
 import { PageHeader } from '@/components/layout/PageHeader'
 import { GradientTitle } from '@/components/ui/GradientTitle'
 import { getLegalPage, getLegalPages } from '@/lib/content'
@@ -149,6 +151,7 @@ export default async function LegalPage({
               la columna del grid y saca toda la pagina del viewport en movil,
               en vez de desplazarse dentro de su propio contenedor. */}
           <article className="min-w-0 max-w-3xl">
+            {slug === LEGAL_SLUGS.warranty && <WarrantyVisuals locale={locale} />}
             <LegalContent body={body} />
 
             <div className="mt-16 border-t border-line pt-8">
