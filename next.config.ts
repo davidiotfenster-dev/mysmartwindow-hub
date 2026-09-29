@@ -13,6 +13,14 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
 
   /**
+   * Next quita por su cuenta la barra final (/x/ -> /x) antes de que el
+   * middleware vea la peticion. Se desactiva para que /app-datadeletion/ se
+   * pueda servir tal cual esta registrada en las tiendas de apps; el resto de
+   * rutas conserva ese mismo redireccionamiento, hecho a mano en el middleware.
+   */
+  skipTrailingSlashRedirect: true,
+
+  /**
    * Salida autocontenida: genera .next/standalone con su propio server.js y
    * sólo las dependencias que realmente se usan. Es lo que permite llevar el
    * sitio a un servidor de empresa sin copiar node_modules entero, y funciona

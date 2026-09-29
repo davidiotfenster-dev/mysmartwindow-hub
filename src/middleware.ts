@@ -30,7 +30,7 @@ const HIDDEN_ALIASES: Record<string, string> = {
  * las llevaria por delante a una direccion que no existe (`/es/app-quick-help`
  * no es una pagina real).
  */
-const STANDALONE_ROUTES = new Set(['/app-quick-help'])
+const STANDALONE_ROUTES = new Set(['/app-quick-help', '/app-datadeletion'])
 
 /** Elige idioma a partir de Accept-Language, con español por defecto. */
 function detectLocale(request: NextRequest): string {
@@ -67,6 +67,21 @@ export function middleware(request: NextRequest) {
     // libre la va a indexar como pagina duplicada de /soporte.
     response.headers.set('X-Robots-Tag', 'noindex')
     return response
+  }
+
+  // Direccion registrada tal cual (con barra final) en las tiendas de apps:
+  // se sirve sin redireccion y sin que la barra de direcciones cambie.
+  if (pathname === '/app-datadeletion/') {
+    const url = request.nextUrl.clone()
+    url.pathname = '/app-datadeletion'
+    return NextResponse.rewrite(url)
+  }
+
+  // Lo que Next hacia solo hasta que se desactivo skipTrailingSlashRedirect.
+  if (pathname.length > 1 && pathname.endsWith('/')) {
+    // No clonar nextUrl: conserva la barra final y la redireccion apuntaria a si misma.
+    const target = new URL(pathname.replace(/\/+$/, '') + request.nextUrl.search, request.url)
+    return NextResponse.redirect(target, 308)
   }
 
   if (
