@@ -33,6 +33,12 @@
       "type": "string",
       "pluginOptions": { "i18n": { "localized": false } }
     },
+    "logo": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"],
+      "pluginOptions": { "i18n": { "localized": false } }
+    },
     "description": {
       "type": "text",
       "pluginOptions": { "i18n": { "localized": true } }

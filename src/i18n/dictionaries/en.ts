@@ -17,6 +17,7 @@ const en: Dictionary = {
     distribuidores: 'Distributors',
     noticias: 'News',
     soporte: 'Support',
+    app: 'App',
     contacto: 'Contact',
     areaCliente: 'Client Area',
     menu: 'Menu',

@@ -9,6 +9,12 @@ export interface Ecosystem {
   /** Tags con los que se filtran los recursos relacionados. */
   match: string[]
   color: string
+  /**
+   * Logo de la marca (Alexa, Google Home...), si se ha subido uno al CMS.
+   * Opcional a propósito: mientras no exista, la tarjeta se apoya en el
+   * nombre y el punto de color -nunca se rompe por no tener imagen-.
+   */
+  logo?: string
 }
 
 export const ecosystems: Ecosystem[] = [

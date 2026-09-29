@@ -11,6 +11,7 @@ const staticPaths = [
   '/ingenieria',
   '/ingenieria/equipo',
   '/ingenieria/consultoria',
+  '/mysmartwindow',
   '/domotica-para-cerramientos',
   '/ecosistemas',
   '/distribuidores',

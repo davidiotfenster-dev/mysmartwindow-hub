@@ -18,6 +18,38 @@ function TikTokIcon({ className }: { className?: string }) {
   )
 }
 
+/**
+ * Banderas dibujadas a mano en SVG. No se usa emoji de bandera porque en
+ * Windows (Chrome y Edge incluidos) el emoji de bandera no siempre se pinta
+ * como bandera: en muchos casos sale como dos letras sueltas ("ES", "EU").
+ */
+function SpainFlagIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 3 2" className={className} aria-hidden="true">
+      <rect width="3" height="2" fill="#AA151B" />
+      <rect y="0.5" width="3" height="1" fill="#F1BF00" />
+    </svg>
+  )
+}
+
+function EuropeFlagIcon({ className }: { className?: string }) {
+  const stars = Array.from({ length: 12 }, (_, i) => {
+    const angle = (Math.PI / 180) * (-90 + i * 30)
+    const x = 1.5 + 0.65 * Math.cos(angle)
+    const y = 1 + 0.65 * Math.sin(angle)
+    return { x, y }
+  })
+
+  return (
+    <svg viewBox="0 0 3 2" className={className} aria-hidden="true">
+      <rect width="3" height="2" fill="#003399" />
+      {stars.map((star, i) => (
+        <circle key={i} cx={star.x} cy={star.y} r="0.09" fill="#FFCC00" />
+      ))}
+    </svg>
+  )
+}
+
 export async function Footer({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   const nav = mainNav(locale, dict)
   const categories = await getCategories()
@@ -118,14 +150,16 @@ export async function Footer({ locale, dict }: { locale: Locale; dict: Dictionar
           </div>
         </div>
 
-        {/* Sellos de confianza: origen, cumplimiento y nube. */}
+        {/* Sellos de confianza: origen, cumplimiento y nube. Banderas dibujadas
+            en SVG, no emoji: en Windows los emoji de bandera muchas veces no
+            se pintan como bandera y se ven como letras sueltas ("ES", "EU"). */}
         <div className="mt-12 flex flex-wrap items-center gap-3">
           <span className="inline-flex items-center gap-2 rounded-full border border-line bg-bg-elevated/60 px-4 py-2 text-xs font-medium text-fg-muted">
-            <span aria-hidden="true">🇪🇸</span>
+            <SpainFlagIcon className="h-3 w-4 shrink-0 rounded-[2px]" />
             {dict.footer.trustSpain}
           </span>
           <span className="inline-flex items-center gap-2 rounded-full border border-line bg-bg-elevated/60 px-4 py-2 text-xs font-medium text-fg-muted">
-            <span aria-hidden="true">🇪🇺</span>
+            <EuropeFlagIcon className="h-3 w-4 shrink-0 rounded-[2px]" />
             {dict.footer.trustEurope}
           </span>
           <span className="inline-flex items-center gap-2 rounded-full border border-line bg-bg-elevated/60 px-4 py-2 text-xs font-medium text-fg-muted">

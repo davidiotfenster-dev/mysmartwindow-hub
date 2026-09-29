@@ -1,20 +1,11 @@
 import type { Metadata } from 'next'
-import {
-  ArrowRight,
-  BellRing,
-  Download,
-  Lightbulb,
-  Lock,
-  Puzzle,
-  Radar,
-  Shapes,
-} from 'lucide-react'
+import { Apple, ArrowRight, BellRing, Lightbulb, Lock, Play, Puzzle, Radar, Shapes } from 'lucide-react'
 
-import { PageHeader } from '@/components/layout/PageHeader'
+import { AppPhoneMockup, StoreBadge } from '@/components/app/AppMockup'
 import { GradientTitle } from '@/components/ui/GradientTitle'
 import { JsonLd } from '@/components/seo/JsonLd'
-import { ButtonLink, Section, SectionHeading } from '@/components/ui/primitives'
-import { Stagger, StaggerItem } from '@/components/ui/motion'
+import { ButtonLink, Eyebrow, Section, SectionHeading } from '@/components/ui/primitives'
+import { ChevronRain, Stagger, StaggerItem } from '@/components/ui/motion'
 import { getDictionary } from '@/i18n'
 import type { Locale } from '@/i18n/config'
 import { EXTERNAL, routes } from '@/lib/navigation'
@@ -68,25 +59,54 @@ export default async function AppPage({
     <>
       <JsonLd data={jsonLd(breadcrumbSchema(crumbs))} />
 
-      <PageHeader
-        eyebrow={dict.app.eyebrow}
-        title={<GradientTitle text={dict.app.title} />}
-        subtitle={dict.app.subtitle}
-      >
-        <div className="flex flex-wrap items-center gap-3">
-          <ButtonLink href={EXTERNAL.appStore} external variant="secondary" size="md">
-            <Download className="h-4 w-4" />
-            {dict.app.appStore}
-          </ButtonLink>
-          <ButtonLink href={EXTERNAL.googlePlay} external variant="secondary" size="md">
-            <Download className="h-4 w-4" />
-            {dict.app.googlePlay}
-          </ButtonLink>
+      {/* Cabecera propia a dos columnas -texto + móvil real-, en vez del
+          PageHeader genérico de una sola columna: es la app de la marca y
+          merece la misma presencia que el hero de portada. */}
+      <header className="relative overflow-hidden border-b border-line pb-16 pt-28 sm:pb-20 sm:pt-36">
+        <div className="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+          <div className="grid-tech absolute inset-0 mask-fade-b opacity-60" />
+          <div className="absolute -left-24 -top-24 h-96 w-96 rounded-full bg-brand-500/15 blur-[110px]" />
+          <div className="absolute right-0 top-10 h-80 w-80 rounded-full bg-signal-500/10 blur-[110px]" />
+          <ChevronRain count={7} className="opacity-60" />
         </div>
-      </PageHeader>
+
+        <div className="container-page">
+          <div className="grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-10">
+            <div className="max-w-xl">
+              <Eyebrow>{dict.app.eyebrow}</Eyebrow>
+              <h1 className="mt-4 text-4xl sm:text-5xl lg:text-6xl">
+                <GradientTitle text={dict.app.title} />
+              </h1>
+              <p className="mt-5 max-w-lg text-[1rem] leading-relaxed text-fg-muted">
+                {dict.app.subtitle}
+              </p>
+
+              <p className="mt-9 text-[0.72rem] font-bold uppercase tracking-[0.2em] text-fg-subtle">
+                {dict.app.downloadTitle}
+              </p>
+              <div className="mt-4 flex flex-wrap items-center gap-3">
+                <StoreBadge
+                  href={EXTERNAL.appStore}
+                  icon={Apple}
+                  kicker="App Store"
+                  label={dict.app.appStore}
+                />
+                <StoreBadge
+                  href={EXTERNAL.googlePlay}
+                  icon={Play}
+                  kicker="Google Play"
+                  label={dict.app.googlePlay}
+                />
+              </div>
+            </div>
+
+            <AppPhoneMockup />
+          </div>
+        </div>
+      </header>
 
       <Section>
-        <SectionHeading eyebrow={dict.app.downloadTitle} title={dict.app.title} align="center" />
+        <SectionHeading eyebrow={dict.app.eyebrow} title={dict.app.title} align="center" />
 
         <Stagger className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {features.map(({ Icon, data }) => (

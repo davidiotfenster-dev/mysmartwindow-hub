@@ -15,6 +15,7 @@ const es = {
     distribuidores: 'Distribuidores',
     noticias: 'Noticias',
     soporte: 'Soporte',
+    app: 'App',
     contacto: 'Contacto',
     areaCliente: 'Área Cliente',
     menu: 'Menú',

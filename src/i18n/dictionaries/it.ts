@@ -17,6 +17,7 @@ const it: Dictionary = {
     distribuidores: 'Distributori',
     noticias: 'Notizie',
     soporte: 'Supporto',
+    app: 'App',
     contacto: 'Contatti',
     areaCliente: 'Area Cliente',
     menu: 'Menu',

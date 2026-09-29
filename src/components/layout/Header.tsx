@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Menu, Search, X, ChevronRight } from 'lucide-react'
+import { Menu, Search, Smartphone, X, ChevronRight } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 import { Logo } from '@/components/brand/Logo'
@@ -117,6 +117,19 @@ export function Header({ locale, dict }: { locale: Locale; dict: Dictionary }) {
               <LanguageSwitcher locale={locale} />
               <ThemeToggle />
 
+              {/* Botón con contraste propio -no un enlace de texto más-,
+                  porque la app es el producto con el que se relaciona el
+                  usuario final a diario y merece destacar en el menú. */}
+              <ButtonLink
+                href={routes.app(locale)}
+                variant="outline"
+                size="sm"
+                className="hidden items-center gap-1.5 border-brand-500/40 text-brand-500 hover:border-brand-500 hover:text-brand-400 lg:inline-flex"
+              >
+                <Smartphone className="h-3.5 w-3.5" />
+                {dict.nav.app}
+              </ButtonLink>
+
               <ButtonLink
                 href={routes.contacto(locale)}
                 size="sm"
@@ -196,6 +209,14 @@ export function Header({ locale, dict }: { locale: Locale; dict: Dictionary }) {
               </nav>
 
               <div className="space-y-2 border-t border-line p-4">
+                <ButtonLink
+                  href={routes.app(locale)}
+                  variant="outline"
+                  className="w-full items-center gap-1.5 border-brand-500/40 text-brand-500"
+                >
+                  <Smartphone className="h-4 w-4" />
+                  {dict.nav.app}
+                </ButtonLink>
                 <ButtonLink href={routes.contacto(locale)} className="w-full">
                   {dict.nav.contacto}
                 </ButtonLink>

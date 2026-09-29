@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
 
@@ -38,11 +39,17 @@ export async function Ecosystems({ locale, dict }: { locale: Locale; dict: Dicti
             key={`${eco.id}-${i}`}
             className="flex items-center gap-3 rounded-full border border-line bg-bg-elevated/70 px-6 py-3 font-display text-lg font-bold tracking-tight text-fg-muted"
           >
-            <span
-              className="h-2 w-2 shrink-0 rounded-full"
-              style={{ backgroundColor: eco.color }}
-              aria-hidden="true"
-            />
+            {eco.logo ? (
+              <span className="relative h-5 w-5 shrink-0" aria-hidden="true">
+                <Image src={eco.logo} alt="" fill sizes="20px" className="object-contain" />
+              </span>
+            ) : (
+              <span
+                className="h-2 w-2 shrink-0 rounded-full"
+                style={{ backgroundColor: eco.color }}
+                aria-hidden="true"
+              />
+            )}
             {eco.name}
           </span>
         ))}
@@ -64,11 +71,24 @@ export async function Ecosystems({ locale, dict }: { locale: Locale; dict: Dicti
                 />
 
                 <div className="relative flex items-start justify-between gap-4">
-                  <div>
-                    <h3 className="font-display text-2xl font-bold">{eco.name}</h3>
-                    <p className="mt-0.5 text-[0.75rem] uppercase tracking-[0.14em] text-fg-subtle">
-                      {eco.vendor}
-                    </p>
+                  <div className="flex items-center gap-3.5">
+                    {eco.logo && (
+                      <span className="relative grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-white p-2 shadow-sm ring-1 ring-black/5">
+                        <Image
+                          src={eco.logo}
+                          alt=""
+                          fill
+                          sizes="44px"
+                          className="object-contain p-2"
+                        />
+                      </span>
+                    )}
+                    <div>
+                      <h3 className="font-display text-2xl font-bold">{eco.name}</h3>
+                      <p className="mt-0.5 text-[0.75rem] uppercase tracking-[0.14em] text-fg-subtle">
+                        {eco.vendor}
+                      </p>
+                    </div>
                   </div>
                   <ArrowUpRight className="h-5 w-5 shrink-0 text-fg-subtle transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-brand-500" />
                 </div>

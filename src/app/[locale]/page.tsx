@@ -6,6 +6,7 @@ import { Pillars } from '@/components/sections/Pillars'
 import { CategoryGrid } from '@/components/sections/CategoryGrid'
 import { LatestVideos } from '@/components/sections/LatestVideos'
 import { DevicesShowcase } from '@/components/sections/DevicesShowcase'
+import { AppShowcase } from '@/components/sections/AppShowcase'
 import { EngineeringTeaser } from '@/components/sections/Engineering'
 import { Ecosystems } from '@/components/sections/Ecosystems'
 import { Values } from '@/components/sections/Values'
@@ -42,6 +43,9 @@ export default async function HomePage({ params }: { params: Promise<{ locale: L
       <Hero locale={locale} dict={dict} stats={stats} />
       {/* Los dispositivos son lo primero: son el producto, el resto es apoyo */}
       <DevicesShowcase locale={locale} dict={dict} />
+      {/* La app es con lo que el usuario se relaciona a diario: franja propia
+          cerca del principio, no solo un enlace escondido en Ingeniería. */}
+      <AppShowcase locale={locale} dict={dict} />
       <Pillars locale={locale} dict={dict} />
       <EngineeringTeaser locale={locale} dict={dict} />
       <CategoryGrid locale={locale} dict={dict} />
