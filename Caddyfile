@@ -10,6 +10,71 @@ www.iotfenster.com, iotfenster.com {
 	encode zstd gzip
 
 	# ---------------------------------------------------------------------
+	# PDF del WordPress anterior
+	#
+	# Los manuales se enlazaban como /wp-content/uploads/AAAA/MM/<fichero>.pdf
+	# y esas direcciones siguen circulando: Google, ChatGPT, marcadores,
+	# correos, codigos QR... Cada una va a la ficha de su recurso, que muestra
+	# el PDF en pantalla con el boton de descarga.
+	#
+	# A la ficha y no al PDF del CMS a proposito: el fichero subido lleva un
+	# codigo en el nombre que cambia cada vez que se sustituye el manual
+	# (scripts/subir-pdfs.mjs ademas borra el anterior), y una redireccion
+	# permanente a esa direccion se romperia con la primera actualizacion.
+	#
+	# Se reconoce por el nombre del fichero, sin mirar la carpeta del mes ni
+	# los sufijos que WordPress anadia al resubir (-1, -2, _compressed): asi
+	# tambien llegan las versiones antiguas de cada manual, que las hay
+	# (p. ej. 2025/10/Instalacion-C-PULSAR-MySmartWindow.pdf).
+	#
+	# Gana la primera linea que encaja. Un PDF viejo que no sea de ningun
+	# recurso va al centro de recursos en vez de dar un error.
+	# ---------------------------------------------------------------------
+	map {http.request.uri.path.file.base} {pdf_wordpress} {
+		~(?i)^Perfiles_de_usuario-MySmartWindow(-[0-9]+|_compressed)*$ /es/recursos/perfiles-de-usuario-manual
+		~(?i)^Preguntas-frecuentes-MySmartWindow(-[0-9]+|_compressed)*$ /es/recursos/preguntas-frecuentes-manual
+		~(?i)^Perfiles_de_usuario_tarjeta(-[0-9]+|_compressed)*$ /es/recursos/perfiles-de-usuario-tarjeta
+		~(?i)^Pregunta-frecuentes-dispositivo-MSW(-[0-9]+|_compressed)*$ /es/recursos/preguntas-frecuentes-dispositivo-tarjeta
+		~(?i)^Pregunta-frecuentes-conectividad-y-vinculacion-MSW(-[0-9]+|_compressed)*$ /es/recursos/preguntas-frecuentes-conectividad-y-vinculacion-tarjeta
+		~(?i)^Preguntas-frecuentes-tipos-de-motor(-[0-9]+|_compressed)*$ /es/recursos/preguntas-frecuentes-tipos-de-motor-tarjeta
+		~(?i)^Conectividad_Como-ampliar-mi-cobertura_Documentacion-MySmartWindow(-[0-9]+|_compressed)*$ /es/recursos/como-ampliar-mi-cobertura-manual
+		~(?i)^ES_-Conectividad_Multiwifi_Documentacion-MySmartWindow(-[0-9]+|_compressed)*$ /es/recursos/multiwifi-wifi-complementario-manual
+		~(?i)^Manual_Android_WiFi_IoT_FENSTER_MySmartWindow(-[0-9]+|_compressed)*$ /es/recursos/compartir-una-red-wi-fi-desde-android-manual
+		~(?i)^Dispositivo_botones_-MySmartWindow(-[0-9]+|_compressed)*$ /es/recursos/hard-reset-botones-del-dispositivo-manual
+		~(?i)^Reset_Software_-MySmartWindow(-[0-9]+|_compressed)*$ /es/recursos/reset-software-manual
+		~(?i)^C-PULSAR_Documentacion_MySmartWindow(-[0-9]+|_compressed)*$ /es/recursos/c-pulsar-documentacion-de-funcionalidades-manual
+		~(?i)^C-Wall_Documentacion_MySmartWindow(-[0-9]+|_compressed)*$ /es/recursos/c-wall-documentacion-de-funcionalidades-manual
+		~(?i)^Connect-1_Documentacion_MySmartWindow_v2(-[0-9]+|_compressed)*$ /es/recursos/connect-1-documentacion-de-funcionalidades-manual
+		~(?i)^Connect-2_Documentacion_MySmartWindow(-[0-9]+|_compressed)*$ /es/recursos/connect-2-documentacion-de-funcionalidades-manual
+		~(?i)^Connect_EVO_Documentacion(-[0-9]+|_compressed)*$ /es/recursos/connect-evo-documentacion-de-funcionalidades-manual
+		~(?i)^RemoteWiTooth_Documentacion_MySmartWindow(-[0-9]+|_compressed)*$ /es/recursos/remotewitooth-documentacion-de-funcionalidades-manual
+		~(?i)^Hard_reset_connect1-Dispositivos(-[0-9]+|_compressed)*$ /es/recursos/hard-reset-del-dispositivo-botones-tarjeta
+		~(?i)^Manual-Alexa-Vinculacion-con-MySmartWindow(-[0-9]+|_compressed)*$ /es/recursos/alexa-vinculacion-con-mysmartwindow-manual
+		~(?i)^Manual-Alexa-Tarea-Programada-MySmartWindow(-[0-9]+|_compressed)*$ /es/recursos/alexa-subir-la-persiana-a-una-hora-de-la-manana-manual
+		~(?i)^.*Bajar_persianas_al_anochecer_Tarea-Programada-MySmartWindow(-[0-9]+|_compressed)*$ /es/recursos/google-home-bajar-las-persianas-al-anochecer-manual
+		~(?i)^.*Manual-Google-Home-Tarea-Programada-MySmartWindow(-[0-9]+|_compressed)*$ /es/recursos/google-home-subir-las-persianas-a-las-8-00-manual
+		~(?i)^Manual-Integracion-IFTTT-Tarea-Programada-MySmartWindow(-[0-9]+|_compressed)*$ /es/recursos/ifttt-integracion-y-tareas-programadas-manual
+		~(?i)^.*Que-es-IFTTT-MySmartWindow(-[0-9]+|_compressed)*$ /es/recursos/que-es-ifttt-manual
+		~(?i)^Aidoo_skills_ES(-[0-9]+|_compressed)*$ /es/recursos/aidoo-skills-manual
+		~(?i)^Instalacion-Connect-1-MySmartWindow(-[0-9]+|_compressed)*$ /es/recursos/connect-1-como-se-instala-el-dispositivo-manual
+		~(?i)^Instalacion-Connect-2-MySmartWindow(-[0-9]+|_compressed)*$ /es/recursos/connect-2-como-se-instala-el-dispositivo-manual
+		~(?i)^Indicador-del-sensor-de-apertura-Instalacion(-[0-9]+|_compressed)*$ /es/recursos/instalacion-del-sensor-de-apertura-manual
+		~(?i)^Instalacion-C-PULSAR-MySmartWindow(-[0-9]+|_compressed)*$ /es/recursos/c-pulsar-instalacion-del-dispositivo-manual
+		~(?i)^Manual-fabricacion-Cajon-RTX-La-VIUDA(-[0-9]+|_compressed)*$ /es/recursos/fabricacion-del-cajon-rtx-manual
+		~(?i)^Instrucciones-CWALL(-[0-9]+|_compressed)*$ /es/recursos/c-wall-instalacion-del-dispositivo-manual
+		~(?i)^Instalacion-EVO-MySmartWindow(-[0-9]+|_compressed)*$ /es/recursos/connect-evo-instalacion-del-dispositivo-manual
+		~(?i)^Manual-Vinculacion-MySmartWindow(-[0-9]+|_compressed)*$ /es/recursos/vinculacion-punto-a-punto-manual
+		~(?i)^Manual-de-Multivinculacion-MySmartWindow(-[0-9]+|_compressed)*$ /es/recursos/multivinculacion-manual
+		~(?i)^Manual-de-Multivinculacion_C-Wall-MySmartWindow(-[0-9]+|_compressed)*$ /es/recursos/c-wall-multivinculacion-manual
+		~(?i)^Vinculacion-punto-a-punto_tarjeta(-[0-9]+|_compressed)*$ /es/recursos/vinculacion-punto-a-punto-tarjeta
+		~(?i)^Vinculacion-c-wall(-[0-9]+|_compressed)*$ /es/recursos/vinculacion-c-wall-tarjeta
+		~(?i)^Vinculacion-Multivinculacion(-[0-9]+|_compressed)*$ /es/recursos/multivinculacion-tarjeta
+		default /es/recursos
+	}
+	@pdfWordpress path_regexp (?i)^/wp-content/uploads/.+\.pdf$
+	redir @pdfWordpress {pdf_wordpress} permanent
+
+	# ---------------------------------------------------------------------
 	# Direcciones del WordPress anterior
 	#
 	# Al sustituir aquella web, sus direcciones dejan de existir. Sin estas
