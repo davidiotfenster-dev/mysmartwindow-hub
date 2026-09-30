@@ -56,6 +56,13 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'upstream_error', status: upstream.status }, { status: 502 })
   }
 
+  // Un PDF que ya no existe no siempre da error: los del WordPress anterior
+  // redirigen a la ficha de su recurso (ver el Caddyfile), y `fetch` sigue la
+  // redireccion. Sin esto, esa pagina HTML se serviria como si fuera el PDF.
+  if (!upstream.headers.get('content-type')?.toLowerCase().includes('pdf')) {
+    return NextResponse.json({ error: 'upstream_not_pdf', status: upstream.status }, { status: 502 })
+  }
+
   const fileName = decodeURIComponent(target.pathname.split('/').pop() ?? 'documento.pdf')
 
   return new NextResponse(upstream.body, {
