@@ -67,13 +67,15 @@ export function Header({ locale, dict }: { locale: Locale; dict: Dictionary }) {
               <Logo wordmarkClassName="hidden xs:inline" />
             </Link>
 
-            <nav className="ml-2 hidden items-center gap-0.5 lg:flex" aria-label="Principal">
+            {/* El menú en línea solo a partir de 1280 px: con 8 enlaces, el logo y los
+                botones no caben antes, y lo que sobra se sale de la barra. */}
+            <nav className="ml-2 hidden items-center gap-0.5 xl:flex" aria-label="Principal">
               {nav.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    'relative rounded-full px-3.5 py-2 text-[0.82rem] font-semibold tracking-tight transition-colors',
+                    'relative rounded-full px-2.5 py-2 text-[0.82rem] font-semibold tracking-tight transition-colors',
                     isActive(item.href)
                       ? 'text-brand-500'
                       : 'text-fg-muted hover:text-fg'
@@ -95,21 +97,9 @@ export function Header({ locale, dict }: { locale: Locale; dict: Dictionary }) {
               <button
                 type="button"
                 onClick={openCommandPalette}
-                className="group hidden items-center gap-2 rounded-full border border-line px-3 py-2 text-[0.78rem] text-fg-subtle transition-colors hover:border-brand-500/40 hover:text-fg md:flex"
+                className="rounded-full p-2.5 text-fg-muted transition-colors hover:bg-fg/6 hover:text-fg"
                 aria-label={dict.common.search}
-              >
-                <Search className="h-3.5 w-3.5" />
-                <span className="pr-6">{dict.common.search}</span>
-                <kbd className="rounded border border-line bg-fg/5 px-1.5 py-0.5 font-sans text-[0.65rem] font-semibold">
-                  ⌘K
-                </kbd>
-              </button>
-
-              <button
-                type="button"
-                onClick={openCommandPalette}
-                className="rounded-full p-2.5 text-fg-muted transition-colors hover:bg-fg/6 hover:text-fg md:hidden"
-                aria-label={dict.common.search}
+                title={`${dict.common.search} (⌘K)`}
               >
                 <Search className="h-4.5 w-4.5" />
               </button>
@@ -119,16 +109,16 @@ export function Header({ locale, dict }: { locale: Locale; dict: Dictionary }) {
 
               {/* Botón con contraste propio -no un enlace de texto más-,
                   porque la app es el producto con el que se relaciona el
-                  usuario final a diario y merece destacar en el menú. */}
-              <ButtonLink
+                  usuario final a diario y merece destacar en el menú. Solo
+                  icono: con texto no cabe en la barra; el cajón móvil sí lo lleva. */}
+              <Link
                 href={routes.app(locale)}
-                variant="outline"
-                size="sm"
-                className="hidden items-center gap-1.5 border-brand-500/40 text-brand-500 hover:border-brand-500 hover:text-brand-400 lg:inline-flex"
+                aria-label={dict.nav.app}
+                title={dict.nav.app}
+                className="hidden h-9 w-9 shrink-0 place-items-center rounded-full border border-brand-500/40 text-brand-500 transition-colors hover:border-brand-500 hover:bg-brand-500/10 hover:text-brand-400 xl:grid"
               >
-                <Smartphone className="h-3.5 w-3.5" />
-                {dict.nav.app}
-              </ButtonLink>
+                <Smartphone className="h-4 w-4" />
+              </Link>
 
               <ButtonLink
                 href={routes.contacto(locale)}
@@ -141,7 +131,7 @@ export function Header({ locale, dict }: { locale: Locale; dict: Dictionary }) {
               <button
                 type="button"
                 onClick={() => setDrawerOpen(true)}
-                className="rounded-full p-2.5 text-fg transition-colors hover:bg-fg/6 lg:hidden"
+                className="rounded-full p-2.5 text-fg transition-colors hover:bg-fg/6 xl:hidden"
                 aria-label={dict.nav.menu}
                 aria-expanded={drawerOpen}
               >
@@ -156,7 +146,7 @@ export function Header({ locale, dict }: { locale: Locale; dict: Dictionary }) {
       <AnimatePresence>
         {drawerOpen && (
           <motion.div
-            className="fixed inset-0 z-100 lg:hidden"
+            className="fixed inset-0 z-100 xl:hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
