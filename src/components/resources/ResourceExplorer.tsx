@@ -3,14 +3,24 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import Fuse from 'fuse.js'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { LayoutGrid, List, Search, SlidersHorizontal, X } from 'lucide-react'
+import {
+  ArrowLeft,
+  ArrowUpRight,
+  LayoutGrid,
+  List,
+  Search,
+  SlidersHorizontal,
+  X,
+} from 'lucide-react'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
-import { ResourceCard } from './ResourceCard'
+import { ResourceGroupCard } from './ResourceCard'
 import { ResourceModal } from './ResourceModal'
+import { Icon } from '@/components/ui/Icon'
 import { Badge } from '@/components/ui/primitives'
 import { resourceTypeMeta, resourceTypes } from '@/data/taxonomy'
 import type { Category, Device } from '@/data/taxonomy'
+import { countGroups, groupResources } from '@/lib/resource-groups'
 import type { ResourceView } from '@/lib/resource-view'
 import { cn, normalize } from '@/lib/utils'
 import type { Dictionary } from '@/i18n'
@@ -44,6 +54,15 @@ export function ResourceExplorer({
   const [layout, setLayout] = useState<'grid' | 'list'>('grid')
   const [filtersOpen, setFiltersOpen] = useState(false)
   const [selected, setSelected] = useState<ResourceView | null>(null)
+  const [browseAll, setBrowseAll] = useState(false)
+
+  /**
+   * Los vídeos tienen su propia sección (/videos): aquí no abren tarjeta, solo
+   * cuelgan como atajo de la tarjeta de su manual. Se siguen pudiendo abrir
+   * por URL (?abrir=id), por eso `resources` conserva la lista completa.
+   */
+  const listable = useMemo(() => resources.filter((r) => r.type !== 'video'), [resources])
+  const videoShortcuts = useMemo(() => resources.filter((r) => r.type === 'video'), [resources])
 
   /* ---- Estado reflejado en la URL: las búsquedas se pueden compartir ---- */
   useEffect(() => {
@@ -71,7 +90,7 @@ export function ResourceExplorer({
    */
   const indexed = useMemo(
     () =>
-      resources.map((r) => ({
+      listable.map((r) => ({
         ...r,
         _title: normalize(r.title),
         _summary: normalize(r.summary),
@@ -79,7 +98,7 @@ export function ResourceExplorer({
         _category: normalize(r.categoryName),
         _device: normalize(r.deviceName),
       })),
-    [resources]
+    [listable]
   )
 
   const fuse = useMemo(
@@ -101,7 +120,7 @@ export function ResourceExplorer({
   const results = useMemo(() => {
     let list: ResourceView[] = query.trim()
       ? fuse.search(normalize(query)).map((r) => r.item as ResourceView)
-      : [...resources]
+      : [...listable]
 
     if (category !== ALL) list = list.filter((r) => r.category === category)
     if (type !== ALL) list = list.filter((r) => r.type === type)
@@ -117,15 +136,44 @@ export function ResourceExplorer({
     }
 
     return list
-  }, [query, category, type, device, sort, fuse, resources, locale])
+  }, [query, category, type, device, sort, fuse, listable, locale])
 
-  const activeFilters = [category, type, device].filter((v) => v !== ALL).length
+  // El manual y su vídeo son el mismo tema: una sola tarjeta, con el vídeo de atajo.
+  const groups = useMemo(() => groupResources(results, videoShortcuts), [results, videoShortcuts])
+
+  // Sin buscar ni filtrar se ven las categorías; en cuanto se elige algo, la lista.
+  const inList = browseAll || query.trim() !== '' || category !== ALL || type !== ALL || device !== ALL
+
+  // El equipo se elige arriba, en el selector grande; aquí solo cuentan los filtros del lateral.
+  const activeFilters = [category, type].filter((v) => v !== ALL).length
+  const anyFilter = activeFilters > 0 || device !== ALL
+
+  const deviceOptions = useMemo(
+    () =>
+      visibleDevices
+        .map((d) => ({
+          id: d.id as string,
+          name: d.name,
+          count: countGroups(listable.filter((r) => r.device === d.id)),
+        }))
+        .filter((d) => d.count > 0),
+    [visibleDevices, listable]
+  )
+
+  const categoryCards = useMemo(
+    () =>
+      categories
+        .map((c) => ({ ...c, count: countGroups(listable.filter((r) => r.category === c.id)) }))
+        .filter((c) => c.count > 0),
+    [categories, listable]
+  )
 
   const reset = useCallback(() => {
     setQuery('')
     setCategory(ALL)
     setType(ALL)
     setDevice(ALL)
+    setBrowseAll(false)
   }, [])
 
   const closeModal = useCallback(() => {
@@ -148,13 +196,9 @@ export function ResourceExplorer({
       label: dict.common.type,
       value: type,
       set: setType,
-      options: resourceTypes.map((t) => ({ value: t, label: resourceTypeMeta[t].label[locale] })),
-    },
-    {
-      label: dict.common.device,
-      value: device,
-      set: setDevice,
-      options: visibleDevices.map((d) => ({ value: d.id, label: d.name })),
+      options: resourceTypes
+        .filter((t) => t !== 'video')
+        .map((t) => ({ value: t, label: resourceTypeMeta[t].label[locale] })),
     },
   ]
 
@@ -199,6 +243,88 @@ export function ResourceExplorer({
         </div>
       </div>
 
+      {/* ================= ¿Qué equipo tienes? ================= */}
+      <div className="mb-8">
+        <p className="mb-3 font-display text-[0.78rem] font-bold uppercase tracking-[0.14em] text-fg-subtle">
+          {dict.explorer.deviceQuestion}
+        </p>
+        <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0">
+          {[{ id: ALL, name: dict.common.all, count: countGroups(listable) }, ...deviceOptions].map(
+            (option) => {
+              const active = option.id === device
+              return (
+                <button
+                  key={option.id}
+                  type="button"
+                  aria-pressed={active}
+                  onClick={() => setDevice(option.id)}
+                  className={cn(
+                    'inline-flex shrink-0 items-center gap-2 rounded-full border px-4 py-2.5 text-[0.85rem] font-semibold transition-colors',
+                    active
+                      ? 'border-brand-500 bg-brand-500 text-white'
+                      : 'border-line bg-bg-elevated/60 text-fg-muted hover:border-brand-500/40 hover:text-fg'
+                  )}
+                >
+                  {option.name}
+                  <span
+                    className={cn(
+                      'rounded-full px-1.5 py-0.5 text-[0.68rem] tabular-nums',
+                      active ? 'bg-white/20' : 'bg-fg/8'
+                    )}
+                  >
+                    {option.count}
+                  </span>
+                </button>
+              )
+            }
+          )}
+        </div>
+      </div>
+
+      {!inList ? (
+        /* ================= Entrada: categorías ================= */
+        <section>
+          <h2 className="mb-5 font-display text-xl font-bold">{dict.explorer.categoryIntro}</h2>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {categoryCards.map((c) => (
+              <button
+                key={c.id}
+                type="button"
+                onClick={() => setCategory(c.id)}
+                className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-line bg-bg-elevated/70 p-6 text-left transition-all duration-400 hover:-translate-y-1 hover:border-brand-500/45 hover:shadow-[0_26px_60px_-32px_rgb(0_151_178/0.55)]"
+              >
+                <span
+                  className="slats pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                  aria-hidden="true"
+                />
+                <span className="relative flex items-start justify-between gap-4">
+                  <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-brand-500/10 text-brand-500 transition-all duration-400 group-hover:bg-brand-500 group-hover:text-white">
+                    <Icon name={c.icon} className="h-5.5 w-5.5" />
+                  </span>
+                  <ArrowUpRight className="h-5 w-5 shrink-0 text-fg-subtle transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-brand-500" />
+                </span>
+                <span className="relative mt-5 block font-display text-xl font-bold transition-colors group-hover:text-brand-500">
+                  {c.name[locale]}
+                </span>
+                <span className="relative mt-2 line-clamp-2 text-[0.86rem] leading-relaxed text-fg-muted">
+                  {c.description[locale]}
+                </span>
+                <span className="relative mt-5 border-t border-line pt-4">
+                  <Badge tone="brand">{c.count}</Badge>
+                </span>
+              </button>
+            ))}
+          </div>
+          <button
+            type="button"
+            onClick={() => setBrowseAll(true)}
+            className="mt-6 inline-flex items-center gap-1.5 text-[0.88rem] font-semibold text-brand-500 hover:text-brand-400"
+          >
+            {dict.explorer.browseAll} ({countGroups(listable)})
+            <ArrowUpRight className="h-4 w-4" />
+          </button>
+        </section>
+      ) : (
       <div className="lg:grid lg:grid-cols-[16rem_1fr] lg:gap-10">
         {/* ================= Filtros (escritorio) ================= */}
         <aside className="hidden lg:block">
@@ -208,11 +334,11 @@ export function ResourceExplorer({
                 key={group.label}
                 {...group}
                 allLabel={dict.common.all}
-                resources={resources}
+                resources={listable}
               />
             ))}
 
-            {activeFilters > 0 && (
+            {anyFilter && (
               <button
                 type="button"
                 onClick={reset}
@@ -227,10 +353,19 @@ export function ResourceExplorer({
 
         {/* ================= Resultados ================= */}
         <div className="min-w-0">
+          <button
+            type="button"
+            onClick={reset}
+            className="mb-4 inline-flex items-center gap-1.5 text-[0.82rem] font-semibold text-brand-500 hover:text-brand-400"
+          >
+            <ArrowLeft className="h-3.5 w-3.5" />
+            {dict.explorer.backToCategories}
+          </button>
+
           <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
             <p className="text-[0.82rem] text-fg-muted">
-              <span className="font-semibold text-fg">{results.length}</span>{' '}
-              {results.length === 1 ? dict.common.result : dict.common.results}
+              <span className="font-semibold text-fg">{groups.length}</span>{' '}
+              {groups.length === 1 ? dict.common.result : dict.common.results}
               {query && (
                 <>
                   {' '}
@@ -281,7 +416,7 @@ export function ResourceExplorer({
           </div>
 
           {/* Chips de filtros activos */}
-          {activeFilters > 0 && (
+          {anyFilter && (
             <div className="mb-5 flex flex-wrap items-center gap-2">
               {category !== ALL && (
                 <FilterChip
@@ -335,10 +470,10 @@ export function ResourceExplorer({
               )}
             >
               <AnimatePresence mode="popLayout">
-                {results.map((resource) => (
-                  <ResourceCard
-                    key={resource.id}
-                    resource={resource}
+                {groups.map((group) => (
+                  <ResourceGroupCard
+                    key={group.key}
+                    group={group}
                     locale={locale}
                     dict={dict}
                     onOpen={setSelected}
@@ -350,6 +485,7 @@ export function ResourceExplorer({
           )}
         </div>
       </div>
+      )}
 
       {/* ================= Hoja de filtros (móvil) ================= */}
       <AnimatePresence>
@@ -389,7 +525,7 @@ export function ResourceExplorer({
                     key={group.label}
                     {...group}
                     allLabel={dict.common.all}
-                    resources={resources}
+                    resources={listable}
                     variant="chips"
                   />
                 ))}
@@ -408,7 +544,7 @@ export function ResourceExplorer({
                   onClick={() => setFiltersOpen(false)}
                   className="h-12 flex-[1.6] rounded-full bg-brand-500 text-sm font-semibold text-white"
                 >
-                  {results.length} {results.length === 1 ? dict.common.result : dict.common.results}
+                  {groups.length} {groups.length === 1 ? dict.common.result : dict.common.results}
                 </button>
               </div>
             </motion.div>
@@ -457,10 +593,13 @@ function FilterGroup({
   resources: ResourceView[]
   variant?: 'list' | 'chips'
 }) {
+  // Se cuentan temas, no ficheros: el manual y su vídeo son una sola tarjeta.
   const countFor = (optionValue: string) =>
-    resources.filter(
-      (r) => r.category === optionValue || r.type === optionValue || r.device === optionValue
-    ).length
+    countGroups(
+      resources.filter(
+        (r) => r.category === optionValue || r.type === optionValue || r.device === optionValue
+      )
+    )
 
   const all = [{ value: ALL, label: allLabel }, ...options]
 
@@ -499,7 +638,7 @@ function FilterGroup({
       <ul className="space-y-0.5">
         {all.map((option) => {
           const active = option.value === value
-          const count = option.value === ALL ? resources.length : countFor(option.value)
+          const count = option.value === ALL ? countGroups(resources) : countFor(option.value)
           if (count === 0 && option.value !== ALL) return null
           return (
             <li key={option.value}>

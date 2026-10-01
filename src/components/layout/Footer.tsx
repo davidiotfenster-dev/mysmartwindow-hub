@@ -6,7 +6,7 @@ import { CookiePreferencesLink } from './CookiePreferencesLink'
 import { NewsletterForm } from './NewsletterForm'
 import { SlatDivider } from '@/components/ui/primitives'
 import { EXTERNAL, mainNav, routes } from '@/lib/navigation'
-import { getCategories } from '@/lib/content'
+import { countByCategory, getCategories } from '@/lib/content'
 import type { Dictionary } from '@/i18n'
 import type { Locale } from '@/i18n/config'
 
@@ -52,7 +52,11 @@ function EuropeFlagIcon({ className }: { className?: string }) {
 
 export async function Footer({ locale, dict }: { locale: Locale; dict: Dictionary }) {
   const nav = mainNav(locale, dict)
-  const categories = await getCategories()
+  const [allCategories, counts] = await Promise.all([getCategories(), countByCategory()])
+  // Los vídeos viven en su sección: una categoría que solo los tenía queda vacía en Recursos.
+  const categories = allCategories.filter(
+    (c) => (counts[c.id]?.manual ?? 0) + (counts[c.id]?.tarjeta ?? 0) > 0
+  )
   const year = new Date().getFullYear()
 
   const socials = [

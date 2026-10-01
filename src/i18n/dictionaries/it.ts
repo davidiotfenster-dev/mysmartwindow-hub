@@ -121,6 +121,9 @@ const it: Dictionary = {
     sortBy: 'Ordina per',
     shareSearch: 'Condividi questa ricerca',
     categoryIntro: 'Consulta i materiali per categoria',
+    deviceQuestion: 'Quale dispositivo hai?',
+    browseAll: 'Vedi tutti i documenti',
+    backToCategories: 'Tutte le categorie',
   },
 
   videos: {

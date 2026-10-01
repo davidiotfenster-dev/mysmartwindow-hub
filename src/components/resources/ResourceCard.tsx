@@ -14,7 +14,9 @@ import {
 } from 'lucide-react'
 
 import { Badge } from '@/components/ui/primitives'
+import { resourceTypeMeta } from '@/data/taxonomy'
 import { routes } from '@/lib/navigation'
+import type { ResourceGroup } from '@/lib/resource-groups'
 import { cn, formatDate, formatViews } from '@/lib/utils'
 import type { ResourceView } from '@/lib/resource-view'
 import type { Dictionary } from '@/i18n'
@@ -41,6 +43,67 @@ const typeTone = {
 } as const
 
 const typeIcon = { manual: BookOpen, video: Play, tarjeta: CreditCard } as const
+
+const shortcutTone = {
+  manual: 'bg-brand-500/12 text-brand-600 hover:bg-brand-500 hover:text-white dark:text-brand-300',
+  video: 'bg-signal-500/15 text-signal-600 hover:bg-signal-500 hover:text-white dark:text-signal-300',
+  tarjeta: 'bg-amber-500/15 text-amber-600 hover:bg-amber-500 hover:text-white dark:text-amber-300',
+} as const
+
+/**
+ * Un tema con sus formatos: la tarjeta del documento y, encima, atajos al
+ * vídeo o a la tarjeta del mismo tema. Los atajos son enlaces hermanos del
+ * enlace de la tarjeta, no hijos: un enlace dentro de otro no es HTML válido.
+ */
+export function ResourceGroupCard({
+  group,
+  locale,
+  dict,
+  onOpen,
+  view = 'grid',
+}: {
+  group: ResourceGroup
+  locale: Locale
+  dict: Dictionary
+  onOpen?: (resource: ResourceView) => void
+  view?: 'grid' | 'list'
+}) {
+  const { primary, others } = group
+  if (others.length === 0) {
+    return <ResourceCard resource={primary} locale={locale} dict={dict} onOpen={onOpen} view={view} />
+  }
+
+  return (
+    <motion.div layout className={cn('relative', view === 'grid' && 'h-full')}>
+      <ResourceCard resource={primary} locale={locale} dict={dict} onOpen={onOpen} view={view} />
+      <div
+        className={cn(
+          'absolute z-10 flex gap-1.5',
+          view === 'grid' ? 'right-4 top-4' : 'right-12 top-1/2 -translate-y-1/2'
+        )}
+      >
+        {others.map((other) => {
+          const Icon = typeIcon[other.type]
+          return (
+            <Link
+              key={other.id}
+              href={`${routes.recursos(locale)}/${other.id}`}
+              onClick={onOpen ? (event) => interceptPlainClick(event, () => onOpen(other)) : undefined}
+              title={other.title}
+              className={cn(
+                'inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[0.72rem] font-semibold shadow-sm ring-1 ring-black/5 backdrop-blur transition-colors',
+                shortcutTone[other.type]
+              )}
+            >
+              <Icon className="h-3.5 w-3.5" strokeWidth={2} />
+              {resourceTypeMeta[other.type].short[locale]}
+            </Link>
+          )
+        })}
+      </div>
+    </motion.div>
+  )
+}
 
 export function ResourceCard({
   resource,

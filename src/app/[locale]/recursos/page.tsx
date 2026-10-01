@@ -76,7 +76,15 @@ export default async function ResourcesPage({ params }: { params: Promise<{ loca
       />
 
       <div className="container-page py-10 sm:py-14">
-        <Suspense fallback={<ExplorerFallback resources={views} locale={locale} dict={dict} />}>
+        <Suspense
+          fallback={
+            <ExplorerFallback
+              resources={views.filter((r) => r.type !== 'video')}
+              locale={locale}
+              dict={dict}
+            />
+          }
+        >
           <ResourceExplorer
             resources={views}
             categories={categories}

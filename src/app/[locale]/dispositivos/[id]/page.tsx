@@ -98,9 +98,10 @@ export default async function DevicePage({
   }
 
   // Categorías que cubre este dispositivo, para enlazar hacia el explorador
-  const coveredCategories = Array.from(new Set(own.map((r) => r.category))).map(
-    (c) => categoryMap[c]
-  )
+  // Sin vídeos: en Recursos no abren tarjeta, y una categoría solo de vídeos saldría vacía.
+  const coveredCategories = Array.from(
+    new Set(own.filter((r) => r.type !== 'video').map((r) => r.category))
+  ).map((c) => categoryMap[c])
 
   // La portada abre el carrete y las fotos del CMS van detrás, sin repetirla.
   const photos = [device.photo, ...(device.gallery ?? [])].filter(

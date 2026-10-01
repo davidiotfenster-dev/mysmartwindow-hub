@@ -146,7 +146,9 @@ export default async function ResourcePage({
   const crumbs = [
     { name: dict.nav.home, path: `/${locale}` },
     { name: dict.explorer.title, path: `/${locale}/recursos` },
-    { name: category.name[locale], path: `/${locale}/recursos?cat=${category.id}` },
+    view.type === 'video'
+      ? { name: dict.nav.videos, path: routes.videos(locale) }
+      : { name: category.name[locale], path: `/${locale}/recursos?cat=${category.id}` },
     { name: view.title, path: `/${locale}/recursos/${id}` },
   ]
 
@@ -312,12 +314,16 @@ export default async function ResourcePage({
                 </>
               )}
               <ButtonLink
-                href={`${routes.recursos(locale)}?cat=${category.id}`}
+                href={
+                  view.type === 'video'
+                    ? routes.videos(locale)
+                    : `${routes.recursos(locale)}?cat=${category.id}`
+                }
                 variant="ghost"
                 className="ml-auto"
               >
                 <ArrowLeft className="h-3.5 w-3.5" />
-                {category.name[locale]}
+                {view.type === 'video' ? dict.nav.videos : category.name[locale]}
               </ButtonLink>
             </div>
 

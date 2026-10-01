@@ -26,7 +26,10 @@ export async function CategoryGrid({ locale, dict }: { locale: Locale; dict: Dic
       />
 
       <Stagger className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {categories.map((category) => {
+        {categories
+          // Los vídeos viven en su sección: una categoría que solo los tenía queda vacía en Recursos.
+          .filter((c) => (counts[c.id]?.manual ?? 0) + (counts[c.id]?.tarjeta ?? 0) > 0)
+          .map((category) => {
           const count = counts[category.id] ?? { manual: 0, video: 0, tarjeta: 0, total: 0 }
 
           return (
@@ -59,11 +62,6 @@ export async function CategoryGrid({ locale, dict }: { locale: Locale; dict: Dic
                   {count.manual > 0 && (
                     <Badge tone="brand">
                       {count.manual} {label('manual', count.manual)}
-                    </Badge>
-                  )}
-                  {count.video > 0 && (
-                    <Badge tone="signal">
-                      {count.video} {label('video', count.video)}
                     </Badge>
                   )}
                   {count.tarjeta > 0 && (

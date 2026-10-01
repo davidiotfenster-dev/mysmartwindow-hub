@@ -120,6 +120,9 @@ const es = {
     sortBy: 'Ordenar por',
     shareSearch: 'Compartir esta búsqueda',
     categoryIntro: 'Consulta los materiales por categoría',
+    deviceQuestion: '¿Qué equipo tienes?',
+    browseAll: 'Ver todos los documentos',
+    backToCategories: 'Todas las categorías',
   },
 
   videos: {

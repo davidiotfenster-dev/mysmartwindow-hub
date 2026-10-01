@@ -121,6 +121,9 @@ const en: Dictionary = {
     sortBy: 'Sort by',
     shareSearch: 'Share this search',
     categoryIntro: 'Browse the materials by category',
+    deviceQuestion: 'Which device do you have?',
+    browseAll: 'View all documents',
+    backToCategories: 'All categories',
   },
 
   videos: {
