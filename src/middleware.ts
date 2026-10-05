@@ -84,6 +84,17 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(target, 308)
   }
 
+  // Terminos y condiciones de la app, en los seis idiomas de la app (tres de
+  // ellos, de/fr/pt, no existen como idioma del sitio). La direccion publica
+  // es /{idioma}/app-tyc; la pagina vive en /app-tyc/{idioma}. Lista a mano y
+  // no importada de src/data/app-tyc.ts para no meter el texto en el middleware.
+  const tyc = pathname.match(/^\/(es|en|it|de|fr|pt)\/app-tyc$/)
+  if (tyc) {
+    const url = request.nextUrl.clone()
+    url.pathname = `/app-tyc/${tyc[1]}`
+    return NextResponse.rewrite(url)
+  }
+
   if (
     pathname.startsWith('/api') ||
     pathname.startsWith('/_next') ||
