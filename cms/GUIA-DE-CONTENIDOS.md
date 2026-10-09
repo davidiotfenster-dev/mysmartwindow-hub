@@ -257,6 +257,48 @@ que cada mensaje deje claro de qué trata (uno habla de precios, el otro de
 una incidencia). Si `whatsappNumber` está vacío, el botón de WhatsApp
 sencillamente no aparece en la web.
 
+`salesEmail` y `supportEmail` son además **a dónde llegan los mensajes del
+formulario de contacto**: los de soporte y documentación van al de soporte, y
+los comerciales y "otro" al comercial. Un cambio aquí vale para el siguiente
+mensaje, sin esperar ni desplegar nada.
+
+---
+
+## Mensajes de contacto y altas de la newsletter
+
+Lo que la gente escribe en el formulario de contacto de la web, y los correos
+que se dan de alta en la newsletter, **se guardan aquí** además de llegar por
+correo. Así, si el correo falla o se pierde, el mensaje sigue en el panel.
+
+Se ven en **Content Manager**, en dos listas:
+
+### Mensaje de contacto (`ContactMessage`)
+
+| Campo | Qué es |
+| --- | --- |
+| `name`, `email`, `company` | Quién escribe. Para contestar, usa `email`. |
+| `profile` | Fabricante (`manufacturer`), distribuidor (`distributor`), instalador (`installer`) o usuario final (`user`). |
+| `subject` | Soporte (`support`), comercial (`commercial`), documentación (`docs`) u otro (`other`). |
+| `message` | El texto completo. |
+| `pageLanguage` | El idioma de la página desde la que escribió, para contestarle en el mismo. |
+| `emailStatus` | Si además llegó por correo: `sent` (sí), `failed` (el servidor de correo falló) o `not_configured` (el correo aún no está configurado). Un `failed` o `not_configured` es un mensaje que **solo está aquí**. |
+| `emailError` | El motivo, si el correo no salió. |
+| `answered` | Márcalo tú cuando ya le hayas contestado, para no perder la cuenta. |
+
+### Alta en la newsletter (`NewsletterSubscriber`)
+
+| Campo | Qué es |
+| --- | --- |
+| `email` | El correo dado de alta (no se repite). |
+| `pageLanguage` | El idioma de la página donde se suscribió. |
+| `listed` | Márcalo cuando ya lo hayas pasado a la lista de envíos. |
+
+**Son datos personales**: no los compartas fuera del equipo y bórralos cuando
+ya no hagan falta. Nadie de fuera los puede ver; solo se leen desde este panel.
+El permiso con el que la web los guarda es un token que **solo puede crear**:
+no puede leer ni modificar nada (ver `.env.example`, sección «Copia de los
+formularios en el CMS»).
+
 ---
 
 ## El bloque SEO

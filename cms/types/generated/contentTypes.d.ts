@@ -503,6 +503,69 @@ export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiContactMessageContactMessage
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'contact_messages';
+  info: {
+    description: 'Lo que escribe la gente en el formulario de contacto de la web. No es p\u00FAblico: solo se ve desde este panel.';
+    displayName: 'Mensaje de contacto';
+    pluralName: 'contact-messages';
+    singularName: 'contact-message';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    answered: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    company: Schema.Attribute.String &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 180;
+      }>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    email: Schema.Attribute.Email & Schema.Attribute.Required;
+    emailError: Schema.Attribute.String &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 250;
+      }>;
+    emailStatus: Schema.Attribute.Enumeration<
+      ['sent', 'failed', 'not_configured']
+    > &
+      Schema.Attribute.DefaultTo<'not_configured'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::contact-message.contact-message'
+    > &
+      Schema.Attribute.Private;
+    message: Schema.Attribute.Text &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 5000;
+      }>;
+    name: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 120;
+      }>;
+    pageLanguage: Schema.Attribute.String &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 20;
+      }>;
+    profile: Schema.Attribute.Enumeration<
+      ['manufacturer', 'distributor', 'installer', 'user']
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    subject: Schema.Attribute.Enumeration<
+      ['support', 'commercial', 'docs', 'other']
+    >;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiDeviceDevice extends Struct.CollectionTypeSchema {
   collectionName: 'devices';
   info: {
@@ -640,6 +703,12 @@ export interface ApiEcosystemEcosystem extends Struct.CollectionTypeSchema {
       'oneToMany',
       'api::ecosystem.ecosystem'
     >;
+    logo: Schema.Attribute.Media<'images'> &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
     match: Schema.Attribute.JSON &
       Schema.Attribute.SetPluginOptions<{
         i18n: {
@@ -715,6 +784,12 @@ export interface ApiFaqItemFaqItem extends Struct.CollectionTypeSchema {
         };
       }>;
     resource: Schema.Attribute.Relation<'oneToOne', 'api::resource.resource'>;
+    resourceHref: Schema.Attribute.String &
+      Schema.Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
     slug: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.Unique &
@@ -899,6 +974,43 @@ export interface ApiNewsPostNewsPost extends Struct.CollectionTypeSchema {
           localized: true;
         };
       }>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiNewsletterSubscriberNewsletterSubscriber
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'newsletter_subscribers';
+  info: {
+    description: 'Correos que se han dado de alta en la newsletter desde la web. No es p\u00FAblico: solo se ve desde este panel.';
+    displayName: 'Alta en la newsletter';
+    pluralName: 'newsletter-subscribers';
+    singularName: 'newsletter-subscriber';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    email: Schema.Attribute.Email &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    listed: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::newsletter-subscriber.newsletter-subscriber'
+    > &
+      Schema.Attribute.Private;
+    pageLanguage: Schema.Attribute.String &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 20;
+      }>;
+    publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1801,11 +1913,13 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::category.category': ApiCategoryCategory;
+      'api::contact-message.contact-message': ApiContactMessageContactMessage;
       'api::device.device': ApiDeviceDevice;
       'api::ecosystem.ecosystem': ApiEcosystemEcosystem;
       'api::faq-item.faq-item': ApiFaqItemFaqItem;
       'api::legal-page.legal-page': ApiLegalPageLegalPage;
       'api::news-post.news-post': ApiNewsPostNewsPost;
+      'api::newsletter-subscriber.newsletter-subscriber': ApiNewsletterSubscriberNewsletterSubscriber;
       'api::partner.partner': ApiPartnerPartner;
       'api::resource.resource': ApiResourceResource;
       'api::site-setting.site-setting': ApiSiteSettingSiteSetting;

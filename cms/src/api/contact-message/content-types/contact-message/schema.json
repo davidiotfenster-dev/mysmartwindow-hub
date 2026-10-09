@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "contact_messages",
+  "info": {
+    "singularName": "contact-message",
+    "pluralName": "contact-messages",
+    "displayName": "Mensaje de contacto",
+    "description": "Lo que escribe la gente en el formulario de contacto de la web. No es público: solo se ve desde este panel."
+  },
+  "options": { "draftAndPublish": false },
+  "attributes": {
+    "name": { "type": "string", "required": true, "maxLength": 120 },
+    "email": { "type": "email", "required": true },
+    "company": { "type": "string", "maxLength": 180 },
+    "profile": {
+      "type": "enumeration",
+      "enum": ["manufacturer", "distributor", "installer", "user"]
+    },
+    "subject": {
+      "type": "enumeration",
+      "enum": ["support", "commercial", "docs", "other"]
+    },
+    "message": { "type": "text", "required": true, "maxLength": 5000 },
+    "pageLanguage": { "type": "string", "maxLength": 20 },
+    "emailStatus": {
+      "type": "enumeration",
+      "enum": ["sent", "failed", "not_configured"],
+      "default": "not_configured"
+    },
+    "emailError": { "type": "string", "maxLength": 250 },
+    "answered": { "type": "boolean", "default": false }
+  }
+}

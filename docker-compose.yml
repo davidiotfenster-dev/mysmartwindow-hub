@@ -69,6 +69,10 @@ services:
       SMTP_USER: ${SMTP_USER:-}
       SMTP_PASS: ${SMTP_PASS:-}
       SMTP_FROM: ${SMTP_FROM:-}
+      # Token de API del CMS que solo puede CREAR mensajes de contacto y altas
+      # de newsletter (ver .env.example). Vacio: los formularios solo mandan
+      # correo y no dejan copia en el panel.
+      STRAPI_FORMS_TOKEN: ${STRAPI_FORMS_TOKEN:-}
     depends_on:
       - cms
     # Sigue publicado mientras se prueba el sitio entrando por la IP. Cuando
