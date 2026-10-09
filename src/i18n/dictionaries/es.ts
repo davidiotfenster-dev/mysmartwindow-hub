@@ -305,7 +305,6 @@ const es = {
   },
 
   assistant: {
-    launcher: 'Te ayudamos a encontrarlo',
     title: 'Asistente',
     subtitle: 'Te llevo a lo que buscas en dos clics',
     restart: 'Volver a empezar',
@@ -333,6 +332,23 @@ const es = {
     devicesAnswer: 'Este es el ecosistema completo, cada dispositivo con su documentación.',
     whatsappSales: 'Preguntar por WhatsApp',
     whatsappSupport: 'Contar la incidencia por WhatsApp',
+    // Pulsarito, el botón del asistente: etiqueta, cierre del bocadillo y los mensajes
+    // que suelta de vez en cuando (3 de ayuda y 6 datos reales de la tarifa).
+    pulsarito: {
+      label: 'Pulsarito · Abrir la ayuda',
+      closeMessage: 'Cerrar mensaje',
+      messages: [
+        '¿Necesitas ayuda? Púlsame y te echo una mano.',
+        '¿Buscas algo? Pregúntame por manuales, vídeos o dispositivos.',
+        '¿Dudas con tu dispositivo? Aquí estoy.',
+        'Todos nuestros dispositivos tienen 5 años de garantía.',
+        'Nuestros dispositivos conectan por Wi-Fi 6, Bluetooth, Zigbee, Matter y Thread.',
+        'El mando Witooth dura 2 años con una sola batería.',
+        'El Pulsar se instala con un único taladro de 11 mm.',
+        'El C-WALL lleva un led ambiental RGB de 25 luces.',
+        'Estamos en el Parque Tecnológico de Fuente Álamo, en Murcia.',
+      ],
+    },
   },
 
   engineering: {

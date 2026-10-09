@@ -5,10 +5,14 @@ import Link from 'next/link'
 import { ArrowUpRight, MessageCircle, RotateCcw, X } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
+import { Pulsarito } from '@/components/layout/Pulsarito'
 import { resourceTypeMeta } from '@/data/taxonomy'
 import { routes } from '@/lib/navigation'
 import type { Dictionary } from '@/i18n'
 import type { Locale } from '@/i18n/config'
+
+/** Lo enlaza el botón (aria-controls) con el panel que abre. */
+const PANEL_ID = 'asistente-panel'
 
 /** Lo que el asistente puede ofrecer: seguir preguntando o mandarte a algún sitio. */
 interface Choice {
@@ -175,6 +179,7 @@ export function SupportAssistant({
             exit={{ opacity: 0, y: 12, scale: 0.97 }}
             transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
             className="flex max-h-[min(30rem,70vh)] w-[min(21rem,calc(100vw-3rem))] flex-col overflow-hidden rounded-3xl border border-line bg-bg-elevated shadow-2xl"
+            id={PANEL_ID}
             role="dialog"
             aria-label={a.title}
           >
@@ -295,25 +300,15 @@ export function SupportAssistant({
         )}
       </AnimatePresence>
 
-      <button
-        type="button"
-        onClick={() => setOpen((value) => !value)}
-        aria-label={a.launcher}
-        aria-expanded={open}
-        className="relative grid h-14 w-14 place-items-center rounded-full bg-brand-500 text-white shadow-[0_14px_32px_-10px_rgb(0_151_178/0.7)] transition-transform duration-300 hover:scale-[1.06] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500"
-      >
-        {!open && (
-          <span
-            className="absolute inline-flex h-full w-full rounded-full bg-brand-500 motion-safe:animate-[pulse-ring_3s_cubic-bezier(0.4,0,0.6,1)_infinite]"
-            aria-hidden="true"
-          />
-        )}
-        {open ? (
-          <X className="relative h-6 w-6" strokeWidth={2.2} />
-        ) : (
-          <MessageCircle className="relative h-6.5 w-6.5" strokeWidth={2.1} fill="currentColor" fillOpacity={0.14} />
-        )}
-      </button>
+      <Pulsarito
+        open={open}
+        onToggle={() => setOpen((value) => !value)}
+        onOpen={() => setOpen(true)}
+        panelId={PANEL_ID}
+        label={a.pulsarito.label}
+        closeLabel={a.pulsarito.closeMessage}
+        messages={a.pulsarito.messages}
+      />
     </div>
   )
 }

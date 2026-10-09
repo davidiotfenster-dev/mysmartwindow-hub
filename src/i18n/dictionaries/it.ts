@@ -306,7 +306,6 @@ const it: Dictionary = {
   },
 
   assistant: {
-    launcher: 'Ti aiutiamo a trovarlo',
     title: 'Assistente',
     subtitle: 'Due clic e sei dove ti serve',
     restart: 'Ricomincia',
@@ -334,6 +333,23 @@ const it: Dictionary = {
     devicesAnswer: 'Questo è l’ecosistema completo, ogni dispositivo con la sua documentazione.',
     whatsappSales: 'Chiedere su WhatsApp',
     whatsappSupport: 'Segnalare il problema su WhatsApp',
+    // Pulsarito, el botón del asistente: etiqueta, cierre del bocadillo y los mensajes
+    // que suelta de vez en cuando (3 de ayuda y 6 datos reales de la tarifa).
+    pulsarito: {
+      label: 'Pulsarito · Apri l’aiuto',
+      closeMessage: 'Chiudi il messaggio',
+      messages: [
+        'Hai bisogno di aiuto? Premimi e ti do una mano.',
+        'Cerchi qualcosa? Chiedimi di manuali, video o dispositivi.',
+        'Dubbi sul tuo dispositivo? Sono qui.',
+        'Tutti i nostri dispositivi hanno 5 anni di garanzia.',
+        'I nostri dispositivi si collegano via Wi-Fi 6, Bluetooth, Zigbee, Matter e Thread.',
+        'Il telecomando Witooth dura 2 anni con una sola batteria.',
+        'Il Pulsar si installa con un unico foro da 11 mm.',
+        'Il C-WALL ha un LED ambientale RGB con 25 luci.',
+        'Siamo nel Parco Tecnologico di Fuente Álamo, a Murcia.',
+      ],
+    },
   },
 
   engineering: {

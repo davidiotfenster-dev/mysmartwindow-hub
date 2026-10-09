@@ -386,3 +386,187 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* ==========================================================================
+   Pulsarito, el botón del asistente (ver Pulsarito.tsx)
+
+   Cerrado es solo el pulsador: brazos, piernas y cara están plegados (opacidad
+   0 y escala pequeña) y al abrir aparecen con rebote, 0,25 s de opacidad y
+   0,45 s de escala. Los puntos de giro van en unidades del propio dibujo
+   (viewBox), no en píxeles de pantalla. Con "movimiento reducido" el bloque de
+   accesibilidad de más abajo anula todas las animaciones y transiciones.
+   ========================================================================== */
+.pul {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  filter: drop-shadow(0 10px 18px rgb(0 0 0 / 0.35));
+}
+.pul:hover {
+  transform: scale(1.05);
+}
+.pul:active {
+  transform: scale(0.95);
+}
+
+/* ---------- Piezas que salen al abrir ---------- */
+.pul-arm,
+.pul-leg,
+.pul-face {
+  opacity: 0;
+  transition:
+    opacity 0.25s ease,
+    transform 0.45s cubic-bezier(0.34, 1.7, 0.5, 1);
+}
+.pul-arm-l {
+  transform-origin: 25px 84px;
+  transform: scale(0.3);
+}
+.pul-arm-r {
+  transform-origin: 98px 84px;
+  transform: scale(0.3);
+}
+.pul-leg-l {
+  transform-origin: 46px 106px;
+  transform: scale(0.3);
+}
+.pul-leg-r {
+  transform-origin: 70px 106px;
+  transform: scale(0.3);
+}
+.pul-face {
+  transform-origin: 56px 76px;
+  transform: scale(0.5);
+}
+.pul[data-open] .pul-arm,
+.pul[data-open] .pul-leg,
+.pul[data-open] .pul-face {
+  opacity: 1;
+  transform: none;
+}
+/* Las piernas salen un instante después que los brazos, y la cara la última */
+.pul[data-open] .pul-leg {
+  transition-delay: 0.05s;
+}
+.pul[data-open] .pul-face {
+  transition-delay: 0.1s;
+}
+
+/* La "?" de la tapa: solo cerrado, da paso a la cara */
+.pul-help {
+  transition: opacity 0.2s ease;
+}
+.pul[data-open] .pul-help {
+  opacity: 0;
+}
+
+/* ---------- Al abrir: salta un poco hacia arriba ---------- */
+.pul[data-open] .pul-hop {
+  animation: pul-salto 0.5s cubic-bezier(0.3, 0, 0.3, 1) 1;
+}
+@keyframes pul-salto {
+  0% { transform: translateY(0) scale(1, 1); }
+  30% { transform: translateY(3px) scale(1.05, 0.94); }
+  60% { transform: translateY(-12px) scale(0.98, 1.04); }
+  100% { transform: translateY(0) scale(1, 1); }
+}
+
+/* ---------- Abierto: flota suavemente arriba y abajo ---------- */
+.pul[data-open] .pul-float {
+  animation: pul-flotar 3.2s ease-in-out infinite;
+}
+@keyframes pul-flotar {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+/* ---------- Anillo de luz: late siempre; con mensaje, más fuerte ---------- */
+.pul-ring {
+  animation: pul-latido 2.6s ease-in-out infinite;
+}
+@keyframes pul-latido {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+.pul[data-alert] .pul-ring {
+  animation: pul-latido-fuerte 0.9s ease-in-out infinite;
+}
+@keyframes pul-latido-fuerte {
+  0%, 100% { opacity: 1; filter: brightness(1.15); }
+  50% { opacity: 0.3; filter: brightness(0.9); }
+}
+/* Cerrado con mensaje: un saltito que llama la atención */
+.pul[data-alert] .pul-hop {
+  animation: pul-saltito 0.6s ease-in-out 2;
+}
+@keyframes pul-saltito {
+  0%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-9px); }
+  70% { transform: translateY(0); }
+  85% { transform: translateY(-3px); }
+}
+
+/* ---------- Parpadeo: los ojos se cierran 150 ms (lo gobierna el componente) ---------- */
+.pul-eyes {
+  transform-origin: 56px 70px;
+}
+.pul[data-blink] .pul-eyes {
+  transform: scaleY(0.08);
+}
+
+/* ---------- Gestos de 2 s, sin desplazarse ---------- */
+/* Saludar: el brazo derecho sube y se menea de -135 a -90 grados, 5 veces */
+.pul[data-gesture='wave'] .pul-arm-r {
+  animation: pul-saludo 2s ease-in-out 1;
+}
+@keyframes pul-saludo {
+  0% { transform: rotate(0); }
+  10% { transform: rotate(-135deg); }
+  20% { transform: rotate(-90deg); }
+  30% { transform: rotate(-135deg); }
+  40% { transform: rotate(-90deg); }
+  50% { transform: rotate(-135deg); }
+  60% { transform: rotate(-90deg); }
+  70% { transform: rotate(-135deg); }
+  80% { transform: rotate(-90deg); }
+  90% { transform: rotate(-135deg); }
+  100% { transform: rotate(0); }
+}
+/* Pasitos: las piernas en oposición (±16 grados) y las manos balanceándose (±14) */
+.pul[data-gesture='steps'] .pul-leg-l {
+  animation: pul-paso 0.5s ease-in-out 4;
+}
+.pul[data-gesture='steps'] .pul-leg-r {
+  animation: pul-paso 0.5s ease-in-out 4 reverse;
+}
+.pul[data-gesture='steps'] .pul-arm-l {
+  animation: pul-balanceo 0.5s ease-in-out 4 reverse;
+}
+.pul[data-gesture='steps'] .pul-arm-r {
+  animation: pul-balanceo 0.5s ease-in-out 4;
+}
+@keyframes pul-paso {
+  0% { transform: rotate(0); }
+  25% { transform: rotate(-16deg); }
+  75% { transform: rotate(16deg); }
+  100% { transform: rotate(0); }
+}
+@keyframes pul-balanceo {
+  0% { transform: rotate(0); }
+  25% { transform: rotate(-14deg); }
+  75% { transform: rotate(14deg); }
+  100% { transform: rotate(0); }
+}
+/* Mirar a un lado: solo las pupilas */
+.pul[data-gesture='look-l'] .pul-pupils {
+  animation: pul-mirar-izq 2s ease-in-out 1;
+}
+.pul[data-gesture='look-r'] .pul-pupils {
+  animation: pul-mirar-der 2s ease-in-out 1;
+}
+@keyframes pul-mirar-izq {
+  0%, 100% { transform: translate(0, 0); }
+  15%, 85% { transform: translate(-3.5px, 0); }
+}
+@keyframes pul-mirar-der {
+  0%, 100% { transform: translate(0, 0); }
+  15%, 85% { transform: translate(3.5px, 0); }
+}
