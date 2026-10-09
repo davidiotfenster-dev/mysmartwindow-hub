@@ -58,6 +58,17 @@ services:
     restart: unless-stopped
     environment:
       STRAPI_URL: http://cms:1337
+      # Correo saliente del formulario de contacto y la newsletter. Salen del
+      # .env de la raiz (ver .env.example) y se leen al arrancar: cambiarlos solo
+      # pide `docker compose up -d web`, sin reconstruir la imagen. Sin ellos
+      # el formulario responde con error en vez de dar por enviado un mensaje
+      # que no ha llegado a nadie.
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_SECURE: ${SMTP_SECURE:-}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASS: ${SMTP_PASS:-}
+      SMTP_FROM: ${SMTP_FROM:-}
     depends_on:
       - cms
     # Sigue publicado mientras se prueba el sitio entrando por la IP. Cuando

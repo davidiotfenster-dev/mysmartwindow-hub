@@ -25,6 +25,8 @@ export function ContactForm({ dict, locale }: { dict: Dictionary; locale: Locale
     subject: '',
     message: '',
     consent: false,
+    // Campo trampa antirrobots: ver el input oculto del formulario
+    website: '',
   })
   const [errors, setErrors] = useState<Partial<Record<Field, string>>>({})
   const [status, setStatus] = useState<Status>('idle')
@@ -80,6 +82,7 @@ export function ContactForm({ dict, locale }: { dict: Dictionary; locale: Locale
         subject: '',
         message: '',
         consent: false,
+        website: '',
       })
     } catch {
       setStatus('error')
@@ -94,6 +97,18 @@ export function ContactForm({ dict, locale }: { dict: Dictionary; locale: Locale
 
   return (
     <form onSubmit={onSubmit} noValidate className="space-y-5">
+      {/* Trampa para robots: fuera de pantalla y fuera del tabulador, una persona
+          no lo ve ni lo rellena. Si llega con texto, el servidor descarta el envio. */}
+      <input
+        type="text"
+        name="website"
+        value={values.website}
+        onChange={(e) => setValues({ ...values, website: e.target.value })}
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        className="absolute -left-[9999px] h-0 w-0 opacity-0"
+      />
       {/* Perfil: en botones y por delante de todo, para que se responda sin pensarlo */}
       <fieldset>
         <legend className="mb-2.5 text-[0.82rem] font-semibold">
