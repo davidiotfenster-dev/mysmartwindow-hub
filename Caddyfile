@@ -227,3 +227,14 @@ cms.iotfenster.com {
 
 	reverse_proxy cms:1337
 }
+
+# ---------------------------------------------------------------------------
+# Panel interno del equipo
+#
+# Es otro servicio, de otro proyecto: aqui Caddy solo le hace de proxy,
+# igual que con cms.iotfenster.com.
+# ---------------------------------------------------------------------------
+panel.iotfenster.com {
+	encode zstd gzip
+	reverse_proxy panel:3000
+}
