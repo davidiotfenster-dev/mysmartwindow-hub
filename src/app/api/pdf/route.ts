@@ -53,6 +53,11 @@ export async function GET(request: Request) {
   })
 
   if (!upstream.ok || !upstream.body) {
+    // Un 404/410 del origen es "ese PDF ya no existe", no un fallo nuestro: con
+    // un 5xx, Google lo contaria como error de servidor en Search Console.
+    if (upstream.status === 404 || upstream.status === 410) {
+      return NextResponse.json({ error: 'not_found' }, { status: 404 })
+    }
     return NextResponse.json({ error: 'upstream_error', status: upstream.status }, { status: 502 })
   }
 
@@ -60,7 +65,9 @@ export async function GET(request: Request) {
   // redirigen a la ficha de su recurso (ver el Caddyfile), y `fetch` sigue la
   // redireccion. Sin esto, esa pagina HTML se serviria como si fuera el PDF.
   if (!upstream.headers.get('content-type')?.toLowerCase().includes('pdf')) {
-    return NextResponse.json({ error: 'upstream_not_pdf', status: upstream.status }, { status: 502 })
+    // 404 y no 5xx: el PDF ya no existe. Un 502 aqui lo seguiria contando
+    // Google como error de servidor.
+    return NextResponse.json({ error: 'not_found' }, { status: 404 })
   }
 
   const fileName = decodeURIComponent(target.pathname.split('/').pop() ?? 'documento.pdf')
