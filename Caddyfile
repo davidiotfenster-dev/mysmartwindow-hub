@@ -146,6 +146,12 @@ www.iotfenster.com, iotfenster.com {
 	@privacidad path /politica-de-privacidad /politica-de-privacidad/
 	redir @privacidad /es/legal/politica-de-privacidad permanent
 
+	# Va sin idioma, tal cual estaba en el WordPress. Tambien se recoge con
+	# /es/ delante porque el sitio nuevo se lo añade a todo lo que llega sin
+	# idioma, y asi es como ha quedado guardada en algunos sitios.
+	@iotfenster path /iot-fenster /iot-fenster/ /es/iot-fenster /es/iot-fenster/
+	redir @iotfenster /es permanent
+
 	# ---------------------------------------------------------------------
 	# Italiano
 	#
@@ -172,6 +178,27 @@ www.iotfenster.com, iotfenster.com {
 
 	@itContatto path /it/contatto /it/contatto/
 	redir @itContatto /it/contacto permanent
+
+	# ---------------------------------------------------------------------
+	# Ingles
+	#
+	# El plugin de traduccion ponia /en/ delante y dejaba el nombre en
+	# espanol (/en/c-evo-interruptor-de-persiana-con-wifi). Los destinos
+	# nuevos se llaman de otra forma, asi que tambien van una a una.
+	# ---------------------------------------------------------------------
+	@enCwall path /en/c-wall /en/c-wall/
+	redir @enCwall /en/dispositivos/c-wall permanent
+
+	@enCevo path /en/c-evo-interruptor-de-persiana-con-wifi /en/c-evo-interruptor-de-persiana-con-wifi/
+	redir @enCevo /en/dispositivos/connect-evo permanent
+
+	@enApp path /en/app-mysmartwindow /en/app-mysmartwindow/
+	redir @enApp /en/mysmartwindow permanent
+
+	# Pese al nombre no era la pagina de la app sino la de soporte, con el
+	# telefono y el correo de contacto.
+	@enAppSupport path /en/app-support /en/app-support/
+	redir @enAppSupport /en/soporte permanent
 
 	# Todo lo demas, al sitio
 	reverse_proxy web:3000
