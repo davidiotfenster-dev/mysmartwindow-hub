@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { BookOpen, Headset, Youtube } from 'lucide-react'
+import { BookOpen, Globe, MessageCircle, Youtube } from 'lucide-react'
 
 import { LogoMark } from '@/components/brand/Logo'
 import { EXTERNAL } from '@/lib/navigation'
@@ -27,7 +27,17 @@ export const metadata: Metadata = {
 const guias = [
   { href: EXTERNAL.youtube, external: true, icon: Youtube, label: 'YouTube' },
   { href: '/es/recursos', external: false, icon: BookOpen, label: 'Materiales de ayuda' },
+  { href: 'https://www.iotfenster.com', external: true, icon: Globe, label: 'Página web' },
 ]
+
+/**
+ * Mismo numero y mensaje que el boton de soporte de /es/contacto y del
+ * asistente flotante. Si cambia alli (Ajustes del sitio, en el CMS), hay que
+ * actualizarlo tambien aqui a mano: esta pagina vive fuera de [locale] y no
+ * lee el CMS, a proposito, para no depender de que Strapi responda.
+ */
+const WHATSAPP_SUPPORT_URL =
+  'https://wa.me/660804391?text=Hola%2C%20tengo%20una%20incidencia%20con%20mi%20cerramiento%20MySmartWindow.'
 
 export default function AppQuickHelpPage() {
   return (
@@ -62,10 +72,12 @@ export default function AppQuickHelpPage() {
           </p>
           <div className="mt-4">
             <Link
-              href="/es/soporte"
+              href={WHATSAPP_SUPPORT_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className="flex items-center justify-center gap-2.5 rounded-full bg-brand-500 px-5 py-3.5 font-semibold text-white transition-colors hover:bg-brand-400"
             >
-              <Headset className="h-4.5 w-4.5" strokeWidth={2} />
+              <MessageCircle className="h-4.5 w-4.5" strokeWidth={2} />
               Soporte
             </Link>
           </div>
