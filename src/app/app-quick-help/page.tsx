@@ -37,7 +37,7 @@ const guias = [
  * lee el CMS, a proposito, para no depender de que Strapi responda.
  */
 const WHATSAPP_SUPPORT_URL =
-  'https://wa.me/660804391?text=Hola%2C%20tengo%20una%20incidencia%20con%20mi%20cerramiento%20MySmartWindow.'
+  'https://wa.me/34660804391?text=Hola%2C%20tengo%20una%20incidencia%20con%20mi%20cerramiento%20MySmartWindow.'
 
 export default function AppQuickHelpPage() {
   return (
