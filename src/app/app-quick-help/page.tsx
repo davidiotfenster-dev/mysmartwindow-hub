@@ -38,6 +38,8 @@ const guias = [
  */
 const WHATSAPP_SUPPORT_URL =
   'https://wa.me/34660804391?text=Hola%2C%20tengo%20una%20incidencia%20con%20mi%20cerramiento%20MySmartWindow.'
+const WHATSAPP_SUPPORT_DISPLAY = '+34 660 80 43 91'
+const WHATSAPP_SUPPORT_MESSAGE = 'Hola, tengo una incidencia con mi cerramiento MySmartWindow.'
 
 export default function AppQuickHelpPage() {
   return (
@@ -71,16 +73,34 @@ export default function AppQuickHelpPage() {
             ¿Necesitas ayuda? Contacta con nosotros
           </p>
           <div className="mt-4">
+            {/*
+              Sin target="_blank": este enlace se abre a menudo dentro del
+              visor web empotrado que la app usa para esta misma pagina, y ese
+              visor solo intercepta los enlaces a otras apps (WhatsApp) cuando
+              navegan en la propia ventana, no cuando piden una pestaña nueva.
+            */}
             <Link
               href={WHATSAPP_SUPPORT_URL}
-              target="_blank"
-              rel="noopener noreferrer"
               className="flex items-center justify-center gap-2.5 rounded-full bg-brand-500 px-5 py-3.5 font-semibold text-white transition-colors hover:bg-brand-400"
             >
               <MessageCircle className="h-4.5 w-4.5" strokeWidth={2} />
               Soporte
             </Link>
           </div>
+
+          {/*
+            Red de seguridad: en algunos moviles el enlace de arriba no abre
+            WhatsApp (el visor empotrado de la app no deja pasar el enlace al
+            sistema). Con el numero y el mensaje a la vista, se puede seguir
+            contactando a mano aunque eso falle.
+          */}
+          <p className="mt-4 text-[0.78rem] leading-relaxed text-fg-subtle">
+            ¿No se abre WhatsApp? Escribe a{' '}
+            <span className="font-semibold text-fg">{WHATSAPP_SUPPORT_DISPLAY}</span>
+            {': "'}
+            {WHATSAPP_SUPPORT_MESSAGE}
+            {'"'}
+          </p>
         </section>
       </div>
 
