@@ -68,9 +68,9 @@ export function Hero({
       </div>
 
       <div className="container-page">
-        <div className="grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-10 xl:gap-16">
+        <div className="grid grid-cols-[minmax(0,1fr)] items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-10 xl:gap-16">
           {/* ---------- Columna de texto ---------- */}
-          <div className="max-w-2xl">
+          <div className="min-w-0 max-w-2xl">
             <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
@@ -108,10 +108,10 @@ export function Hero({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.24, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-9 flex flex-col gap-3 xs:flex-row xs:items-center"
+              className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center"
             >
               <Magnetic>
-                <ButtonLink href={routes.recursos(locale)} size="lg" className="w-full xs:w-auto">
+                <ButtonLink href={routes.recursos(locale)} size="lg" className="w-full sm:w-auto">
                   {dict.hero.ctaPrimary}
                   <ArrowRight className="h-4 w-4" />
                 </ButtonLink>
@@ -120,7 +120,7 @@ export function Hero({
                 href={routes.videos(locale)}
                 size="lg"
                 variant="secondary"
-                className="w-full xs:w-auto"
+                className="w-full sm:w-auto"
               >
                 <PlayCircle className="h-4.5 w-4.5" />
                 {dict.hero.ctaSecondary}
