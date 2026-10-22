@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { ArrowUpRight, Clock } from 'lucide-react'
 
 import { PageHeader } from '@/components/layout/PageHeader'
+import { NewsCover } from '@/components/news/NewsCover'
 import { Badge } from '@/components/ui/primitives'
 import { GradientTitle } from '@/components/ui/GradientTitle'
 import { Stagger, StaggerItem } from '@/components/ui/motion'
@@ -62,13 +63,7 @@ export default async function NewsPage({ params }: { params: Promise<{ locale: L
             >
               <span className={`relative block min-h-56 overflow-hidden bg-gradient-to-br ${lead.gradient}`}>
                 {lead.cover ? (
-                  <Image
-                    src={lead.cover}
-                    alt=""
-                    fill
-                    sizes="(min-width: 1024px) 560px, 100vw"
-                    className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-                  />
+                  <NewsCover src={lead.cover} alt="" sizes="(min-width: 1024px) 560px, 100vw" />
                 ) : (
                   <>
                     <span className="grid-tech absolute inset-0 opacity-60" aria-hidden="true" />

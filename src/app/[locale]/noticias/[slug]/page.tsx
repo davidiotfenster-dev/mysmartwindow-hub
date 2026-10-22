@@ -1,10 +1,10 @@
 import type { Metadata } from 'next'
-import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ArrowLeft, ArrowUpRight, Clock } from 'lucide-react'
 
 import { NewsContent } from '@/components/news/NewsContent'
+import { NewsCover } from '@/components/news/NewsCover'
 import { Badge } from '@/components/ui/primitives'
 import { getNews, getNewsPost } from '@/lib/content'
 import { getDictionary } from '@/i18n'
@@ -124,13 +124,11 @@ export default async function NewsPostPage({
       <div className="container-page py-14 sm:py-20">
         {post.cover && (
           <div className="relative mx-auto mb-12 aspect-[16/9] max-w-4xl overflow-hidden rounded-3xl border border-line">
-            <Image
+            <NewsCover
               src={post.cover}
               alt={post.title[locale]}
-              fill
               priority
               sizes="(min-width: 1024px) 896px, 100vw"
-              className="object-cover"
             />
           </div>
         )}
