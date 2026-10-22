@@ -1,8 +1,10 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ArrowLeft, ArrowUpRight, Clock } from 'lucide-react'
 
+import { NewsContent } from '@/components/news/NewsContent'
 import { Badge } from '@/components/ui/primitives'
 import { getNews, getNewsPost } from '@/lib/content'
 import { getDictionary } from '@/i18n'
@@ -120,12 +122,21 @@ export default async function NewsPostPage({
       </header>
 
       <div className="container-page py-14 sm:py-20">
-        <div className="mx-auto max-w-2xl space-y-6">
-          {post.body[locale].split('\n\n').map((paragraph, i) => (
-            <p key={i} className="text-[1rem] leading-[1.85] text-fg-muted">
-              {paragraph}
-            </p>
-          ))}
+        {post.cover && (
+          <div className="relative mx-auto mb-12 aspect-[16/9] max-w-4xl overflow-hidden rounded-3xl border border-line">
+            <Image
+              src={post.cover}
+              alt={post.title[locale]}
+              fill
+              priority
+              sizes="(min-width: 1024px) 896px, 100vw"
+              className="object-cover"
+            />
+          </div>
+        )}
+
+        <div className="mx-auto max-w-2xl">
+          <NewsContent body={post.body[locale]} />
         </div>
 
         {related.length > 0 && (

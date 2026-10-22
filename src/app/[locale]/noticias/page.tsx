@@ -1,5 +1,6 @@
 import { alternates } from '@/lib/seo'
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowUpRight, Clock } from 'lucide-react'
 
@@ -59,9 +60,21 @@ export default async function NewsPage({ params }: { params: Promise<{ locale: L
               href={routes.noticia(locale, lead.slug)}
               className="group grid overflow-hidden rounded-3xl border border-line bg-bg-elevated/60 transition-all duration-400 hover:border-brand-500/40 hover:shadow-[0_30px_70px_-34px_rgb(0_151_178/0.5)] lg:grid-cols-2"
             >
-              <span className={`relative block min-h-56 bg-gradient-to-br ${lead.gradient}`}>
-                <span className="grid-tech absolute inset-0 opacity-60" aria-hidden="true" />
-                <span className="slats absolute inset-x-0 bottom-0 h-24 opacity-80" aria-hidden="true" />
+              <span className={`relative block min-h-56 overflow-hidden bg-gradient-to-br ${lead.gradient}`}>
+                {lead.cover ? (
+                  <Image
+                    src={lead.cover}
+                    alt=""
+                    fill
+                    sizes="(min-width: 1024px) 560px, 100vw"
+                    className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                  />
+                ) : (
+                  <>
+                    <span className="grid-tech absolute inset-0 opacity-60" aria-hidden="true" />
+                    <span className="slats absolute inset-x-0 bottom-0 h-24 opacity-80" aria-hidden="true" />
+                  </>
+                )}
               </span>
               <span className="flex flex-col justify-center p-8 sm:p-10">
                 <span className="flex flex-wrap items-center gap-3">
@@ -94,8 +107,18 @@ export default async function NewsPage({ params }: { params: Promise<{ locale: L
                     href={routes.noticia(locale, post.slug)}
                     className="group flex h-full flex-col overflow-hidden rounded-3xl border border-line bg-bg-elevated/60 transition-all duration-400 hover:-translate-y-1 hover:border-brand-500/40"
                   >
-                    <span className={`relative block h-36 bg-gradient-to-br ${post.gradient}`}>
-                      <span className="grid-tech absolute inset-0 opacity-60" aria-hidden="true" />
+                    <span className={`relative block h-36 overflow-hidden bg-gradient-to-br ${post.gradient}`}>
+                      {post.cover ? (
+                        <Image
+                          src={post.cover}
+                          alt=""
+                          fill
+                          sizes="(min-width: 768px) 380px, 100vw"
+                          className="object-cover transition-transform duration-700 group-hover:scale-[1.05]"
+                        />
+                      ) : (
+                        <span className="grid-tech absolute inset-0 opacity-60" aria-hidden="true" />
+                      )}
                       <span className="absolute left-5 top-5">
                         <Badge tone="brand">{post.tag[locale]}</Badge>
                       </span>
