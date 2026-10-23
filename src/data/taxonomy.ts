@@ -38,6 +38,7 @@ export const categoryIds = [
   'administracion',
   'conectividad',
   'app',
+  'catalogos',
   'dispositivos',
   'ecosistemas',
   'instalacion',
@@ -83,6 +84,16 @@ export const categories: Category[] = [
       es: 'Menús, ajustes y funciones de la aplicación MySmartWindow.',
       en: 'Menus, settings and features of the MySmartWindow application.',
       it: 'Menu, impostazioni e funzioni dell’applicazione MySmartWindow.',
+    },
+  },
+  {
+    id: 'catalogos',
+    icon: 'book',
+    name: { es: 'Catálogos', en: 'Catalogues', it: 'Cataloghi' },
+    description: {
+      es: 'Catálogos de producto de la gama CONNECT y de MySmartWindow.',
+      en: 'Product catalogues for the CONNECT range and MySmartWindow.',
+      it: 'Cataloghi di prodotto della gamma CONNECT e di MySmartWindow.',
     },
   },
   {
