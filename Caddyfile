@@ -6,7 +6,15 @@
 # que instalar nada mas ni programar ninguna tarea: mientras el dominio apunte
 # a esta maquina y los puertos 80 y 443 esten abiertos, se encarga el.
 
-www.iotfenster.com, iotfenster.com {
+# Sin www, todo al dominio canonico (con la ruta y los parametros intactos).
+# Antes los dos nombres servian el sitio con un 200, y Google indexaba paginas
+# duplicadas bajo https://iotfenster.com/... Las canonicas y el sitemap ya
+# apuntan a www: esto cierra el hueco para quien llegue a la otra direccion.
+iotfenster.com {
+	redir https://www.iotfenster.com{uri} permanent
+}
+
+www.iotfenster.com {
 	encode zstd gzip
 
 	# ---------------------------------------------------------------------
@@ -122,6 +130,34 @@ www.iotfenster.com, iotfenster.com {
 	@consultoria path /consultoria-de-innovacion-en-iot /consultoria-de-innovacion-en-iot/
 	redir @consultoria /es/ingenieria/consultoria permanent
 
+	# Articulo divulgativo del WordPress sobre que es el IoT; no tiene pagina
+	# propia en el sitio nuevo. La pagina que explica el IoT es la de
+	# consultoria, asi que se lleva el trafico alli en vez de dejar un 404.
+	@queEsIot path /que-es-el-iot /que-es-el-iot/ /es/que-es-el-iot /es/que-es-el-iot/
+	redir @queEsIot /es/ingenieria/consultoria permanent
+
+	# La tienda del WordPress no tiene equivalente: el sitio nuevo no vende. Lo
+	# mas cercano es el catalogo de dispositivos.
+	@tienda path /tienda /tienda/ /es/tienda /es/tienda/
+	redir @tienda /es/dispositivos permanent
+
+	# Fichas del WordPress que ya no estan en el catalogo (Essential, Icon, FV):
+	# al escaparate, igual que el sensor RC-33.
+	@catalogoViejo path /essential /essential/ /fv /fv/
+	redir @catalogoViejo /es/dispositivos permanent
+
+	@automatizacion path /automatizacion-de-persianas /automatizacion-de-persianas/
+	redir @automatizacion /es/domotica-para-cerramientos permanent
+
+	# Paginas legales de las skills de Alexa y Google Home: la politica de
+	# privacidad es lo que buscaba quien llegaba a ellas; los terminos de uso
+	# de Alexa, a la pagina de ecosistemas donde se explica la integracion.
+	@privacidadVoz path /privacy-policy-for-google-home /privacy-policy-for-google-home/
+	redir @privacidadVoz /es/legal/politica-de-privacidad permanent
+
+	@terminosAlexa path /terminos-de-uso-alexa-skills /terminos-de-uso-alexa-skills/
+	redir @terminosAlexa /es/ecosistemas permanent
+
 	@domotica path /domotica-para-cerramientos /domotica-para-cerramientos/
 	redir @domotica /es/domotica-para-cerramientos permanent
 
@@ -179,6 +215,42 @@ www.iotfenster.com, iotfenster.com {
 	@itContatto path /it/contatto /it/contatto/
 	redir @itContatto /it/contacto permanent
 
+	# El WordPress anadia /en/ delante de las rutas italianas (/en/it/cwall) y
+	# Google aun las pide. Van directas al destino final, sin pasar por las
+	# redirecciones de arriba, para no encadenar dos saltos.
+	@enItConnect2 path /en/it/connect2 /en/it/connect2/
+	redir @enItConnect2 /it/dispositivos/connect-2 permanent
+
+	@enItCwall path /en/it/cwall /en/it/cwall/
+	redir @enItCwall /it/dispositivos/c-wall permanent
+
+	@enItHome path /en/it /en/it/
+	redir @enItHome /it permanent
+
+	@enItContatto path /en/it/contatto /en/it/contatto/
+	redir @enItContatto /it/contacto permanent
+
+	@enItConsulting path /en/it/consulting /en/it/consulting/
+	redir @enItConsulting /it/ingenieria/consultoria permanent
+
+	@enItSky path /en/it/cwall/sky /en/it/cwall/sky/
+	redir @enItSky /it/dispositivos/c-wall-sky permanent
+
+	@itShutter path /it/cwall/shutter /it/cwall/shutter/ /en/it/cwall/shutter /en/it/cwall/shutter/
+	redir @itShutter /it/dispositivos/c-wall-shutter permanent
+
+	# El sensor RC-33 ya no esta en el catalogo, y el servicio offline se
+	# cuenta en la ficha del Connect-2.
+	@enItSensore path /en/it/connect2/sensore-magnetico-rc33 /en/it/connect2/sensore-magnetico-rc33/
+	redir @enItSensore /it/dispositivos permanent
+
+	@enItOffline path /en/it/connect2/servizio-offline /en/it/connect2/servizio-offline/
+	redir @enItOffline /it/dispositivos/connect-2 permanent
+
+	# Fichas con el idioma pegado al final del nombre
+	@cPulsarIt path /c-pulsar-it /c-pulsar-it/
+	redir @cPulsarIt /it/dispositivos/c-pulsar permanent
+
 	# ---------------------------------------------------------------------
 	# Ingles
 	#
@@ -192,6 +264,34 @@ www.iotfenster.com, iotfenster.com {
 	@enCevo path /en/c-evo-interruptor-de-persiana-con-wifi /en/c-evo-interruptor-de-persiana-con-wifi/
 	redir @enCevo /en/dispositivos/connect-evo permanent
 
+	@enCwallEn path /c-wall-en /c-wall-en/
+	redir @enCwallEn /en/dispositivos/c-wall permanent
+
+	@enBlog path /en/blog /en/blog/
+	redir @enBlog /en/noticias permanent
+
+	@enEquipo path /en/equipo /en/equipo/
+	redir @enEquipo /en/ingenieria/equipo permanent
+
+	@enPrivacidad path /en/politica-de-privacidad /en/politica-de-privacidad/
+	redir @enPrivacidad /en/legal/politica-de-privacidad permanent
+
+	@enTienda path /en/tienda /en/tienda/
+	redir @enTienda /en/dispositivos permanent
+
+	@enQueEsIot path /en/que-es-el-iot /en/que-es-el-iot/ /en/consultoria-de-innovacion-en-iot /en/consultoria-de-innovacion-en-iot/
+	redir @enQueEsIot /en/ingenieria/consultoria permanent
+
+	@enCatalogoViejo path /en/essential /en/essential/ /en/product/icon-1 /en/product/icon-1/ /en/producto/icon-1 /en/producto/icon-1/
+	redir @enCatalogoViejo /en/dispositivos permanent
+
+	@enPrivacidadVoz path /en/privacy-policy-for-google-home /en/privacy-policy-for-google-home/ /en/politica-privacidad-alexa /en/politica-privacidad-alexa/
+	redir @enPrivacidadVoz /en/legal/politica-de-privacidad permanent
+
+	# Categoria por defecto de WordPress: no tiene sentido en el sitio nuevo
+	@enCategoria path /en/category/sin-categoria /en/category/sin-categoria/
+	redir @enCategoria /en/noticias permanent
+
 	@enApp path /en/app-mysmartwindow /en/app-mysmartwindow/
 	redir @enApp /en/mysmartwindow permanent
 
@@ -199,6 +299,12 @@ www.iotfenster.com, iotfenster.com {
 	# telefono y el correo de contacto.
 	@enAppSupport path /en/app-support /en/app-support/
 	redir @enAppSupport /en/soporte permanent
+
+	# Restos del WordPress sin equivalente: 410 (borrada a proposito) en vez de
+	# 404, para que Google las descarte antes. Los PDF de /wp-content/uploads
+	# no entran aqui: ya se redirigen arriba a su recurso.
+	@restosWp path /wp-json/* /2645-2/* /wp-content/uploads/complianz/*
+	respond @restosWp 410
 
 	# Todo lo demas, al sitio
 	reverse_proxy web:3000
