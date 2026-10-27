@@ -13,8 +13,20 @@ export default function robots(): MetadataRoute.Robots {
         // que no publican nada: formularios y consultas.
         allow: ['/', '/api/media/', '/api/pdf'],
         // /app es el enlace fijo de la app movil a soporte, no una pagina del
-        // sitio: ya lleva noindex, esto es solo un cinturon mas.
-        disallow: ['/api/contacto', '/api/newsletter', '/api/youtube', '/app'],
+        // sitio: ya lleva noindex, esto es solo un cinturon mas. Se cierra
+        // exacto (`/app$`) y su subcarpeta: un `/app` pelado es un prefijo y
+        // se llevaba por delante /app-datadeletion, /app-mysmartwindow (que
+        // redirige) y /app-tyc, que Google indexaba igualmente sin poder
+        // leerlas. La busqueda del centro de recursos (?q=) tampoco aporta
+        // nada: al no devolver resultados daba un 200 vacio (soft 404).
+        disallow: [
+          '/api/contacto',
+          '/api/newsletter',
+          '/api/youtube',
+          '/app$',
+          '/app/',
+          '/*?q=',
+        ],
       },
     ],
     sitemap: `${base}/sitemap.xml`,

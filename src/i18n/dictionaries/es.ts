@@ -294,7 +294,7 @@ const es = {
     text: 'Guardamos tus preferencias y usamos cookies analíticas opcionales para medir visitas y mejorar la web. Puedes aceptarlas o rechazarlas. Los vídeos de YouTube solo activan sus cookies si les das al play.',
     accept: 'Aceptar',
     reject: 'Rechazar',
-    more: 'Más información',
+    more: 'Política de cookies',
   },
 
   notFound: {
@@ -478,6 +478,10 @@ const es = {
     eyebrow: 'Servicios',
     title: 'Consultoría de innovación en IoT',
     subtitle: 'Acompañamos a fabricantes que quieren conectar sus productos y no saben por dónde empezar.',
+    // Lo que ve Google en el resultado: el titulo de arriba es el H1 de la pagina
+    metaTitle: 'Consultoría IoT para fabricantes de cerramientos',
+    metaDescription:
+      'Consultoría de innovación en IoT: te ayudamos a conectar tus productos, desde la idea y la normativa hasta el diseño de la red y de la app.',
     ctaTitle: 'Cuéntanos tu idea',
     ctaText: 'Analizamos si tiene recorrido y qué haría falta para llevarla al mercado.',
   },
@@ -486,6 +490,10 @@ const es = {
     eyebrow: 'Domótica',
     title: 'Domótica para cerramientos',
     subtitle: 'Qué es, para qué sirve y qué se puede automatizar en ventanas, puertas, persianas y toldos.',
+    // Lo que ve Google en el resultado: el titulo de arriba es el H1 de la pagina
+    metaTitle: 'Domótica para cerramientos: qué es y qué automatizar',
+    metaDescription:
+      'Qué es la domótica para cerramientos, para qué sirve y cómo automatizar ventanas, puertas, persianas y toldos desde el móvil. Guía de IoT Fenster.',
     ctaTitle: '¿Fabricas cerramientos?',
     ctaText: 'Te contamos cómo integrar nuestra domótica en lo que ya produces.',
   },

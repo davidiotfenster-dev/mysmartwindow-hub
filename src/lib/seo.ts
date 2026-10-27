@@ -141,16 +141,10 @@ export function websiteSchema(locale: Locale) {
     url: absolute(`/${locale}`),
     name: `${SITE_NAME} — ${ORG_NAME}`,
     inLanguage: localeMeta[locale].htmlLang,
+    // Sin SearchAction a proposito: Google retiro el cuadro de busqueda de
+    // sitio y, al rastrear el marcador, pedia la URL con el texto literal
+    // `{search_term_string}`, que acababa como pagina basura en Search Console.
     publisher: { '@id': `${SITE_URL}/#organization` },
-    // Permite el cuadro de busqueda de sitio en Google
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: {
-        '@type': 'EntryPoint',
-        urlTemplate: absolute(`/${locale}/recursos?q={search_term_string}`),
-      },
-      'query-input': 'required name=search_term_string',
-    },
   }
 }
 

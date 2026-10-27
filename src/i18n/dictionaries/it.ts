@@ -295,7 +295,7 @@ const it: Dictionary = {
     text: 'Salviamo le tue preferenze e utilizziamo cookie analitici opzionali per misurare le visite e migliorare il sito. Puoi accettarli o rifiutarli. I video di YouTube attivano i loro cookie solo se premi play.',
     accept: 'Accetta',
     reject: 'Rifiuta',
-    more: 'Maggiori informazioni',
+    more: 'Informativa sui cookie',
   },
 
   notFound: {
@@ -479,6 +479,10 @@ const it: Dictionary = {
     eyebrow: 'Servizi',
     title: 'Consulenza di innovazione IoT',
     subtitle: 'Affianchiamo i produttori che vogliono connettere i propri prodotti e non sanno da dove cominciare.',
+    // Lo que ve Google en el resultado: el titulo de arriba es el H1 de la pagina
+    metaTitle: 'Consulenza IoT per produttori di serramenti',
+    metaDescription:
+      'Consulenza di innovazione IoT: aiutiamo i produttori a connettere i propri prodotti, dall’idea alla conformità fino al design di rete e app.',
     ctaTitle: 'Raccontaci la tua idea',
     ctaText: 'Valutiamo se ha prospettive e cosa servirebbe per portarla sul mercato.',
   },
@@ -487,6 +491,10 @@ const it: Dictionary = {
     eyebrow: 'Domotica',
     title: 'Domotica per serramenti',
     subtitle: 'Che cos’è, a cosa serve e cosa si può automatizzare in finestre, porte, tapparelle e tende da sole.',
+    // Lo que ve Google en el resultado: el titulo de arriba es el H1 de la pagina
+    metaTitle: 'Domotica per serramenti: cos’è e cosa automatizzare',
+    metaDescription:
+      'Cos’è la domotica per serramenti, a cosa serve e come automatizzare finestre, porte, tapparelle e tende da sole dal telefono. Guida di IoT Fenster.',
     ctaTitle: 'Produci serramenti?',
     ctaText: 'Ti spieghiamo come integrare la nostra domotica in ciò che già produci.',
   },

@@ -22,13 +22,13 @@ export async function generateMetadata({
   const { locale } = await params
   const dict = getDictionary(locale)
   return {
-    title: dict.consulting.title,
-    description: dict.consulting.subtitle,
+    title: dict.consulting.metaTitle,
+    description: dict.consulting.metaDescription,
     alternates: alternates('/ingenieria/consultoria', locale),
     openGraph: {
       type: 'website',
-      title: dict.consulting.title,
-      description: dict.consulting.subtitle,
+      title: dict.consulting.metaTitle,
+      description: dict.consulting.metaDescription,
       url: absolute(`/${locale}/ingenieria/consultoria`),
     },
   }

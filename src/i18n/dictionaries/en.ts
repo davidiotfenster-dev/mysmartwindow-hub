@@ -295,7 +295,7 @@ const en: Dictionary = {
     text: 'We save your preferences and use optional analytics cookies to measure visits and improve the site. You can accept or reject them. YouTube videos only set their cookies if you press play.',
     accept: 'Accept',
     reject: 'Reject',
-    more: 'More information',
+    more: 'Cookie policy',
   },
 
   notFound: {
@@ -479,6 +479,10 @@ const en: Dictionary = {
     eyebrow: 'Services',
     title: 'IoT innovation consulting',
     subtitle: 'We work with manufacturers who want to connect their products and do not know where to start.',
+    // Lo que ve Google en el resultado: el titulo de arriba es el H1 de la pagina
+    metaTitle: 'IoT consulting for window and door manufacturers',
+    metaDescription:
+      'IoT innovation consulting: we help manufacturers connect their products, from the idea and compliance to network and app design.',
     ctaTitle: 'Tell us your idea',
     ctaText: 'We will assess whether it has legs and what it would take to bring it to market.',
   },
@@ -487,6 +491,10 @@ const en: Dictionary = {
     eyebrow: 'Home automation',
     title: 'Home automation for window and door systems',
     subtitle: 'What it is, what it is for and what can be automated in windows, doors, blinds and awnings.',
+    // Lo que ve Google en el resultado: el titulo de arriba es el H1 de la pagina
+    metaTitle: 'Home automation for windows and doors: what to automate',
+    metaDescription:
+      'What home automation for windows, doors, blinds and awnings is, what it is for and how to control them from your phone. A guide by IoT Fenster.',
     ctaTitle: 'Do you manufacture window systems?',
     ctaText: 'We will show you how to build our automation into what you already produce.',
   },

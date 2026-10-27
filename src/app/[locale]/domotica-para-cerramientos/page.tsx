@@ -22,13 +22,13 @@ export async function generateMetadata({
   const { locale } = await params
   const dict = getDictionary(locale)
   return {
-    title: dict.homeAutomation.title,
-    description: dict.homeAutomation.subtitle,
+    title: dict.homeAutomation.metaTitle,
+    description: dict.homeAutomation.metaDescription,
     alternates: alternates('/domotica-para-cerramientos', locale),
     openGraph: {
       type: 'article',
-      title: dict.homeAutomation.title,
-      description: dict.homeAutomation.subtitle,
+      title: dict.homeAutomation.metaTitle,
+      description: dict.homeAutomation.metaDescription,
       url: absolute(`/${locale}/domotica-para-cerramientos`),
       images: [{ url: absolute('/paginas/domotica-cabecera.jpg') }],
     },

@@ -48,10 +48,15 @@ export async function generateMetadata({
   const count = resources.filter((r) => r.device === device.id).length
   // La plantilla del layout ya añade " · MySmartWindow"
   const generatedTitle = `${device.name} — ${device.tagline[locale]}`
-  const generatedDescription = `${device.description[locale]} ${fill(
-    count === 1 ? dict.seoMeta.deviceResource : dict.seoMeta.deviceResources,
-    { count }
-  )}`
+  // Sin recursos no se menciona el recuento: "0 recursos: manuales..." en el
+  // resultado de busqueda espanta el clic en vez de atraerlo.
+  const generatedDescription =
+    count === 0
+      ? device.description[locale]
+      : `${device.description[locale]} ${fill(
+          count === 1 ? dict.seoMeta.deviceResource : dict.seoMeta.deviceResources,
+          { count }
+        )}`
 
   const title = resolveTitle(device.seo?.[locale], generatedTitle)
   const description = resolveDescription(device.seo?.[locale], generatedDescription)
