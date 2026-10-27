@@ -10,7 +10,7 @@ const buttonBase =
 
 const buttonVariants = {
   primary:
-    'bg-brand-500 text-white hover:bg-brand-400 shadow-[0_10px_34px_-12px_rgb(0_151_178/0.85)] hover:shadow-[0_16px_46px_-12px_rgb(0_151_178/0.95)] hover:-translate-y-0.5',
+    'bg-brand-600 text-white hover:bg-brand-500 shadow-[0_10px_34px_-12px_rgb(0_151_178/0.85)] hover:shadow-[0_16px_46px_-12px_rgb(0_151_178/0.95)] hover:-translate-y-0.5',
   secondary:
     'glass text-fg hover:border-brand-500/45 hover:text-brand-500 hover:-translate-y-0.5',
   ghost: 'text-fg-muted hover:text-brand-500 hover:bg-brand-500/8',

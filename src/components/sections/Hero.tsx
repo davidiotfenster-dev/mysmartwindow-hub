@@ -71,45 +71,27 @@ export function Hero({
         <div className="grid grid-cols-[minmax(0,1fr)] items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-10 xl:gap-16">
           {/* ---------- Columna de texto ---------- */}
           <div className="min-w-0 max-w-2xl">
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className="inline-flex items-center gap-2.5 rounded-full border border-brand-500/25 bg-brand-500/8 py-1.5 pl-2 pr-4 text-[0.75rem] font-semibold"
-            >
+            {/* El texto va sin animación de entrada: con opacity 0 inicial no se ve hasta
+                hidratar el JS y retrasa el LCP (el bloque de texto es el elemento LCP). */}
+            <div className="inline-flex items-center gap-2.5 rounded-full border border-brand-500/25 bg-brand-500/8 py-1.5 pl-2 pr-4 text-[0.75rem] font-semibold">
               <span className="relative flex h-2 w-2">
                 <span className="absolute inline-flex h-full w-full animate-[pulse-ring_3s_cubic-bezier(0.4,0,0.6,1)_infinite] rounded-full bg-brand-500" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-brand-500" />
               </span>
               {dict.hero.badge}
-            </motion.div>
+            </div>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.07, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-6 text-[2.5rem] leading-[1.05] sm:text-6xl lg:text-[4.1rem]"
-            >
+            <h1 className="mt-6 text-[2.5rem] leading-[1.05] sm:text-6xl lg:text-[4.1rem]">
               {dict.hero.title}{' '}
               <span className="text-gradient">{dict.hero.titleAccent}</span>{' '}
               {dict.hero.titleEnd}
-            </motion.h1>
+            </h1>
 
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.16, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-6 max-w-xl text-base leading-relaxed text-fg-muted sm:text-[1.05rem]"
-            >
+            <p className="mt-6 max-w-xl text-base leading-relaxed text-fg-muted sm:text-[1.05rem]">
               {dict.hero.subtitle}
-            </motion.p>
+            </p>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.24, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center"
-            >
+            <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Magnetic>
                 <ButtonLink href={routes.recursos(locale)} size="lg" className="w-full sm:w-auto">
                   {dict.hero.ctaPrimary}
@@ -125,15 +107,10 @@ export function Hero({
                 <PlayCircle className="h-4.5 w-4.5" />
                 {dict.hero.ctaSecondary}
               </ButtonLink>
-            </motion.div>
+            </div>
 
             {/* ---------- Métricas ---------- */}
-            <motion.dl
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="mt-6 grid grid-cols-2 gap-x-6 gap-y-4 border-t border-line pt-5 sm:mt-12 sm:gap-y-7 sm:pt-8 sm:grid-cols-4"
-            >
+            <dl className="mt-6 grid grid-cols-2 gap-x-6 gap-y-4 border-t border-line pt-5 sm:mt-12 sm:gap-y-7 sm:pt-8 sm:grid-cols-4">
               {statItems.map((stat) => (
                 <div key={stat.label}>
                   <dt className="sr-only">{stat.label}</dt>
@@ -147,7 +124,7 @@ export function Hero({
                   </dd>
                 </div>
               ))}
-            </motion.dl>
+            </dl>
           </div>
 
           {/* ---------- Mockup animado ---------- */}
@@ -180,7 +157,7 @@ const APP_SCREENSHOT_URL = '/hero/app-screenshot.webp'
 /** Proporción exacta de la captura, para que se vea completa sin recortes dentro del marco. */
 const APP_SCREENSHOT_RATIO = '1280/2856'
 /** Foto real del Pulsar (con el fondo ya recortado), para montarla sobre el marco de la ventana. */
-const PULSAR_PHOTO_URL = '/hero/pulsar-button.png'
+const PULSAR_PHOTO_URL = '/hero/pulsar-button.webp'
 /** La misma ventana de la app pero con la persiana bajada del todo: se va descubriendo por arriba. */
 const APP_BLIND_URL = '/hero/app-blind.webp'
 /** Dónde cae esa ventana dentro de la captura, en % de la imagen. */
@@ -376,6 +353,8 @@ function WindowMockup({ reduced, dict, onExplode }: { reduced: boolean; dict: Di
           <img
             src={PULSAR_PHOTO_URL}
             alt=""
+            width={96}
+            height={96}
             className="relative h-7 w-7 drop-shadow-[0_2px_4px_rgba(0,0,0,0.75)] sm:h-8 sm:w-8"
           />
         </motion.button>
