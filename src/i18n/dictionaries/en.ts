@@ -409,6 +409,7 @@ const en: Dictionary = {
     subtitle:
       'IoT Fenster’s own app to control your shutters, sensors and alarms from anywhere, with every window’s digital twin always at hand.',
     downloadTitle: 'Download it for free',
+    manualButton: 'App user manual',
     appStore: 'App Store',
     googlePlay: 'Google Play',
     features: {

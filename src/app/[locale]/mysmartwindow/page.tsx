@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Apple, ArrowRight, BellRing, Lightbulb, Lock, Play, Puzzle, Radar, Shapes } from 'lucide-react'
+import { Apple, ArrowRight, BellRing, BookOpen, Lightbulb, Lock, Play, Puzzle, Radar, Shapes } from 'lucide-react'
 
 import { AppPhoneMockup, StoreBadge } from '@/components/app/AppMockup'
 import { GradientTitle } from '@/components/ui/GradientTitle'
@@ -97,6 +97,15 @@ export default async function AppPage({
                   kicker="Google Play"
                   label={dict.app.googlePlay}
                 />
+              </div>
+              <div className="mt-5">
+                <ButtonLink
+                  href={routes.recurso(locale, 'app-mysmartwindow-clasica-manual')}
+                  variant="outline"
+                >
+                  <BookOpen className="h-4 w-4" />
+                  {dict.app.manualButton}
+                </ButtonLink>
               </div>
             </div>
 

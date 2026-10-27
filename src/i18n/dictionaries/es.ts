@@ -408,6 +408,7 @@ const es = {
     subtitle:
       'La aplicación propia de IoT Fenster para controlar tus persianas, sensores y alarmas desde cualquier lugar, con el gemelo digital de cada ventana siempre a mano.',
     downloadTitle: 'Descárgala gratis',
+    manualButton: 'Manual de uso de la app',
     appStore: 'App Store',
     googlePlay: 'Google Play',
     features: {

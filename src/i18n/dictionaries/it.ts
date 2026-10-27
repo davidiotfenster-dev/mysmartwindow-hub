@@ -409,6 +409,7 @@ const it: Dictionary = {
     subtitle:
       'L’app proprietaria di IoT Fenster per controllare tapparelle, sensori e allarmi da qualsiasi luogo, con il gemello digitale di ogni finestra sempre a portata di mano.',
     downloadTitle: 'Scaricala gratis',
+    manualButton: 'Manuale d’uso dell’app',
     appStore: 'App Store',
     googlePlay: 'Google Play',
     features: {

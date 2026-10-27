@@ -14,6 +14,7 @@ export interface NavItem {
 export const routes = {
   home: (l: Locale) => `/${l}`,
   recursos: (l: Locale) => `/${l}/recursos`,
+  recurso: (l: Locale, slug: string) => `/${l}/recursos/${slug}`,
   videos: (l: Locale) => `/${l}/videos`,
   dispositivos: (l: Locale) => `/${l}/dispositivos`,
   dispositivo: (l: Locale, id: string) => `/${l}/dispositivos/${id}`,
