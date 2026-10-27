@@ -47,10 +47,17 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'not_a_pdf' }, { status: 403 })
   }
 
-  const upstream = await fetch(target.toString(), {
-    headers: { 'User-Agent': 'MySmartWindowHub/1.0' },
-    next: { revalidate: 86400 },
-  })
+  let upstream: Response
+  try {
+    upstream = await fetch(target.toString(), {
+      headers: { 'User-Agent': 'MySmartWindowHub/1.0' },
+      next: { revalidate: 86400 },
+    })
+  } catch {
+    // Origen caido, bucle de redirecciones, DNS... Sin esto Next responde con
+    // un 500 pelado, que Search Console cuenta como error de servidor nuestro.
+    return NextResponse.json({ error: 'upstream_unreachable' }, { status: 502 })
+  }
 
   if (!upstream.ok || !upstream.body) {
     // Un 404/410 del origen es "ese PDF ya no existe", no un fallo nuestro: con
@@ -78,6 +85,9 @@ export async function GET(request: Request) {
       'Content-Disposition': `inline; filename="${fileName.replace(/["\\]/g, '')}"`,
       'Cache-Control': 'public, max-age=86400, stale-while-revalidate=604800',
       'X-Content-Type-Options': 'nosniff',
+      // Es el mismo manual que ya se sirve por /api/media y se muestra en su
+      // ficha: este proxy es solo el visor, no una pagina que posicionar.
+      'X-Robots-Tag': 'noindex',
     },
   })
 }
