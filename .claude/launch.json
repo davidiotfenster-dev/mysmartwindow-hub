@@ -4,13 +4,32 @@
     {
       "name": "mysmartwindow-dev",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
+      "runtimeArgs": [
+        "run",
+        "dev"
+      ],
       "port": 3000
     },
     {
       "name": "mysmartwindow-dev-preview",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["next", "dev", "-p", "3010"],
+      "runtimeArgs": [
+        "next",
+        "dev",
+        "-p",
+        "3010"
+      ],
+      "port": 3010
+    },
+    {
+      "name": "mysmartwindow-local",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "node_modules/next/dist/bin/next",
+        "dev",
+        "-p",
+        "3010"
+      ],
       "port": 3010
     }
   ]

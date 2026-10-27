@@ -21,3 +21,4 @@ documentos-it/*.pdf
 
 # Los PDF originales en espanol: pesan 78 MB y su sitio es el CMS, no git
 documentos-es/*.pdf
+respaldo-manuales-borrados/
