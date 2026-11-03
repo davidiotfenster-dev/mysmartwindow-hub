@@ -31,6 +31,17 @@
         "3010"
       ],
       "port": 3010
+    },
+    {
+      "name": "mysmartwindow-build",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "node_modules/next/dist/bin/next",
+        "start",
+        "-p",
+        "3020"
+      ],
+      "port": 3020
     }
   ]
 }
