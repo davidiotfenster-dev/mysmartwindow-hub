@@ -254,9 +254,40 @@ levantas otra vez.
 | No carga nada desde fuera, pero `curl` local responde | puertos cerrados en el grupo de seguridad de AWS |
 | El sitemap dice `localhost` | se construyó sin `NEXT_PUBLIC_SITE_URL` (paso 3) |
 | `git pull` se queja de cambios locales | alguien editó ficheros en el servidor: `git status` para ver cuáles |
+| Todo carga lentísimo (segundos por página, el panel del CMS no termina de abrir) con la máquina sin carga | la red interna de Docker degradada: ver abajo |
 
 Para ver qué está pasando en cualquier momento:
 
 ```bash
 docker compose logs -f web    # o cms
 ```
+
+### La web va a goteo
+
+Pasó el 2026-11-03, tras 42 días sin reiniciar: páginas de 13 s, el panel del
+CMS en 12 minutos, y la máquina parada (CPU, memoria y disco bien). Lo lento
+era la red interna de Docker que comparten Caddy, la web, el CMS y el panel:
+todo lo que la cruzaba iba a 7-25 KB/s. No se sabe por qué se degradó.
+
+Para confirmarlo, pide el mismo fichero grande a la web por dentro y por la red
+de Docker (uno pequeño no sirve: esos iban rapidos incluso con la red mal):
+
+```bash
+docker exec iotfenster-web-web-1 node -e "const t=Date.now();fetch('http://127.0.0.1:3000/sitemap.xml').then(r=>r.text()).then(()=>console.log(Date.now()-t+'ms'))"
+docker exec iotfenster-web-caddy-1 sh -c 'time wget -q -O /dev/null http://web:3000/sitemap.xml'
+```
+
+Si lo primero va en milisegundos y lo segundo tarda segundos, es esto. Se
+arregla volviendo a crear la red. El panel interno (`/home/deploy/panel-iotfenster`)
+está enganchado a esa misma red, así que se para primero y se arranca el
+último; si no, `down` no puede borrar la red y no sirve de nada:
+
+```bash
+cd /home/deploy/panel-iotfenster && docker compose down
+cd /opt/iotfenster-web && docker compose down     # sin -v: los datos no se tocan
+docker compose up -d
+cd /home/deploy/panel-iotfenster && docker compose up -d
+```
+
+En el `down` del sitio tiene que salir `Network iotfenster-web_default Removed`.
+La caída es de uno o dos minutos.
