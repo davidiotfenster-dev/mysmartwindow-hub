@@ -6,7 +6,7 @@ import { ArrowLeft, ArrowUpRight, Clock } from 'lucide-react'
 import { NewsContent } from '@/components/news/NewsContent'
 import { NewsCover } from '@/components/news/NewsCover'
 import { Badge } from '@/components/ui/primitives'
-import { getNews, getNewsPost } from '@/lib/content'
+import { CMS_ENABLED, getNews, getNewsPost } from '@/lib/content'
 import { getDictionary } from '@/i18n'
 import { locales, localeMeta, type Locale } from '@/i18n/config'
 import { routes } from '@/lib/navigation'
@@ -32,6 +32,8 @@ import { formatDate } from '@/lib/utils'
 export const revalidate = 3600
 
 export async function generateStaticParams() {
+  // Sin CMS al compilar no se pregenera nada: ver el layout de [locale]
+  if (!CMS_ENABLED) return []
   const news = await getNews()
   return locales.flatMap((locale) => news.map((post) => ({ locale, slug: post.slug })))
 }

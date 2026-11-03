@@ -9,7 +9,7 @@ import { Badge, ButtonLink, Section, SectionHeading } from '@/components/ui/prim
 import { DeviceGallery } from '@/components/devices/DeviceGallery'
 import { ResourceRail } from '@/components/resources/ResourceRail'
 import { resourceTypeMeta } from '@/data/taxonomy'
-import { getCategoryMap, getDeviceMap, getDevices, getResources } from '@/lib/content'
+import { CMS_ENABLED, getCategoryMap, getDeviceMap, getDevices, getResources } from '@/lib/content'
 import { getDictionary } from '@/i18n'
 import { fill } from '@/lib/utils'
 import { locales, localeMeta, type Locale } from '@/i18n/config'
@@ -30,6 +30,8 @@ import { getVideoMap } from '@/lib/youtube'
 export const revalidate = 3600
 
 export async function generateStaticParams() {
+  // Sin CMS al compilar no se pregenera nada: ver el layout de [locale]
+  if (!CMS_ENABLED) return []
   const devices = await getDevices()
   return locales.flatMap((locale) => devices.map((d) => ({ locale, id: d.id })))
 }

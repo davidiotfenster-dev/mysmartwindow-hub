@@ -18,7 +18,7 @@ import { CommandPalette } from '@/components/layout/CommandPalette'
 import { SupportAssistant } from '@/components/layout/SupportAssistant'
 import { getDictionary } from '@/i18n'
 import { isLocale, locales, localeMeta, type Locale } from '@/i18n/config'
-import { getCategories, getResources, getSiteSettings, getVisibleDevices } from '@/lib/content'
+import { CMS_ENABLED, getCategories, getResources, getSiteSettings, getVisibleDevices } from '@/lib/content'
 
 const leagueSpartan = League_Spartan({
   subsets: ['latin'],
@@ -34,7 +34,16 @@ const montserrat = Montserrat({
   display: 'swap',
 })
 
+/**
+ * La imagen de Docker se compila sin acceso al CMS (STRAPI_URL solo existe al
+ * arrancar el contenedor). Pregenerar entonces dejaba en cache, durante la
+ * primera hora tras cada despliegue, paginas hechas con los datos de respaldo
+ * de src/data, con los PDF del WordPress antiguo. Sin CMS no se pregenera
+ * nada: cada pagina se genera en su primera visita, ya con el CMS, y desde ahi
+ * se sirve de cache igual. Lo mismo en el generateStaticParams de cada ficha.
+ */
 export function generateStaticParams() {
+  if (!CMS_ENABLED) return []
   return locales.map((locale) => ({ locale }))
 }
 

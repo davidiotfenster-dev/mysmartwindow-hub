@@ -7,7 +7,7 @@ import { JsonLd } from '@/components/seo/JsonLd'
 import { Badge, ButtonLink, Section } from '@/components/ui/primitives'
 import { PdfViewer } from '@/components/resources/PdfViewer'
 import { resourceTypeMeta } from '@/data/taxonomy'
-import { getCategoryMap, getDeviceMap, getResourceById, getResources } from '@/lib/content'
+import { CMS_ENABLED, getCategoryMap, getDeviceMap, getResourceById, getResources } from '@/lib/content'
 import { getDictionary } from '@/i18n'
 import { locales, localeMeta, type Locale } from '@/i18n/config'
 import { routes } from '@/lib/navigation'
@@ -30,6 +30,8 @@ export const revalidate = 3600
 
 /** Una página por recurso y por idioma: recursos × 3 idiomas, URLs indexables. */
 export async function generateStaticParams() {
+  // Sin CMS al compilar no se pregenera nada: ver el layout de [locale]
+  if (!CMS_ENABLED) return []
   const resources = await getResources()
   return locales.flatMap((locale) => resources.map((r) => ({ locale, id: r.id })))
 }

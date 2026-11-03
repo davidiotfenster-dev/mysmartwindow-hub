@@ -9,7 +9,7 @@ import { WarrantyVisuals } from '@/components/legal/WarrantyVisuals'
 import { LEGAL_SLUGS } from '@/data/legal'
 import { PageHeader } from '@/components/layout/PageHeader'
 import { GradientTitle } from '@/components/ui/GradientTitle'
-import { getLegalPage, getLegalPages } from '@/lib/content'
+import { CMS_ENABLED, getLegalPage, getLegalPages } from '@/lib/content'
 import { getDictionary } from '@/i18n'
 import { locales, localeMeta, type Locale } from '@/i18n/config'
 import { routes } from '@/lib/navigation'
@@ -32,6 +32,8 @@ import { formatDate } from '@/lib/utils'
 export const revalidate = 3600
 
 export async function generateStaticParams() {
+  // Sin CMS al compilar no se pregenera nada: ver el layout de [locale]
+  if (!CMS_ENABLED) return []
   const pages = await getLegalPages()
   return locales.flatMap((locale) => pages.map((page) => ({ locale, slug: page.id })))
 }
