@@ -15,10 +15,10 @@
     "upgrade:dry": "npx @strapi/upgrade latest --dry"
   },
   "dependencies": {
-    "@strapi/database": "5.54.0",
-    "@strapi/plugin-cloud": "5.54.0",
-    "@strapi/plugin-users-permissions": "5.54.0",
-    "@strapi/strapi": "5.54.0",
+    "@strapi/database": "5.60.0",
+    "@strapi/plugin-cloud": "5.60.0",
+    "@strapi/plugin-users-permissions": "5.60.0",
+    "@strapi/strapi": "5.60.0",
     "better-sqlite3": "12.8.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
@@ -43,6 +43,10 @@
     "@swc/core@1.16.2": true,
     "better-sqlite3@12.8.0": true,
     "core-js-pure@3.50.0": true,
-    "esbuild@0.21.5": true
+    "esbuild@0.25.12": true,
+    "esbuild@0.28.2": true
+  },
+  "overrides": {
+    "@hono/node-server": "^1.19.10"
   }
 }
