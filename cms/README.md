@@ -86,15 +86,20 @@ webhook avisa al sitio en cuanto se toca algo, y el cambio aparece al momento.
 apunta a `http://localhost:3000/api/youtube`. Se ve en **Settings → Webhooks**.
 
 > **Al desplegar hay que cambiarle la URL**, porque `localhost` no existe fuera
-> de este ordenador: entra en Settings → Webhooks → «Refrescar la web» y pon
-> `https://tu-dominio.com/api/youtube`. Si no se cambia, los cambios del CMS
+> de este ordenador: entra en Settings → Webhooks y pon
+> `http://web:3000/api/youtube` (con Docker Compose el CMS llega a la web por
+> la red interna, sin salir a internet). Si no se cambia, los cambios del CMS
 > seguirán tardando hasta una hora en verse.
 
 Si algún día hay que recrearlo (**Settings → Webhooks → Create new webhook**):
 
-- URL: `https://tu-dominio.com/api/youtube`
+- URL: `http://web:3000/api/youtube`
 - Eventos: `Entry create/update/delete/publish/unpublish` y los de `Media`
-- Si el sitio tiene `REVALIDATE_SECRET` puesto, añade la cabecera `x-revalidate-secret` con ese valor
+- Cabecera `x-revalidate-secret` con el valor de `REVALIDATE_SECRET` del `.env`
+  del servidor (sin ella la web responde 401 y el aviso no sirve)
+
+En producción (5-nov-2026) el aviso se llama **«Limpiarcache»** y ya va por
+`http://web:3000` con la cabecera.
 
 (El nombre de la ruta viene de que originalmente era solo para YouTube; ahora
 también invalida la caché del CMS. Ver `src/app/api/youtube/route.ts`.)
