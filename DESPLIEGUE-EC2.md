@@ -179,7 +179,7 @@ tocar el servidor.
 Textos, resúmenes, fotos, recursos nuevos, traducciones, subir los PDF
 italianos… todo eso se edita en `http://52.209.147.26:1337/admin` y **aparece
 solo**. El sitio relee el CMS cada hora, así que como mucho tardas ese rato en
-verlo. Si tienes prisa, ejecuta `curl -X POST http://127.0.0.1:3000/api/youtube` en el servidor para vaciar la caché y sale al momento.
+verlo. Si tienes prisa, ejecuta en el servidor `curl -X POST -H "x-revalidate-secret: $(sed -n 's/^REVALIDATE_SECRET=//p' /opt/iotfenster-web/.env)" http://127.0.0.1:3000/api/youtube` para vaciar la caché y sale al momento.
 
 ### Cambios de código → tres líneas
 
@@ -207,9 +207,17 @@ empezar de cero a propósito.
 Si quieres ahorrarte recordar los comandos, créate un atajo en el servidor:
 
 ```bash
-printf '#!/bin/sh\ncd /opt/iotfenster-web && git pull && docker compose up -d --build && sleep 5 && curl -s -X POST http://127.0.0.1:3000/api/youtube > /dev/null\n' > /opt/iotfenster-web/actualizar.sh
+cat > /opt/iotfenster-web/actualizar.sh <<'EOF'
+#!/bin/sh
+cd /opt/iotfenster-web && git pull && docker compose up -d --build && sleep 5 &&
+curl -s -X POST -H "x-revalidate-secret: $(sed -n 's/^REVALIDATE_SECRET=//p' .env)" \
+  http://127.0.0.1:3000/api/youtube > /dev/null
+EOF
 chmod +x /opt/iotfenster-web/actualizar.sh
 ```
+
+(El vaciado de caché pide la clave `REVALIDATE_SECRET` del `.env`; sin ella
+responde 401.)
 
 Y a partir de ahí, actualizar es `/opt/iotfenster-web/actualizar.sh`.
 

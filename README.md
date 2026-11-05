@@ -86,7 +86,7 @@ El catálogo curado manda en **título traducido, categoría y dispositivo** —
 
 > **Publicas en YouTube y sale en la web sin tocar código.**
 
-Revalidación cada hora. Para forzar una resincronización: `curl -X POST http://localhost:3000/api/youtube`
+Revalidación cada hora. Para forzar una resincronización (con la clave `REVALIDATE_SECRET` del `.env`): `curl -X POST -H "x-revalidate-secret: $REVALIDATE_SECRET" http://localhost:3000/api/youtube`
 
 <br />
 

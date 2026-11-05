@@ -73,14 +73,18 @@ services:
       # de newsletter (ver .env.example). Vacio: los formularios solo mandan
       # correo y no dejan copia en el panel.
       STRAPI_FORMS_TOKEN: ${STRAPI_FORMS_TOKEN:-}
+      # Clave que exige POST /api/youtube (vaciar la cache). Sale del .env de la
+      # raiz. Sin ella esa ruta queda abierta: cualquiera podria vaciar la cache
+      # una y otra vez y gastar la cuota de la API de YouTube. La usa el aviso
+      # (webhook) "Limpiarcache" del CMS, que va por dentro: http://web:3000.
+      REVALIDATE_SECRET: ${REVALIDATE_SECRET:-}
     depends_on:
       - cms
-    # Sigue publicado mientras se prueba el sitio entrando por la IP. Cuando
-    # el dominio ya responda por HTTPS, cambiar a '127.0.0.1:3000:3000' para
-    # que solo se pueda llegar por Caddy: asi nadie entra por una puerta
-    # lateral saltandose el HTTPS y las redirecciones.
+    # Solo escucha en la propia maquina: desde fuera se entra unicamente por
+    # Caddy (HTTPS y redirecciones), que le habla por la red interna
+    # (web:3000). Desde el servidor sigue funcionando http://127.0.0.1:3000.
     ports:
-      - '3000:3000'
+      - '127.0.0.1:3000:3000'
 
   # Recibe en el 80 y el 443, sirve el HTTPS y pasa al contenedor `web`.
   # El certificado se lo pide solo a Let's Encrypt en cuanto el dominio
