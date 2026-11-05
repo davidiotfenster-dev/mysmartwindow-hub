@@ -3,7 +3,7 @@
 # ============================================================================
 # 1. Dependencias
 # ============================================================================
-FROM node:22-alpine AS deps
+FROM node:26-alpine AS deps
 WORKDIR /app
 COPY package.json package-lock.json* ./
 RUN npm ci
@@ -16,7 +16,7 @@ RUN npm ci
 # Por eso el dominio se pasa aqui con --build-arg y no como variable del
 # contenedor: de el salen las URLs canonicas y el sitemap.
 # ============================================================================
-FROM node:22-alpine AS builder
+FROM node:26-alpine AS builder
 WORKDIR /app
 
 ARG NEXT_PUBLIC_SITE_URL=http://localhost:3000
@@ -44,7 +44,7 @@ RUN npm run build
 # ============================================================================
 # 3. Ejecucion
 # ============================================================================
-FROM node:22-alpine AS runner
+FROM node:26-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production \
