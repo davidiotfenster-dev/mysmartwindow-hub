@@ -1,0 +1,23 @@
+# Dependabot: avisa de librerías con fallos de seguridad y abre el PR con el arreglo.
+#  - «seguridad»: todas las de seguridad juntas en un PR por carpeta, en cuanto se publican.
+#  - «menores-y-parches»: el resto de actualizaciones pequeñas, como mucho un PR por carpeta los lunes.
+# Las versiones grandes (p. ej. Next 16 → 17) llegan sueltas: revisar con calma antes de fusionar.
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directories: ["/", "/cms"]
+    schedule: { interval: "weekly", day: "monday", time: "06:00", timezone: "Europe/Madrid" }
+    open-pull-requests-limit: 3
+    groups:
+      seguridad:
+        applies-to: security-updates
+        patterns: ["*"]
+      menores-y-parches:
+        applies-to: version-updates
+        update-types: ["minor", "patch"]
+    labels: ["dependencias"]
+
+  - package-ecosystem: "docker"   # imagen base de los Dockerfiles (node:22-alpine)
+    directories: ["/", "/cms"]
+    schedule: { interval: "monthly" }
+    labels: ["dependencias"]
