@@ -6,7 +6,7 @@
 # better-sqlite3 y sharp compilan codigo nativo: hacen falta las herramientas
 # de compilacion aunque luego no se usen en tiempo de ejecucion.
 # ============================================================================
-FROM node:22-alpine AS deps
+FROM node:26-alpine AS deps
 WORKDIR /opt/cms
 RUN apk add --no-cache build-base gcc autoconf automake zlib-dev libpng-dev nasm bash vips-dev git
 COPY package.json package-lock.json* ./
@@ -16,7 +16,7 @@ RUN npm ci
 # ============================================================================
 # 2. Compilacion
 # ============================================================================
-FROM node:22-alpine AS builder
+FROM node:26-alpine AS builder
 WORKDIR /opt/cms
 RUN apk add --no-cache vips-dev
 ENV NODE_ENV=production
@@ -28,7 +28,7 @@ RUN npm run build
 # ============================================================================
 # 3. Ejecucion
 # ============================================================================
-FROM node:22-alpine AS runner
+FROM node:26-alpine AS runner
 WORKDIR /opt/cms
 RUN apk add --no-cache vips
 
