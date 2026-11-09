@@ -406,6 +406,9 @@ const en: Dictionary = {
   app: {
     eyebrow: 'The app',
     title: 'MySmartWindow: one control for the whole enclosure',
+    seoTitle: 'MySmartWindow App for Smart Shutters and Windows | IoT Fenster',
+    seoDescription:
+      'Download the free MySmartWindow app for iOS and Android: raise and lower your shutters from anywhere, get real-time alerts and use it with Alexa and Google Home.',
     subtitle:
       'IoT Fenster’s own app to control your shutters, sensors and alarms from anywhere, with every window’s digital twin always at hand.',
     downloadTitle: 'Download it for free',

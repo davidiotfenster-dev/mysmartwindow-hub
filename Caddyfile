@@ -155,8 +155,15 @@ www.iotfenster.com {
 	@privacidadVoz path /privacy-policy-for-google-home /privacy-policy-for-google-home/
 	redir @privacidadVoz /es/legal/politica-de-privacidad permanent
 
-	@terminosAlexa path /terminos-de-uso-alexa-skills /terminos-de-uso-alexa-skills/
+	@terminosAlexa path /terminos-de-uso-alexa-skills /terminos-de-uso-alexa-skills/ /terminos-de-uso-google-home /terminos-de-uso-google-home/
 	redir @terminosAlexa /es/ecosistemas permanent
+
+	@privacidadAlexa path /politica-privacidad-alexa /politica-privacidad-alexa/
+	redir @privacidadAlexa /es/legal/politica-de-privacidad permanent
+
+	# Categoria por defecto de WordPress (la version /en/ esta mas abajo)
+	@categoria path /category/sin-categoria /category/sin-categoria/
+	redir @categoria /es/noticias permanent
 
 	@domotica path /domotica-para-cerramientos /domotica-para-cerramientos/
 	redir @domotica /es/domotica-para-cerramientos permanent
@@ -170,7 +177,7 @@ www.iotfenster.com {
 
 	# El area de cliente vivia en el WordPress y no tiene equivalente: a
 	# soporte, que es donde se resuelve lo que la gente venia a buscar.
-	@areacliente path /area-cliente /area-cliente/
+	@areacliente path /area-cliente /area-cliente/ /app-support /app-support/
 	redir @areacliente /es/soporte permanent
 
 	@contacto path /contacto /contacto/
@@ -236,6 +243,15 @@ www.iotfenster.com {
 	@enItSky path /en/it/cwall/sky /en/it/cwall/sky/
 	redir @enItSky /it/dispositivos/c-wall-sky permanent
 
+	@enItConnect1 path /en/it/connect1 /en/it/connect1/
+	redir @enItConnect1 /it/dispositivos/connect-1 permanent
+
+	@enItManuali path /en/it/manuali /en/it/manuali/
+	redir @enItManuali /it/recursos permanent
+
+	@enItDomotica path /en/it/domotica-per-serramenti /en/it/domotica-per-serramenti/
+	redir @enItDomotica /it/domotica-para-cerramientos permanent
+
 	@itShutter path /it/cwall/shutter /it/cwall/shutter/ /en/it/cwall/shutter /en/it/cwall/shutter/
 	redir @itShutter /it/dispositivos/c-wall-shutter permanent
 
@@ -264,8 +280,19 @@ www.iotfenster.com {
 	@enCevo path /en/c-evo-interruptor-de-persiana-con-wifi /en/c-evo-interruptor-de-persiana-con-wifi/
 	redir @enCevo /en/dispositivos/connect-evo permanent
 
-	@enCwallEn path /c-wall-en /c-wall-en/
+	@enCwallEn path /c-wall-en /c-wall-en/ /en/c-wall-en /en/c-wall-en/
 	redir @enCwallEn /en/dispositivos/c-wall permanent
+
+	@enCwallShutter path /en/c-wall-shutter /en/c-wall-shutter/
+	redir @enCwallShutter /en/dispositivos/c-wall-shutter permanent
+
+	@enCpulsar path /en/c-pulsar-para-aluminio /en/c-pulsar-para-aluminio/
+	redir @enCpulsar /en/dispositivos/c-pulsar permanent
+
+	# La pagina de borrado de datos de la app conserva su direccion sin idioma
+	# (la exige la ficha de Google Play); el plugin la publicaba tambien con /en/.
+	@enDataDeletion path /en/app-datadeletion /en/app-datadeletion/
+	redir @enDataDeletion /app-datadeletion permanent
 
 	@enBlog path /en/blog /en/blog/
 	redir @enBlog /en/noticias permanent
@@ -303,7 +330,7 @@ www.iotfenster.com {
 	# Restos del WordPress sin equivalente: 410 (borrada a proposito) en vez de
 	# 404, para que Google las descarte antes. Los PDF de /wp-content/uploads
 	# no entran aqui: ya se redirigen arriba a su recurso.
-	@restosWp path /wp-json/* /2645-2/* /wp-content/uploads/complianz/*
+	@restosWp path /wp-json/* /en/wp-json/* /2645-2 /2645-2/* /en/2645-2 /en/2645-2/* /category/sin-categoria/feed* /wp-content/uploads/complianz/*
 	respond @restosWp 410
 
 	# Todo lo demas, al sitio

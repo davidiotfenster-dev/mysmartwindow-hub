@@ -21,13 +21,14 @@ export async function generateMetadata({
   const { locale } = await params
   const dict = getDictionary(locale)
   return {
-    title: dict.app.title,
-    description: dict.app.subtitle,
+    // absolute: el título ya lleva la marca, sin la coletilla de la plantilla.
+    title: { absolute: dict.app.seoTitle },
+    description: dict.app.seoDescription,
     alternates: alternates('/mysmartwindow', locale),
     openGraph: {
       type: 'website',
-      title: dict.app.title,
-      description: dict.app.subtitle,
+      title: dict.app.seoTitle,
+      description: dict.app.seoDescription,
       url: absolute(`/${locale}/mysmartwindow`),
     },
   }

@@ -405,6 +405,11 @@ const es = {
   app: {
     eyebrow: 'La app',
     title: 'MySmartWindow: un solo mando para todo el cerramiento',
+    // Lo que sale en Google: con la palabra "app" y lo que hace, que es lo que
+    // se busca. El titular de la página (title) sigue siendo el de marca.
+    seoTitle: 'App MySmartWindow para persianas y ventanas | IoT Fenster',
+    seoDescription:
+      'Descarga gratis la app MySmartWindow para iOS y Android: sube y baja tus persianas desde cualquier lugar, recibe alertas al momento y úsala con Alexa y Google Home.',
     subtitle:
       'La aplicación propia de IoT Fenster para controlar tus persianas, sensores y alarmas desde cualquier lugar, con el gemelo digital de cada ventana siempre a mano.',
     downloadTitle: 'Descárgala gratis',

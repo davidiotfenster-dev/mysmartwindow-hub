@@ -406,6 +406,9 @@ const it: Dictionary = {
   app: {
     eyebrow: 'L’app',
     title: 'MySmartWindow: un solo comando per tutto il serramento',
+    seoTitle: 'App MySmartWindow per tapparelle e finestre | IoT Fenster',
+    seoDescription:
+      'Scarica gratis l’app MySmartWindow per iOS e Android: alza e abbassa le tapparelle ovunque tu sia, ricevi avvisi in tempo reale e usala con Alexa e Google Home.',
     subtitle:
       'L’app proprietaria di IoT Fenster per controllare tapparelle, sensori e allarmi da qualsiasi luogo, con il gemello digitale di ogni finestra sempre a portata di mano.',
     downloadTitle: 'Scaricala gratis',
