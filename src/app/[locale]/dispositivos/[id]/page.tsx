@@ -123,22 +123,26 @@ export default async function DevicePage({
     { name: device.name, path: `/${locale}/dispositivos/${id}` },
   ]
 
+  // No se marca como Product: Google exige offers (precio), review o
+  // aggregateRating para los fragmentos de producto, y este catálogo B2B no
+  // publica precios ni valoraciones (inventarlos va contra sus directrices).
+  // Se describe como página cuyo tema es el dispositivo.
   const productSchema = {
-    '@type': 'Product',
-    '@id': absolute(`/${locale}/dispositivos/${id}#product`),
+    '@type': 'WebPage',
+    '@id': absolute(`/${locale}/dispositivos/${id}#webpage`),
+    url: absolute(`/${locale}/dispositivos/${id}`),
     name: device.name,
     description: device.description[locale],
-    category: dict.seoMeta.productCategory,
-    brand: { '@type': 'Brand', name: ORG_NAME },
-    manufacturer: { '@type': 'Organization', name: ORG_NAME, url: ORG_URL },
     inLanguage: localeMeta[locale].htmlLang,
-    // En los datos estructurados la URL tiene que ser absoluta: la lee Google,
-    // no el navegador (las de Open Graph las completa Next con metadataBase).
-    ...(device.photo ? { image: absolute(device.photo) } : {}),
-    additionalProperty: device.features.map((f) => ({
-      '@type': 'PropertyValue',
-      name: f[locale],
-    })),
+    about: {
+      '@type': 'Thing',
+      name: device.name,
+      description: device.description[locale],
+      // En los datos estructurados la URL tiene que ser absoluta: la lee Google,
+      // no el navegador (las de Open Graph las completa Next con metadataBase).
+      ...(device.photo ? { image: absolute(device.photo) } : {}),
+    },
+    publisher: { '@type': 'Organization', name: ORG_NAME, url: ORG_URL },
   }
 
   return (
