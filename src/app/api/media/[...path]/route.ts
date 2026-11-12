@@ -21,6 +21,14 @@ const strapiOrigin = (() => {
   }
 })()
 
+/**
+ * Suelta una respuesta del CMS que no se va a servir. Una respuesta de `fetch`
+ * cuyo cuerpo no se lee ni se cancela deja su conexión abierta indefinidamente.
+ */
+async function discard(response: Response): Promise<void> {
+  await response.body?.cancel().catch(() => {})
+}
+
 export async function GET(request: Request, { params }: { params: Promise<{ path: string[] }> }) {
   if (!strapiOrigin) {
     return NextResponse.json({ error: 'cms_not_configured' }, { status: 404 })
@@ -51,12 +59,20 @@ export async function GET(request: Request, { params }: { params: Promise<{ path
       // gastaría memoria: la caché que importa es la del navegador, que da el
       // `Cache-Control` de abajo.
       cache: 'no-store',
+      // Si el visitante corta (cierra la pestaña, salta en la barra del vídeo,
+      // un robot que se va), hay que cortar también con el CMS. Sin esto la
+      // conexión con el CMS se queda abierta para siempre con el trozo de
+      // fichero atascado dentro; a los pocos días son cientos y el servidor
+      // se queda sin memoria de red: Linux frena TODO el tráfico de la
+      // máquina (pasó el 12-nov-2026: la web tardaba 10 s en cargar).
+      signal: request.signal,
     })
   } catch {
     return NextResponse.json({ error: 'cms_unreachable' }, { status: 502 })
   }
 
   if (!upstream.ok || !upstream.body) {
+    await discard(upstream)
     return NextResponse.json({ error: 'not_found' }, { status: upstream.status })
   }
 
@@ -66,6 +82,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ path
   const allowed =
     type.startsWith('image/') || type.startsWith('video/') || type.startsWith('application/pdf')
   if (!allowed) {
+    await discard(upstream)
     return NextResponse.json({ error: 'type_not_allowed' }, { status: 415 })
   }
 
