@@ -22,6 +22,14 @@ const strapiOrigin = (() => {
   }
 })()
 
+/**
+ * Suelta una respuesta que no se va a servir. Una respuesta de `fetch` cuyo
+ * cuerpo no se lee ni se cancela deja su conexion abierta indefinidamente.
+ */
+async function discard(response: Response): Promise<void> {
+  await response.body?.cancel().catch(() => {})
+}
+
 export async function GET(request: Request) {
   const raw = new URL(request.url).searchParams.get('url')
   if (!raw) {
@@ -52,6 +60,9 @@ export async function GET(request: Request) {
     upstream = await fetch(target.toString(), {
       headers: { 'User-Agent': 'MySmartWindowHub/1.0' },
       next: { revalidate: 86400 },
+      // Si el visitante corta a medias, cortar tambien con el origen: sin esto
+      // la conexion se queda abierta para siempre (ver /api/media).
+      signal: request.signal,
     })
   } catch {
     // Origen caido, bucle de redirecciones, DNS... Sin esto Next responde con
@@ -60,6 +71,7 @@ export async function GET(request: Request) {
   }
 
   if (!upstream.ok || !upstream.body) {
+    await discard(upstream)
     // Un 404/410 del origen es "ese PDF ya no existe", no un fallo nuestro: con
     // un 5xx, Google lo contaria como error de servidor en Search Console.
     if (upstream.status === 404 || upstream.status === 410) {
@@ -72,6 +84,7 @@ export async function GET(request: Request) {
   // redirigen a la ficha de su recurso (ver el Caddyfile), y `fetch` sigue la
   // redireccion. Sin esto, esa pagina HTML se serviria como si fuera el PDF.
   if (!upstream.headers.get('content-type')?.toLowerCase().includes('pdf')) {
+    await discard(upstream)
     // 404 y no 5xx: el PDF ya no existe. Un 502 aqui lo seguiria contando
     // Google como error de servidor.
     return NextResponse.json({ error: 'not_found' }, { status: 404 })
