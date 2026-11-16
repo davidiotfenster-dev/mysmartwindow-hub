@@ -15,9 +15,25 @@ updates:
       menores-y-parches:
         applies-to: version-updates
         update-types: ["minor", "patch"]
+    # Next 16 es una migración (cambia middleware, APIs asíncronas…), no una actualización: se
+    # hará aparte y probada. Mientras, Dependabot la metía en el PR de «seguridad» solo para
+    # subir un postcss que Next lleva dentro y que aquí no es explotable (solo procesa nuestro
+    # propio CSS al compilar). Las correcciones de Next 15.x siguen llegando.
+    # QUITAR estas tres entradas cuando se migre a Next 16.
+    ignore:
+      - dependency-name: "next"
+        versions: [">=16.0.0"]
+      - dependency-name: "@next/third-parties"
+        versions: [">=16.0.0"]
+      - dependency-name: "eslint-config-next"
+        versions: [">=16.0.0"]
     labels: ["dependencias"]
 
   - package-ecosystem: "docker"   # imagen base de los Dockerfiles (node:22-alpine)
     directories: ["/", "/cms"]
     schedule: { interval: "monthly" }
+    # Node 22 es la versión con soporte largo que usa todo el proyecto: no proponer 24/26.
+    ignore:
+      - dependency-name: "node"
+        update-types: ["version-update:semver-major"]
     labels: ["dependencias"]
